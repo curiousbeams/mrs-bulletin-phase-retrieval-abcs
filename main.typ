@@ -287,9 +287,9 @@ These differ primarily in how they combine the Fourier-transformed measured diff
 
 The first technique we will investigate goes by two seemingly unrelated names: _aberration-corrected bright-field (acBF) STEM_ @Ma_2025 and _phase-compensated single-sideband (SSB) ptychography_ @Yang_2016.
 
-The former name emphasizes the technique's close connection with a more recent technique called _tilt-corrected bright-field (tcBF) STEM_, which we investigate furhter in @sec-parallax.
+The former name emphasizes the technique's close connection with a more recent technique called _tilt-corrected bright-field (tcBF) STEM_, which we investigate further in @sec-parallax.
 Similarly, the term single-sideband comes from the structure of the WPOA forward model in @eq-wpoa-forward, which contains two redundant contributions at $bold(q)$ and $-bold(q)$.
-In the ideal, in-focus, case these two contributions are related by complex conjugation given by Friedel's law @Friedel_1913.
+In the ideal, in-focus case these two contributions are related by complex conjugation given by Friedel's law @Friedel_1913.
 Thus, one can reconstruct $tilde(phi)(bold(q))$ using only one sideband.
 
 In practice, the second sideband is not simply the first rotated by $pi$, because residual aberrations imprint additional phase structure on $Gamma(bold(q),bold(k))$.
@@ -393,7 +393,7 @@ which reduces to the axial illumination CTF, modulated by the aperture autocorre
 
 == First Moment Projection <sec-icom>
 
-An alternative and computationally efficient route to direct STEM phase retrieval is to take the first moment of the aperture–overlap function, known as _integrated center-of-mass (iCOM) imaging_ or _integrated differential phase contrast (iDPC)_ @Dekkers_1974 @Lazic_2016.
+An alternative and computationally efficient route to direct STEM phase retrieval is to take the first moment of the aperture–overlap function, known either as _integrated center-of-mass (iCOM) imaging_ or _integrated differential phase contrast (iDPC or DPC)_ @Dekkers_1974 @Lazic_2016.
 
 Starting from the WPOA CTF expression in @eq-ctf and using a vectorial detector response $D(bold(k)) = bold(k)$, we obtain the vector COM transfer function as:
 $
