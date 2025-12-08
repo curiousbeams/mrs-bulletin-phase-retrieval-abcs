@@ -96,20 +96,20 @@
 Scanning transmission electron microscopy (S/TEM) enables the characterization of specimens from the micron scale down to the atomic scale, making it an indispensable characterization tool for any materials scientist @Williams_2009.
 S/TEM instruments operate in two complimentary acquisition modalities: _imaging mode_, which produces a magnified real-space image of the specimen, and _diffraction mode_, which records the angular distribution of scattered electrons in reciprocal-space @Carter_2016.
 
-Imaging mode, traditionally using a parallel-illumination TEM configuration, remains widely used across disciplines, from high-resolution studies of frozen-hydrated biomolecules @Vinothkumar_2016 to lattice-resolved @Alcorn_2023 and defect imaging @Fultz_2013 in materials.
+Traditional parallel-illumination TEM imaging is widely used across disciplines, from high-resolution studies of frozen-hydrated biomolecules @Vinothkumar_2016 to lattice-resolved @Alcorn_2023 and defect imaging @Fultz_2013 in materials.
 In contrast, STEM employs a highly converged electron probe containing a broad range of incident wavevectors. 
 When this probe interacts with the specimen, it produces a diffraction pattern that encodes the local scattering. 
 In this sense, STEM is inherently a diffraction-mode technique, although real-space images are obtained by processing the resulting position-resolved diffraction patterns -- a process we will refer to as _diffractive imaging_.
 This approach routinely provides interpretable, atomic-resolution imaging of crystalline materials and forms the basis of modern materials characterization @Ophus_2023.
 
-Both modalities are fundamentally limited by the microscopy "phase problem", which suppresses contrast from weakly scattering specimens and obscures quantitative information.
+Both modalities are fundamentally limited by the microscopy "phase problem," which suppresses contrast from weakly scattering specimens and obscures quantitative information.
 In this review, we focus on the mathematical foundations of STEM phase-retrieval techniques, which reconstruct the missing phase and thereby overcome these intrinsic contrast limitations.
 We emphasize the implications of these methods for quantitative materials characterization and set the stage for a unified treatment of the underlying physics.
 
 == Microscopy Phase Problem
 
-The microscopy phase problem arises because the scattered electron wavefunction -- the "exit wave" -- is complex-valued, yet physical detectors measure only real-valued intensities @Fienup_1982.
-In other words, although the specimen primarily imprints a _phase shift_ on the incident electron wavefunction $psi$, the detector records only $|psi|^2$, seemingly discarding the information that carries most of the specimen's structure.
+The phase problem arises in electron microscopy because the scattered electron wavefunction -- the "exit wave" -- is complex-valued, yet physical detectors measure only real-valued intensities @Fienup_1982.
+In other words, although the specimen primarily imprints a _phase shift_ on the complex incident electron wavefunction $psi$, the detector records only $|psi|^2$, seemingly discarding the information that carries most of the specimen's structure.
 
 For S/TEM, this becomes clear in the wave propagation formalism.
 The evolution of an electron wavefunction, $psi(bold(r))$, along the optical axis $z$ is governed by the Schro#diaer;dinger equation for fast electrons @Kirkland_2020:
@@ -120,7 +120,7 @@ $ <eq-shrodinger>
 where $lambda$ is the relativistic wavelength, $sigma$ the interaction constant, $nabla_(x y)^2$ the in-plane Laplacian operator, and $V(bold(r))$ the specimen electrostatic potential.
 The two terms on the right-hand side of @eq-shrodinger represent the propagation and potential operators respectively.
 Because these operators do not commute, numerical solutions typically use the multislice method @Cowley_1957.
-The specimen is partitioned into thin slices, and the wavefunction is updated by alternating between transmission through each slice and free-space (Fresnel) propagation @Kirkland_2020:
+The specimen is partitioned into $n$ thin slices, and the wavefunction is updated by alternating between transmission through each slice and free-space (Fresnel) propagation @Kirkland_2020:
 $
   psi_(n+1)(bold(r)) & = exp[(upright(i) lambda Delta z)/(4 pi) nabla_(x y)^2]exp[upright(i) sigma V_n^(Delta z)(bold(r))] psi_n(bold(r)), \
   V_n^(Delta z)(bold(r)) &= integral_(z_n)^(z_n + Delta z) V(bold(r)) d z.
@@ -164,7 +164,7 @@ Transforming this to real-space and expanding to first order in $sigma V_p (bold
 $
   I(bold(r)) approx 1 - 2 sigma [V_p (bold(r)) convolve.o h_(Delta f)(bold(r))],
 $
-where $h_(Delta f)(bold(r)) = cal(F)^(-1)_(bold(q) arrow bold(r)) {sin[pi lambda Delta f |bold(q)|^2]}$ is the real-space convolution kernel corresponding to @eq-defocus.
+where $h_(Delta f)(bold(r)) = cal(F)^(-1)_(bold(q) arrow bold(r)) {sin[pi lambda Delta f |bold(q)|^2]}$ is the real-space convolution kernel corresponding to @eq-defocus and $convolve.o$ represents the convolution operation.
 Defocus thus converts sample-induced phase variations into intensity contrast through a sinusoidal convolution, leading to characteristic contrast reversals with increasing spatial frequency.
 
 === Phase-Plate Contrast
@@ -184,7 +184,8 @@ $
 $
 showing that a phase plate enables direct, linear transfer of the specimen phase into image intensity.
 
-@fig-pci illustrates these effects for a simulated defected Au nanoparticle at low dose. The in-focus TEM image shows almost no contrast.
+@fig-pci illustrates these effects for a simulated defected Au nanoparticle on amorphous carbon at low dose. 
+The in-focus TEM image shows almost no contrast.
 Defocus improves visibility but introduces frequency-dependent contrast reversals, causing different regions of the nanoparticle to appear in or out of focus
 By contrast, Zernike phase contrast robustly recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the nanoparticle from the amorphous carbon support.
 
@@ -197,7 +198,8 @@ $
   I_text("ann")(bold(R)) = integral_(theta_text("in"))^(theta_text("out")) I(bold(R),bold(k)) d bold(k),
 $
 yielding familiar contrast modes such as bright-field (BF), annular bright-field (ABF), annular dark-field (ADF), and high-angle annular dark-field (HAADF) STEM @Crewe_1970 @Pennycook_1991.
-These images are highly interpretable -- especially for crystalline materials -- yet they discard the structural information encoded in the exit-wave phase.
+These images are highly interpretable -- especially for crystalline materials -- leading to their prevalence in materials science characterization. 
+However, they discard the structural information encoded in the exit-wave phase.
 
 The development of fast, low-noise direct electron detectors has enabled recording the full diffraction pattern $I(bold(R),bold(k))$ at every scan position, giving rise to a family of techniques collectively known as 4D-STEM @Levin_2021 @Ophus_2019.
 These datasets retain the full diffractive signature of the probe–specimen interaction, far beyond what can be accessed with scalar annular signals.
@@ -211,7 +213,7 @@ In this regime, the diffraction intensity can be written as the self-convolution
 $
   I(bold(R),bold(k)) = integral integral tilde(psi)(bold(k')) tilde(phi)(bold(k-k')) tilde(psi)^*(bold(k''))tilde(phi)^*(bold(k-k'')) exp[2 pi upright(i) bold(R) dot (bold(k'-k''))] d bold(k') d bold(k'').
 $ <eq-conv>
-Following #cite(<Rodenburg_1993>,form: "author"), it is convenient to take the Fourier transform of the measured intensities with respect to the scan position: $G(bold(q),bold(k)) = cal(F)_(bold(R) arrow bold(q)){I(bold(R),bold(k))}$.
+Following #cite(<Rodenburg_1993>,form: "author"), it is convenient to take the Fourier transform of the measured intensities with respect to the scan position: $G(bold(q),bold(k)) = cal(F)_(bold(R) arrow bold(q)){I(bold(R),bold(k))}$, where $q$ resents the fourier transform of the real space vector $r$.
 Using the WPOA property $tilde(phi)(bold(k)) = - tilde(phi)^*(-bold(k))$ @Rodenburg_1993, one obtains the compact form @Yang_2016:
 $
   G(bold(q),bold(k)) &= |tilde(psi)(bold(k))|^2 delta(bold(q)) + Gamma(bold(q),bold(k)) tilde(phi)(bold(q)) \
@@ -261,7 +263,7 @@ $
   Re{cal(L)_j (bold(q))} &= 1/2 {[psi star psi D_j](bold(q)) + [psi D_j star psi](bold(q))}\
   Im{cal(L)_j (bold(q))} &= 1/2 {[psi star psi D_j](bold(q)) - [psi D_j star psi](bold(q))},
 $ <eq-ctf-corr>
-where $star$ denotes cross-correlation.
+where $star$ denotes cross-correlation and $Re$ and $Im$ represent real and imaginary components respectively.
 
 Two limiting cases of @eq-ctf provide further physical insight.
 In the absence of aberrations, $chi(bold(k))=0$, the real-part of @eq-ctf-corr vanishes and the imaginary part reduces to the aperture auto-correlation:
@@ -274,6 +276,7 @@ $
   cal(L)_text("axial")(bold(q)) = -upright(i) sin[chi(bold(q))],
 $
 which is precisely the HRTEM CTF derived in the previous section.
+This result is often described as ''reciprocity'' between TEM and STEM techniques.
 
 = Direct Phase Retrieval Techniques
 
