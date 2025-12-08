@@ -475,13 +475,13 @@ This leverages the fact that the aperture-overlap function is identically zero o
   ]
 ) <unified-pseudocode>
 
-== Impact of Direct Techniques on Imaging
+== Impact of Direct Techniques on Materials Science
 
 As highlighted in @fig-ctf, the ideal approach depends on the nature of the data. 
 For in focus experiments, iCOM is often the preferred approach and the  low computational overhead approach of this technique makes it most compatible with in-situ approaches @bekkevold2024ultra.
 Conversely, defocus is essential for parallax reconstructions.
 As shown in ..... something something about similarity between SSB, OBF, and MF/WDD. 
-Moreover, most experiments, especially on aberration corrected instruments, are dominated by stigmation and defocus, meaning the quadratic approximation of parallax provides a nearly identical reconstruction as a full devconvolution.
+Moreover, most experiments, especially on aberration corrected instruments, are dominated by stigmation and defocus, meaning the quadratic approximation of parallax provides a nearly identical reconstruction as a full deconvolution.
 
 
 Ultimately all of these approaches provide a powerful approach for phase retrieval for materials science samples, with examples including carbon nanotubes @yang2016simultaneous, 2D materials @o2022increasing, and metal organic frameworks @Ma_2025, @shen2020imaging, and battery samples @lozano2018low. 
