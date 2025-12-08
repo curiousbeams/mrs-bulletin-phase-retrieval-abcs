@@ -333,7 +333,7 @@ $
     Placeholder for direct methods figure (schematic / CTFs)?
   ],
   placement: top
-)
+) <fig-ctf>
 
 == Least Squares Matched Filter <sec-wdd>
 
@@ -425,6 +425,7 @@ Note that due to the mixed-domain requirement, WDD cannot be computed by looping
 Parallax imaging uses a first-order approximation to the aperture-overlap kernel, keeping only the detector-frequency-dependent phase ramp $upright(e)^(upright(i) nabla_bold(k) chi(bold(k))dot bold(q))$.
 It is computationally cheap, and its subpixel accuracy enables upsampling.
 Finally, iCOM bypasses the overlap-kernel entirely, and instead takes the first moment of the bright-field intensities and reconstructs the phase by Fourier-integration of the resulting COM signal.
+With the exception of iCOM, these techniques rely on an accurate estimation of the aberrations, which can be calculated through optimization routines, based on self consistency error, or in the case of parallax through fitting of cross-correlation shifts of real space images with a linear systems of equations.
 
 @unified-pseudocode shows a unified pseudocode for the direct estimators we have seen so far, using a loop over bright-field pixels $bold(k)_text("BF")$.
 This leverages the fact that the aperture-overlap function is identically zero outside the probe aperture, is computationally more efficient, and enables natural upsampling via Fourier-tiling.
@@ -474,7 +475,18 @@ This leverages the fact that the aperture-overlap function is identically zero o
   ]
 ) <unified-pseudocode>
 
-= Iterative Ptychography 
+== Impact of Direct Techniques on Imaging
+
+Ultimately all of these approaches provide a powerful approach for phase retrieval for materials science samples, with examples including carbon nanotubes @yang2016simultaneous, 2D materials @o2022increasing, and metal organic frameworks @Ma_2025, @shen2020imaging. 
+These techniques are computationally efficient, meaning with modern computational resources,they can be reconstructed in during experimentation, especially in the case of iCOM and parallax.
+As described in @fig-ctf, the ideal approach depends on the nature of the data. 
+For in focus experiments, iCOM performs remarkably well, and the especially  low computational overhead approach of this technique lends it to ultrafast experiments, including in-situ approaches @bekkevold2024ultra.
+However, defocus is essential for parallax reconstructions.
+For low dose experiments, the direct phase retrieval techniques perform remarkably well as compared to their more computationally expensive counterparts.
+For thicker samples and experiments with higher electron fluence, iterative approaches can outperform their direct phase retrieval counterparts as described in @sec-iterative.
+
+
+= Iterative Ptychography <sec-iterative>
 We now move to a different class of phase retrieval techniques, iterative electron ptychography. 
 Iterative electron ptychography approaches are particularly valuable at high doses, where this approach allows for recovery of 3D information, through multislice approaches and super-resolution imaging, namely beyond the 2$k_0$ (twice the semiconvergence angle).
 
