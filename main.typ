@@ -477,13 +477,17 @@ This leverages the fact that the aperture-overlap function is identically zero o
 
 == Impact of Direct Techniques on Imaging
 
-Ultimately all of these approaches provide a powerful approach for phase retrieval for materials science samples, with examples including carbon nanotubes @yang2016simultaneous, 2D materials @o2022increasing, and metal organic frameworks @Ma_2025, @shen2020imaging. 
-These techniques are computationally efficient, meaning with modern computational resources,they can be reconstructed in during experimentation, especially in the case of iCOM and parallax.
-As described in @fig-ctf, the ideal approach depends on the nature of the data. 
-For in focus experiments, iCOM performs remarkably well, and the especially  low computational overhead approach of this technique lends it to ultrafast experiments, including in-situ approaches @bekkevold2024ultra.
-However, defocus is essential for parallax reconstructions.
-For low dose experiments, the direct phase retrieval techniques perform remarkably well as compared to their more computationally expensive counterparts.
-For thicker samples and experiments with higher electron fluence, iterative approaches can outperform their direct phase retrieval counterparts as described in @sec-iterative.
+As highlighted in @fig-ctf, the ideal approach depends on the nature of the data. 
+For in focus experiments, iCOM is often the preferred approach and the  low computational overhead approach of this technique makes it most compatible with in-situ approaches @bekkevold2024ultra.
+Conversely, defocus is essential for parallax reconstructions.
+As shown in ..... something something about similarity between SSB, OBF, and MF/WDD. 
+Moreover, most experiments, especially on aberration corrected instruments, are dominated by stigmation and defocus, meaning the quadratic approximation of parallax provides a nearly identical reconstruction as a full devconvolution.
+
+
+Ultimately all of these approaches provide a powerful approach for phase retrieval for materials science samples, with examples including carbon nanotubes @yang2016simultaneous, 2D materials @o2022increasing, and metal organic frameworks @Ma_2025, @shen2020imaging, and battery samples @lozano2018low. 
+These techniques are computationally efficient, meaning with modern computational resources,they can be reconstructed in during experimentation.
+For low dose experiments, the direct phase retrieval techniques perform remarkably well as compared to their more computationally expensive counterparts, meaning that more advanced reconstruction approaches may not be needed offline.
+However, for thick samples and experiments with higher electron fluence, iterative approaches can outperform their direct phase retrieval counterparts as described in @sec-iterative.
 
 
 = Iterative Ptychography <sec-iterative>
@@ -500,7 +504,8 @@ ER, DM, RAAR
 ePie, SGD
 
 
-one sentence teaser about how reciprocal space overlap is key and don't throw away your aberration corrector yet 
+
+
 
 == Beyond single slice ptychography 
 === Mixed-state
@@ -513,6 +518,12 @@ Explain how methods share a data-consistency constraint/loss, differ in object/p
 autodifferentiation 
 generative priors 
 
+
+
+
+= Outlook
+Despite recent studies that demonstrate the ability to perform ptychographic reconstructions on uncorrected instruments @nguyen2024achieving, including with small converge angles @blackburn2025sub, proper reconstruction on most samples benefits from an aberration corrector and overlap in reciprocal space assures beams are phase relative to each other leading to a unique and accurate sample reconstruction. 
+Ultimately phase retrieval approaches in materials science still largely depend on expensive hardware, including advanced detectors and aberration correctors.
 
 
 = Acknowledgement 
