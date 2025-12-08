@@ -13,6 +13,7 @@
       (
         name: "Willem P.M. de Kleijne",
         affiliations: "Department of Imaging Physics, Delft University of Technology",
+        orcid: "0009-0009-9635-8763"
       ),
       (
         name: "Stephanie M. Ribet",
