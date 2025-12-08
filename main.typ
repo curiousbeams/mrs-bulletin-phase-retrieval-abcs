@@ -276,7 +276,7 @@ $
   cal(L)_text("axial")(bold(q)) = -upright(i) sin[chi(bold(q))],
 $
 which is precisely the HRTEM CTF derived in the previous section.
-This result is often described as ''reciprocity'' between TEM and STEM techniques.
+This result is often described as _reciprocity_ between TEM and STEM techniques.
 
 = Direct Phase Retrieval Techniques
 
