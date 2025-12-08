@@ -93,7 +93,7 @@
 
 = Introduction
 
-Scanning transmission electron microscopy (S/TEM) enables the characterization of specimens from the micron scale down to the atomic scale, making it an indispensable tool in the characterization toolkit of any materials scientist @Williams_2009.
+Scanning transmission electron microscopy (S/TEM) enables the characterization of specimens from the micron scale down to the atomic scale, making it an indispensable characterization tool for any materials scientist @Williams_2009.
 S/TEM instruments operate in two complimentary acquisition modalities: _imaging mode_, which produces a magnified real-space image of the specimen, and _diffraction mode_, which records the angular distribution of scattered electrons in reciprocal-space @Carter_2016.
 
 Imaging mode, traditionally using a parallel-illumination TEM configuration, remains widely used across disciplines, from high-resolution studies of frozen-hydrated biomolecules @Vinothkumar_2016 to lattice-resolved @Alcorn_2023 and defect imaging @Fultz_2013 in materials.
