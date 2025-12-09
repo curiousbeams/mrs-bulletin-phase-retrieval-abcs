@@ -129,10 +129,10 @@ Thus, the structural information of interest to materials scientists is encoded 
 Recovering the exit wave phase from intensity-only measurements is therefore the central challenge.
 
 #figure(
-  image("raster/phase_contrast_imaging_AuNPs.png",width: 100%),
+  image("raster/phase_contrast_imaging_CNTs.png",width: 100%),
   caption: [
-    High-resolution TEM imaging of *a)* simulated defected Au nanoparticle on amorphous carbon substrate, imaged with an electron dose of 200 e/\u{00C5}#super[2]  using:
-    *b)* in-focus optics, *c)* 50 nm of over-defocus, and *d)* an ideal Zernike phase plate.
+    High-resolution TEM imaging *a)* of simulated single- and double-walled carbon nanotubes, acquired with an electron dose of 500 e/\u{00C5}#super[2]  using:
+    *b)* in-focus optics, *c)* 50 nm of over-focus, and *d)* an ideal Zernike phase plate.
 
   ],
   placement: top
@@ -182,10 +182,10 @@ $
 $
 showing that a phase plate enables direct, linear transfer of the specimen phase into image intensity.
 
-@fig-pci illustrates these effects for a simulated Au nanoparticle with stacking faults on amorphous carbon at low dose. 
-The in-focus TEM image shows almost no contrast.
-Defocus improves visibility but introduces frequency-dependent contrast reversals, causing different regions of the nanoparticle to appear in or out of focus
-By contrast, Zernike phase contrast robustly recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the nanoparticle from the amorphous carbon support.
+@fig-pci illustrates these effects for a simulated arrangement of single- and double-walled carbon nanotubes (CNTs) acquired at low dose. 
+The in-focus HRTEM image shows almost no contrast.
+Defocus improves visibility but introduces frequency-dependent contrast reversals, causing different regions of the CNTs to appear in or out of focus.
+By contrast, Zernike phase contrast robustly recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the CNTs from the vacuum background.
 
 == Diffractive Imaging
 
