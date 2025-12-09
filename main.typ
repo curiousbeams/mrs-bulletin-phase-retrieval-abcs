@@ -85,8 +85,6 @@
     it
   }
 }
-#let neg(space) = h(-space.amount)
-
 
 // Accents
 #let diaer = "\u{308}"
@@ -102,7 +100,7 @@ When this probe interacts with the specimen, it produces a diffraction pattern t
 In this sense, STEM is inherently a diffraction-mode technique, although real-space images are obtained by processing the resulting position-resolved diffraction patterns -- a process we will refer to as _diffractive imaging_.
 This approach routinely provides interpretable, atomic-resolution imaging of crystalline materials and forms the basis of modern materials characterization @Ophus_2023.
 
-Both modalities are fundamentally limited by the microscopy "phase problem," which suppresses contrast from weakly scattering specimens and obscures quantitative information.
+Both modalities are fundamentally limited by the microscopy "phase problem," which suppresses contrast from weakly scattering specimens and limits quantitative interpretation.
 In this review, we focus on the mathematical foundations of STEM phase-retrieval techniques, which reconstruct the missing phase and thereby overcome these intrinsic contrast limitations.
 We emphasize the implications of these methods for quantitative materials characterization and set the stage for a unified treatment of the underlying physics.
 
@@ -184,7 +182,7 @@ $
 $
 showing that a phase plate enables direct, linear transfer of the specimen phase into image intensity.
 
-@fig-pci illustrates these effects for a simulated defected Au nanoparticle on amorphous carbon at low dose. 
+@fig-pci illustrates these effects for a simulated Au nanoparticle with stacking faults on amorphous carbon at low dose. 
 The in-focus TEM image shows almost no contrast.
 Defocus improves visibility but introduces frequency-dependent contrast reversals, causing different regions of the nanoparticle to appear in or out of focus
 By contrast, Zernike phase contrast robustly recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the nanoparticle from the amorphous carbon support.
@@ -346,7 +344,7 @@ $<eq-mf-recon>
 
 While @eq-mf-recon is simple, direct evaluation in detector-space is numerically unstable:
 the numerator contains highly oscillatory phases from $Gamma(bold(q),bold(k))$, and the denominator depends on the squared magnitude of a rapidly varying overlap kernel.
-Applying Parseval’s theorem and inverse Fourier transforming over $bold(k)$ gives:
+Applying Parseval's theorem and inverse Fourier transforming over $bold(k)$ gives:
 $
   W(bold(q),bold(rho)) = cal(F)^(-1){Gamma(bold(q),bold(k))}, quad H(bold(q),bold(rho)) = cal(F)^(-1){G(bold(q),bold(k))},
 $
@@ -484,7 +482,7 @@ As shown in ..... something something about similarity between SSB, OBF, and MF/
 Moreover, most experiments, especially on aberration corrected instruments, are dominated by stigmation and defocus, meaning the quadratic approximation of parallax provides a nearly identical reconstruction as a full deconvolution.
 
 
-Ultimately all of these approaches provide a powerful approach for phase retrieval for materials science samples, with examples including carbon nanotubes @yang2016simultaneous, 2D materials @o2022increasing, and metal organic frameworks @Ma_2025, @shen2020imaging, and battery samples @lozano2018low. 
+Ultimately all of these approaches provide a powerful approach for phase retrieval for materials science samples, with examples including carbon nanotubes @yang2016simultaneous, 2D materials @o2022increasing, @susi2025quantifying, and metal organic frameworks @Ma_2025, @shen2020imaging, and battery samples @lozano2018low. 
 These techniques are computationally efficient, meaning with modern computational resources,they can be reconstructed in during experimentation.
 For low dose experiments, the direct phase retrieval techniques perform remarkably well as compared to their more computationally expensive counterparts, meaning that more advanced reconstruction approaches may not be needed offline.
 However, for thick samples and experiments with higher electron fluence, iterative approaches can outperform their direct phase retrieval counterparts as described in @sec-iterative.
@@ -492,7 +490,7 @@ However, for thick samples and experiments with higher electron fluence, iterati
 
 = Iterative Ptychography <sec-iterative>
 We now move to a different class of phase retrieval techniques, iterative electron ptychography. 
-Iterative electron ptychography approaches are particularly valuable at high doses, where this approach allows for recovery of 3D information, through multislice approaches and super-resolution imaging, namely beyond the 2$k_0$ (twice the semiconvergence angle).
+Iterative electron ptychography approaches are particularly valuable at high doses, where this approach allows for recovery of 3D information, through multislice approaches and super-resolution imaging, namely beyond the 2$k_0$ (twice the semi convergence angle).
 
 == Single slice methods
 
