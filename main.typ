@@ -104,6 +104,22 @@ Both modalities are fundamentally limited by the microscopy "phase problem," whi
 In this review, we focus on the mathematical foundations of STEM phase-retrieval techniques, which reconstruct the missing phase and thereby overcome these intrinsic contrast limitations.
 We emphasize the implications of these methods for quantitative materials characterization and set the stage for a unified treatment of the underlying physics.
 
+#figure(
+  rect(
+    width: 100%,
+    height: 180pt
+  )[
+    Placeholder for schematic figure showing:\
+    a) planewave TEM + phase-plate geometry,\
+    b) nanobeam 4DSTEM geometry, and \
+    c) diffractive imaging geometry
+  ],
+  caption: [
+    \@Steph
+  ],
+  placement: top
+) <fig-schematic>
+
 == Microscopy Phase Problem
 
 The phase problem arises in electron microscopy because the scattered electron wavefunction -- the "exit wave" -- is complex-valued, yet physical detectors measure only real-valued intensities @Fienup_1982.
@@ -127,17 +143,6 @@ Inspecting @eq-ms shows that the specimen enters solely through a multiplicative
 Electrons are not  absorbed by the specimen (ignoring weak inelastic losses); any apparent amplitude modulation simply reflects electrons scattered outside the acceptance angle of the detector.
 Thus, the structural information of interest to materials scientists is encoded in the phase of the exit wave, not its magnitude. 
 Recovering the exit wave phase from intensity-only measurements is therefore the central challenge.
-
-#figure(
-  image("raster/phase_contrast_imaging_CNTs.png",width: 100%),
-  caption: [
-    High-resolution TEM imaging *a)* of simulated single- and double-walled carbon nanotubes, acquired with an electron dose of 500 e/\u{00C5}#super[2]  using:
-    *b)* in-focus optics, *c)* 50 nm of over-focus, and *d)* an ideal Zernike phase plate.
-
-  ],
-  placement: top
-  
-) <fig-pci>
 
 == Phase Contrast Imaging
 
@@ -186,6 +191,17 @@ showing that a phase plate enables direct, linear transfer of the specimen phase
 The in-focus HRTEM image shows almost no contrast.
 Defocus improves visibility but introduces frequency-dependent contrast reversals, causing different regions of the CNTs to appear in or out of focus.
 By contrast, Zernike phase contrast robustly recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the CNTs from the vacuum background.
+
+#figure(
+  image("raster/phase_contrast_imaging_CNTs.png",width: 100%),
+  caption: [
+    High-resolution TEM imaging *a)* of simulated single- and double-walled carbon nanotubes, acquired with an electron dose of 500 e/\u{00C5}#super[2]  using:
+    *b)* in-focus optics, *c)* 50 nm of over-focus, and *d)* an ideal Zernike phase plate.
+
+  ],
+  placement: top
+  
+) <fig-pci>
 
 == Diffractive Imaging
 
