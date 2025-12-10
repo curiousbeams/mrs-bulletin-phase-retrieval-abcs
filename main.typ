@@ -123,7 +123,7 @@ We emphasize the implications of these methods for quantitative materials charac
 == Microscopy Phase Problem
 
 The phase problem arises in electron microscopy because the scattered electron wavefunction -- the "exit wave" -- is complex-valued, yet physical detectors measure only real-valued intensities @Fienup_1982.
-In other words, although the specimen primarily imprints a _phase shift_ on the complex incident electron wavefunction $psi$, the detector records only $|psi|^2$, seemingly discarding the information that carries most of the specimen's structure.
+In other words, although the specimen primarily imprints a _phase shift_ on the complex incident electron wavefunction $psi$, the detector records only $abs(psi)^2$, seemingly discarding the information that carries most of the specimen's structure.
 
 For S/TEM, this becomes clear in the wave propagation formalism.
 The evolution of an electron wavefunction, $psi(bold(r))$, along the optical axis $z$ is governed by the Schro#diaer;dinger equation for fast electrons @Kirkland_2020:
@@ -161,13 +161,13 @@ In this regime the specimen modifies only the phase of the electron wavefunction
 The simplest such manipulation is intentional over- or under-focus of the objective lens.
 Defocus by a value $Delta f$ multiplies the exit wave in reciprocal space by a quadratic phase factor given by,
 $
-  tilde(psi)'(bold(q)) = exp[-upright(i) pi lambda Delta f |bold(q)|^2] tilde(psi)(bold(q)).
+  tilde(psi)'(bold(q)) = exp[-upright(i) pi lambda Delta f abs(bold(q))^2] tilde(psi)(bold(q)).
 $ <eq-defocus>
 Transforming this to real-space and expanding to first order in $sigma V_p (bold(r))$, the image intensity becomes:
 $
   I(bold(r)) approx 1 - 2 sigma [V_p (bold(r)) convolve.o h_(Delta f)(bold(r))],
 $
-where $h_(Delta f)(bold(r)) = cal(F)^(-1)_(bold(q) arrow bold(r)) {sin[pi lambda Delta f |bold(q)|^2]}$ is the real-space convolution kernel corresponding to @eq-defocus and $convolve.o$ represents the convolution operation.
+where $h_(Delta f)(bold(r)) = cal(F)^(-1)_(bold(q) arrow bold(r)) {sin[pi lambda Delta f abs(bold(q))^2]}$ is the real-space convolution kernel corresponding to @eq-defocus and $convolve.o$ represents the convolution operation.
 Defocus thus converts sample-induced phase variations into intensity contrast through a sinusoidal convolution, leading to characteristic contrast reversals with increasing spatial frequency.
 
 === Phase-Plate Contrast
@@ -205,7 +205,7 @@ By contrast, Zernike phase contrast robustly recovers both the high-resolution l
 
 == Diffractive Imaging
 
-As discussed above, STEM is inherently a diffraction-based technique: at each probe position $bold(R)$, we have access to the diffraction intensity $I(bold(R),bold(k)) = |tilde(psi)_text("exit")(bold(R),bold(k))|^2$, where $bold(k)$ is the in-plane scattering vector.
+As discussed above, STEM is inherently a diffraction-based technique: at each probe position $bold(R)$, we have access to the diffraction intensity $I(bold(R),bold(k)) = abs(tilde(psi)_text("exit")(bold(R),bold(k)))^2$, where $bold(k)$ is the in-plane scattering vector.
 Historically, STEM has used monolithic annular detectors that integrate this intensity within annular collection limits to form a real-space image.
 A conventional annular signal is therefore given by:
 $
@@ -230,7 +230,7 @@ $ <eq-conv>
 Following #cite(<Rodenburg_1993>,form: "author"), it is convenient to take the Fourier transform of the measured intensities with respect to the scan position: $G(bold(q),bold(k)) = cal(F)_(bold(R) arrow bold(q)){I(bold(R),bold(k))}$, where $q$ resents the fourier transform of the real space vector $r$.
 Using the WPOA property $tilde(phi)(bold(k)) = - tilde(phi)^*(-bold(k))$ @Rodenburg_1993, one obtains the compact form @Yang_2016:
 $
-  G(bold(q),bold(k)) &= |tilde(psi)(bold(k))|^2 delta(bold(q)) + Gamma(bold(q),bold(k)) tilde(phi)(bold(q)) \
+  G(bold(q),bold(k)) &= abs(tilde(psi)(bold(k)))^2 delta(bold(q)) + Gamma(bold(q),bold(k)) tilde(phi)(bold(q)) \
   Gamma(bold(q),bold(k)) &equiv tilde(psi)^*(bold(k))tilde(psi)(bold(k-q)) - tilde(psi)(bold(k))tilde(psi)^*(bold(k+q)),
 $<eq-wpoa-forward>
 where the aperture overlap function $Gamma(bold(q),bold(k))$ encapsulates the probe geometry and forms the basis of all direct STEM phase retrieval methods.
@@ -243,7 +243,7 @@ $
   chi(k,theta) = (2 pi) / lambda sum_(n,m) 1 / (n+1) C_(n,m) (k lambda)^(n+1) cos[m(theta - theta_(n,m))]
 $ <chi-eq>
 
-where $k = |bold(k)|$, $theta = arctan[bold(k)]$, $n$ and $m$ are radial and azimuthal orders of the coefficients $C_(n,m)$ with  axis $theta_(n,m)$.
+where $k = abs(bold(k))$, $theta = arctan[bold(k)]$, $n$ and $m$ are radial and azimuthal orders of the coefficients $C_(n,m)$ with  axis $theta_(n,m)$.
 
 #figure(
   image("raster/mrs-bulletin-fig2.png",width: 100%),
@@ -282,7 +282,7 @@ where $star$ denotes cross-correlation and $Re$ and $Im$ represent real and imag
 Two limiting cases of @eq-ctf provide further physical insight.
 In the absence of aberrations, $chi(bold(k))=0$, the real-part of @eq-ctf-corr vanishes and the imaginary part reduces to the aperture auto-correlation:
 $
-  cal(L)_text("in-focus")(bold(q)) = upright(i) [A star A](bold(q)) = upright(i) Re[cal(F)^(-1)_(bold(r)arrow bold(q)){|cal(F)_(bold(q)->bold(r)){A(bold(q))}|^2}].
+  cal(L)_text("in-focus")(bold(q)) = upright(i) [A star A](bold(q)) = upright(i) Re[cal(F)^(-1)_(bold(r)arrow bold(q)){abs(cal(F)_(bold(q)->bold(r)){A(bold(q))})^2}].
 $<eq-infocus-ctf>
 This envelope is a fundamental limit for all direct STEM phase retrieval methods.
 Similarly, evaluating @eq-ctf for the axial illumination case, $bold(k)=0$, yields a purely imaginary CTF:
@@ -298,7 +298,7 @@ The CTF only describes the maximum transferable signal, not the statistical reli
 A complete description of information transfer must account for noise statistics, notably Poisson shot noise in direct-electron detectors.
 The natural figure of merit is the spectral signal-to-noise ratio (SSNR) @Unser_1987 @Varnavides_2025_ssnr,
 $
-  text("SSNR")(bold(q)) = (|chevron.l tilde(psi)(bold(q)) chevron.r|)/sqrt(op("Var")[tilde(psi)(bold(q))]),
+  text("SSNR")(bold(q)) = (abs(chevron.l tilde(psi)(bold(q)) chevron.r))/sqrt(op("Var")[tilde(psi)(bold(q))]),
 $
 which quantifies the statistically reliable recoverable information at each spatial frequency.
 The SSNR formalism is related to the detective quantum efficiency (DQE), recently introduced as a quantitative performance metric for STEM phase retrieval @Bennemann_2025:
@@ -329,16 +329,16 @@ If these extraneous phases are removed, all sideband contributions from all dete
 Phase-compensated SSB accomplishes this by dividing $Gamma(bold(q),bold(k))$ by its magnitude and retaining only its unit-modulus phase factor, effectively rotating each detector-plane frequency into a common phase reference.
 The estimated phase is then obtained by coherently summing all phase-aligned detector samples @Yang_2016:
 $
-  tilde(phi)_text("SSB")(bold(q)) = sum_bold(k) (Gamma^*(bold(q),bold(k)))/(|Gamma(bold(q),bold(k))|) G(bold(q), bold(k)).
+  tilde(phi)_text("SSB")(bold(q)) = sum_bold(k) (Gamma^*(bold(q),bold(k)))/(abs(Gamma(bold(q),bold(k)))) G(bold(q), bold(k)).
 $<eq-ssb-recon>
 
 This operation discards the magnitude of $Gamma(bold(q),bold(k))$  and uses only its phase.
 It works remarkably well and remains one of the most widely used direct phase retrieval techniques.
 Inserting the forward model $G(bold(q),bold(k)) = Gamma(bold(q),bold(k)) tilde(phi)(bold(q))$ into @eq-ssb-recon gives the SSB CTF @Yang_2016:
 $
-  cal(L)_text("SSB")(bold(q)) = upright(i)/2 sum_bold(k) |Gamma(bold(q),bold(k))|.
+  cal(L)_text("SSB")(bold(q)) = upright(i)/2 sum_bold(k) abs(Gamma(bold(q),bold(k))).
 $
-For spatial frequencies beyond the aperture semiangle $|bold(q)| > q_0$, the overlap $Gamma(bold(q),bold(k))$ reduces to the "double-overlap" region, and the CTF collapses to the ideal autocorrelation enveloped derived in @eq-infocus-ctf.
+For spatial frequencies beyond the aperture semiangle $abs(bold(q)) > q_0$, the overlap $Gamma(bold(q),bold(k))$ reduces to the "double-overlap" region, and the CTF collapses to the ideal autocorrelation enveloped derived in @eq-infocus-ctf.
 
 To understand the SSB noise term, note that each detector frequency contributes a noisy measurement:
 $
@@ -348,12 +348,12 @@ with unit-variance noise $n(bold(q),bold(k))$ @Bennemann_2025.
 The phase-alignment step preserves unit noise variance, so noise contributions add incoherently, while the signal adds coherently.
 Thus, the total variance at each spatial frequency $bold(q)$ is simply the number of detector pixels for which $Gamma(bold(q),bold(k))$ is nonzero: 
 $
-op("Var"[tilde(phi)_text("SSB")(bold(q))]) = sum_bold(k) 1_(\{|Gamma(bold(q),bold(k))| >0\})  = 2 D(bold(q)) + T(bold(q)),
+op("Var"[tilde(phi)_text("SSB")(bold(q))]) = sum_bold(k) 1_(\{abs(Gamma(bold(q),bold(k))) >0\})  = 2 D(bold(q)) + T(bold(q)),
 $
 where $D(bold(q))$ and $T(bold(q))$ are the double and triple overlap regions (@fig-gamma).
 The resulting SSNR is therefore:
 $
-  text("SSNR")_text("SSB")(bold(q)) = (sum_bold(k) |Gamma(bold(q),bold(k))|) / (2 sqrt(2 D(bold(q)) + T(bold(q))))
+  text("SSNR")_text("SSB")(bold(q)) = (sum_bold(k) abs(Gamma(bold(q),bold(k)))) / (2 sqrt(2 D(bold(q)) + T(bold(q))))
 $
 
 #figure(
@@ -361,7 +361,7 @@ $
     width: 100%,
     height: 200pt
   )[
-    Placeholder for direct methods figure (schematic / CTFs)?
+    Placeholder for direct methods figure (CTFs and SSNRs)?
   ],
   placement: top
 ) <fig-ctf>
@@ -374,7 +374,7 @@ However, SSB still treats all contributing detector pixels equally, even though 
 The _optimum bright-field (OBF) STEM_ method addresses this by applying a noise-matched normalization to the SSB estimator @Ooe_2021 @Ooe_2024.
 Starting from the phase-aligned numerator $sum_bold(k) Gamma^*(bold(q),bold(k)) G(bold(q),bold(k))$, OBF introduces a scalar normalization factor proportional to the root-mean-squared aperture overlap strength to obtain:
 $
-  tilde(phi)_text("OBF")(bold(q)) =  (sum_bold(k)Gamma^*(bold(q),bold(k)) G(bold(q), bold(k)))/sqrt(sum_bold(k)|Gamma(bold(q),bold(k))|^2).
+  tilde(phi)_text("OBF")(bold(q)) =  (sum_bold(k)Gamma^*(bold(q),bold(k)) G(bold(q), bold(k)))/sqrt(sum_bold(k)abs(Gamma(bold(q),bold(k)))^2).
 $<eq-obf-recon>
 
 The denominator rescales the coherent SSB sum by the effective signal-to-noise ratio (SNR) of the bright-field detector region.
@@ -383,29 +383,29 @@ Thus, OBF can be viewed as a noise-flattened SSB formulation, retaining geometri
 
 Substituting the forward model $G(bold(q),bold(k)) = Gamma(bold(q),bold(k)) tilde(phi)(bold(q))$ into @eq-obf-recon gives the OBF CTF:
 $
-  cal(L)_text("OBF")(bold(q)) = upright(i)/2 sqrt(sum_bold(k) |Gamma(bold(q),bold(k))|^2).
+  cal(L)_text("OBF")(bold(q)) = upright(i)/2 sqrt(sum_bold(k) abs(Gamma(bold(q),bold(k)))^2).
 $
 
 Using the additive unit-variance noise model from @eq-noise-model, the OBF estimator numerator becomes:
 $
-  sum_bold(k) Gamma^*(bold(q),bold(k)) G(bold(q),bold(k)) = sum_bold(k) |Gamma(bold(q),bold(k))|^2 tilde(phi)(bold(q)) + sum_bold(k) Gamma^*(bold(q),bold(k)) n(bold(q),bold(k)),
+  sum_bold(k) Gamma^*(bold(q),bold(k)) G(bold(q),bold(k)) = sum_bold(k) abs(Gamma(bold(q),bold(k)))^2 tilde(phi)(bold(q)) + sum_bold(k) Gamma^*(bold(q),bold(k)) n(bold(q),bold(k)),
 $
 with the second term describing the additive noise contributions with total variance:
 $
-  op("Var")[sum_bold(k) Gamma^*(bold(q),bold(k)) n (bold(q),bold(k))] = sum_bold(k) |Gamma(bold(q),bold(k))|^2.
+  op("Var")[sum_bold(k) Gamma^*(bold(q),bold(k)) n (bold(q),bold(k))] = sum_bold(k) abs(Gamma(bold(q),bold(k)))^2.
 $
 This is precisely the square of the OBF denominator, which normalizes the OBF variance to unity, $op("Var")[tilde(phi)_text("OBF")(bold(q))]=1$, and thus the resulting OBF SSNR is given by the magnitude of its CTF:
 $
-  text("SSNR")_text("OBF")(bold(q)) = 1/2 sqrt(sum_bold(k) |Gamma(bold(q),bold(k))|^2).
+  text("SSNR")_text("OBF")(bold(q)) = 1/2 sqrt(sum_bold(k) abs(Gamma(bold(q),bold(k)))^2).
 $
 
 == Least Squares Matched Filter <sec-wdd>
 
 The OBF estimator above improves SSB by normalizing the coherent sum, but it is not formally a least-squares estimator.
-The proper matched-filter solution for recovering $tilde(phi)(bold(q))$ from the WPOA forward model is obtained by minimizing: $sum_bold(k) |G(bold(q),bold(k) - Gamma(bold(q),bold(k))tilde(phi)(bold(q))|^2$.
+The proper matched-filter solution for recovering $tilde(phi)(bold(q))$ from the WPOA forward model is obtained by minimizing: $sum_bold(k) abs(G(bold(q),bold(k)) - Gamma(bold(q),bold(k))tilde(phi)(bold(q)))^2$.
 This yields the following matched-filter estimator:
 $
-  tilde(phi)_text("MF")(bold(q)) =  (sum_bold(k)Gamma^*(bold(q),bold(k)) G(bold(q), bold(k)))/(sum_bold(k)|Gamma(bold(q),bold(k))|^2 + epsilon(bold(q))).
+  tilde(phi)_text("MF")(bold(q)) =  (sum_bold(k)Gamma^*(bold(q),bold(k)) G(bold(q), bold(k)))/(sum_bold(k)abs(Gamma(bold(q),bold(k)))^2 + epsilon(bold(q))).
 $<eq-mf-recon>
 
 While @eq-mf-recon is simple, direct evaluation in detector-space is numerically unstable:
@@ -417,28 +417,28 @@ $
 where $bold(rho)$ is the detector separation.
 The matched-filter estimator in the mixed-domain representation is:
 $
-  tilde(phi)_text("MF-mix")(bold(q)) = (integral W^*(bold(q),bold(rho)) H(bold(q),bold(rho)) d bold(rho))/(integral |W(bold(q),bold(rho))|^2 d bold(rho) + epsilon(bold(q))).
+  tilde(phi)_text("MF-mix")(bold(q)) = (integral W^*(bold(q),bold(rho)) H(bold(q),bold(rho)) d bold(rho))/(integral abs(W(bold(q),bold(rho)))^2 d bold(rho) + epsilon(bold(q))).
 $
 
 This utilizes the fact that the kernel $W(bold(q),bold(rho))$ is highly-localized in $rho$, suggesting that we can further improve numerical stability by switching to a pixelwise normalization, instead of a global inner product:
 $
-  tilde(phi)_text("WDD")(bold(q)) = integral (W^*(bold(q),bold(rho)) H(bold(q),bold(rho)))/(|W(bold(q),bold(rho))|^2  + epsilon(bold(q),bold(rho))) d bold(rho).
+  tilde(phi)_text("WDD")(bold(q)) = integral (W^*(bold(q),bold(rho)) H(bold(q),bold(rho)))/(abs(W(bold(q),bold(rho)))^2  + epsilon(bold(q),bold(rho))) d bold(rho).
 $<eq-wdd-recon>
 
 When only one of the aperture-overlap sidebands is used to form the kernel $W(bold(q),bold(rho)) = cal(F)^(-1){tilde(psi)(bold(k-q))tilde(psi)^*(bold(k)))}$, @eq-wdd-recon is referred to as the _Wigner distribution deconvolution (WDD)_ method @Rodenburg_1992 @Li_2014 @Yang_2017. 
 
 The matched-filter (and equivalently WDD) estimator can be characterized by a contrast transfer function by inserting the forward model into @eq-mf-recon:
 $
-  cal(L)_text("MF")(bold(q)) =  (sum_bold(k) |Gamma(bold(q),bold(k))|^2 )/(sum_bold(k)|Gamma(bold(q),bold(k))|^2 + epsilon(bold(q))).
+  cal(L)_text("MF")(bold(q)) =  (sum_bold(k) abs(Gamma(bold(q),bold(k)))^2 )/(sum_bold(k)abs(Gamma(bold(q),bold(k)))^2 + epsilon(bold(q))).
 $
 Note that for sufficiently small regularization $epsilon(bold(q))$, the matched-filter CTF approaches unity, implying perfect phase transfer.
 This is misleading, since the matched-filter noise variance is similarly increased:
 $
-  sqrt(op("Var")[tilde(phi)_text("MF")(bold(q))]) = sqrt(sum_bold(k) |Gamma(bold(q),bold(k))|^2)/ (sum_bold(k) |Gamma(bold(q),bold(k))|^2) = 1/(sqrt(sum_bold(k) |Gamma(bold(q),bold(k))|^2)),
+  sqrt(op("Var")[tilde(phi)_text("MF")(bold(q))]) = sqrt(sum_bold(k) abs(Gamma(bold(q),bold(k)))^2)/ (sum_bold(k) abs(Gamma(bold(q),bold(k)))^2) = 1/(sqrt(sum_bold(k) abs(Gamma(bold(q),bold(k)))^2)),
 $
 to obtain an SSNR which is identical to the OBF SSNR:
 $
-  text("SSNR")_text("MF")(bold(q)) =  1/2 sqrt(sum_bold(k) |Gamma(bold(q),bold(k))|^2).
+  text("SSNR")_text("MF")(bold(q)) =  1/2 sqrt(sum_bold(k) abs(Gamma(bold(q),bold(k)))^2).
 $
 
 This highlights an important subtlety: the statistically-reliable information content is the same for all three linear estimators we have explored so far, namely SSB, OBF, and MF/WDD.
@@ -474,7 +474,7 @@ which reduces to the axial illumination CTF, modulated by the aperture autocorre
 Since the parallax estimator simply applies a phase ramp to each virtual bright-field image before coherently summing, the noise contributions retain unit variance.
 Consequently, the parallax SSNR is given by:
 $
-  text("SSNR")_text("prlx")(bold(q)) = |sin[chi(bold(q))]| [A star A](bold(q)),
+  text("SSNR")_text("prlx")(bold(q)) = abs(sin[chi(bold(q))]) [A star A](bold(q)),
 $
 
 == First Moment Projection <sec-icom>
@@ -491,7 +491,7 @@ Since Fourier differentiation satisfies $cal(F)_(bold(r) arrow bold(q)){nabla_bo
 
 To obtain the specimen phase, we Fourier-integrate the vector COM measurement to obtain:
 $
-  tilde(phi)_text("iCOM")(bold(q)) = sum_(bold(k) in bold(k)_text("BF")) (bold(q) dot [G(bold(q),bold(k)) thin bold(k)]) / (upright(i) |bold(q)|^2).
+  tilde(phi)_text("iCOM")(bold(q)) = sum_(bold(k) in bold(k)_text("BF")) (bold(q) dot [G(bold(q),bold(k)) thin bold(k)]) / (upright(i) abs(bold(q))^2).
 $<eq-icom-recon>
 Applying the same integration to the vectorial CTF yields the scalar iCOM transfer function:
 $
@@ -499,16 +499,16 @@ $
 $
 showing explicitly that iCOM reconstructs the specimen phase convolved with the probe autocorrelation @Bekkevold_2025.
 
-Since COM is a first-moment measurement and each Fourier component of the estimated iCOM phase is obtained by integrating the COM signal and dividing by $|bold(q)|$, the noise in the reconstruction scales with $|bold(q)|$ @Varnavides_2025_ssnr:
+Since COM is a first-moment measurement and each Fourier component of the estimated iCOM phase is obtained by integrating the COM signal and dividing by $abs(bold(q))$, the noise in the reconstruction scales with $abs(bold(q))$ @Varnavides_2025_ssnr:
 $
-  text("SSNR")_text("iCOM")(bold(q)) = (|[tilde(psi) star tilde(psi)](bold(q))|)/(|bold(q)|),
+  text("SSNR")_text("iCOM")(bold(q)) = (abs([tilde(psi) star tilde(psi)](bold(q))))/(abs(bold(q))),
 $
 highlighting that while the iCOM CTF implies low spatial frequencies should transfer with unit contrast, the corresponding SSNR shows these components become increasingly noisy in practice @Varnavides_2023 @Yu_2025 @Varnavides_2025_ssnr.
 
 #figure(
   kind: "algorithm",
   supplement: [Algorithm],
-  placement: bottom,
+  placement: auto,
   pseudocode-list(
     booktabs:true,
     booktabs-stroke:0.5pt + black,
@@ -530,8 +530,8 @@ highlighting that while the iCOM CTF implies low spatial frequencies should tran
 
     *Initialization:* \
     • allocate $f$-upsampled output array $I'(bold(r)') arrow.l 0$ \
-    • define bright-field index set $ bold(k)_text("BF") = {bold(k): |bold(k)| < k_0}$ \
-    • extract bright-field stack $I_text("BF") = {I(bold(r),bold(k)) : |bold(k)| < k_0}$ \
+    • define bright-field index set $ bold(k)_text("BF") = {bold(k): abs(bold(k)) < k_0}$ \
+    • extract bright-field stack $I_text("BF") = {I(bold(r),bold(k)) : abs(bold(k)) < k_0}$ \
     • construct upsampled and $theta$-rotated spatial frequency grid $bold(q)'$
     
     *Reconstruction:* \
@@ -541,11 +541,11 @@ highlighting that while the iCOM CTF implies low spatial frequencies should tran
       + $G(bold(q)') arrow.l op("tile")_f [G(bold(q))]$  
           #h(1fr) #text(rgb("#808080"))[(upsample by Fourier tiling)]
       + $H(bold(q)') arrow.l cases(
-        -upright(i) thin Gamma^*(bold(q)',bold(k)_text("BF"))\/|Gamma(bold(q)',bold(k)_text("BF"))| quad &"if SSB",
-        -upright(i) thin Gamma^*(bold(q)',bold(k)_text("BF"))\/sqrt(sum_(bold(k)in bold(k)_text("BF"))|Gamma(bold(q)',bold(k)_text("BF"))|^2) quad &"if OBF",
-        -upright(i) thin Gamma^*(bold(q)',bold(k)_text("BF"))\/(sum_(bold(k in bold(k)_text("BF")))|Gamma(bold(q)',bold(k)_text("BF"))|^2 + epsilon(bold(q)')) quad &"if MF",
+        -upright(i) thin Gamma^*(bold(q)',bold(k)_text("BF"))\/abs(Gamma(bold(q)',bold(k)_text("BF"))) quad &"if SSB",
+        -upright(i) thin Gamma^*(bold(q)',bold(k)_text("BF"))\/sqrt(sum_(bold(k)in bold(k)_text("BF"))abs(Gamma(bold(q)',bold(k)_text("BF")))^2) quad &"if OBF",
+        -upright(i) thin Gamma^*(bold(q)',bold(k)_text("BF"))\/(sum_(bold(k in bold(k)_text("BF")))abs(Gamma(bold(q)',bold(k)_text("BF")))^2 + epsilon(bold(q)')) quad &"if MF",
         #h(0.85em) exp[-upright(i) nabla_bold(k) chi(bold(k)_text("BF")) dot bold(q)'] thin op("sgn")[sin[chi(bold(q)')]] quad &"if prlx",
-        -upright(i) thin bold(k)_text("BF") dot bold(q)' \/ |bold(q)|^2 quad &"if iCOM"
+        -upright(i) thin bold(k)_text("BF") dot bold(q)' \/ abs(bold(q))^2 quad &"if iCOM"
       )$ #h(1fr) #text(rgb("#808080"))[(compute estimator kernel)]
       + $I'(bold(r)') +#h(-0.1em)= Re[cal(F)^(-1)_(bold(q)' arrow bold(r)'){G(bold(q)') H(bold(q)')}] \/ N_text("BF")$ #h(1fr) #text(rgb("#808080"))[(apply kernel and accumulate)]
     + *end*\
@@ -593,23 +593,30 @@ Iterative approaches offer several key advantages.
 First, they enable super-resolution @Maiden_2009, allowing recovery of specimen information beyond the twice numerical-aperture limit of direct methods, and without imposing scan-step size restrictions.
 Second, they are remarkably flexible: the same mathematical framework can be extended to incorporate depth-information (multislice @Chen_2021), multiple scattering channels (e.g. electrostatic and magnetic potentials @Varnavides_2023_mag), or partial-coherence in the converged illumination (mixed-state @Thibault_2013).
 Third, iterative reconstructions do not require perfect prior knowledge of the converged illumination; they naturally support blind deconvolution, jointly solving for both the specimen phase and probe aberrations.
-Finally, the optimization framework underlying iterative approaches naturally interfaces with modern machine-learning tools, enabling reconstructions driven by autodifferentiation or deep generative priors.
-
+Finally, the optimization framework underlying iterative approaches naturally interfaces with modern machine-learning tools, enabling reconstructions driven by autodifferentiation or deep generative priors @McCray_2025.
 
 In the following sections, we develop the major families of iterative methods, beginning with classical projection-based algorithms, then moving to gradient-based approaches, and finally extending to multislice, mixed-state, and machine-learning–based formulations.
 
-== Single slice methods
+== Single Slice Iterative Methods <sec-single-slice>
 
+Iterative reconstruction methods begin from the strong-phase object approximation, in which the specimen is represented by a single transmission function related to the projected potential:
+$
+  cal(O)(bold(r)) = exp[upright(i) thin phi(bold(r))].
+$
+Unlike the WPOA, the detected bright-field intensity no longer responds linearly to $phi(bold(r))$; instead, the exit wave and corresponding diffraction pattern for each scan position $bold(R)_j$ are given by:
+$
+  psi_text("exit")^((j)) (bold(r)) &= cal(O)(bold(r)) psi(bold(r)-bold(R)_j) \ 
+  I_text("model")^((j)) (bold(k)) &= abs(cal(F)_(bold(r) arrow bold(k)){tilde(psi)_text("exit")^((j))(bold(r))})^2 = abs(tilde(psi)_text("exit")^((j))(bold(k)))^2.
+$
+Single-slice ptychography attempts to recover estimates for the complex-valued object $cal(O)(bold(r))$, and often refine the illumination estimate $psi(bold(r))$, by enforcing consistency between the measured intensities $I_text("meas")^((j)) (bold(k))$ and the modeled intensities using the current object and illumination estimates.
+The nonlinear modulus constraint $abs(tilde(psi)_text("exit")^((j))(bold(k))) = sqrt(I_text("meas")^((j))(bold(k)))$, must be satisfied for each scan position independently, requiring iterative algorithms that repeatedly enforce constraints in real and Fourier space.
+These algorithms can be grouped in two broad families: proximal gradient / projection-set methods and gradient-based optimization methods @Varnavides_2023.
 
 === Projection-set methods
 ER, DM, RAAR
 
 === Gradient-based methods
 ePie, SGD
-
-
-
-
 
 == Beyond single slice ptychography 
 === Mixed-state
