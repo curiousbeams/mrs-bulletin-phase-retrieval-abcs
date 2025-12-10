@@ -583,8 +583,20 @@ For low dose experiments, the direct phase retrieval techniques perform remarkab
 However, for thick samples and experiments with higher electron fluence, iterative approaches outperform their direct phase retrieval counterparts as described in @sec-iterative.
 
 = Iterative Ptychography <sec-iterative>
-We now move to a different class of phase retrieval techniques, iterative electron ptychography. 
-Iterative electron ptychography approaches are particularly valuable at high doses, where this approach allows for recovery of 3D information, through multislice approaches and super-resolution imaging, namely beyond the 2$k_0$ (twice the semi convergence angle).
+
+The direct phase-retrieval methods presented above provide fast, interpretable, and often remarkably robust reconstructions when multiple scattering is negligible.
+However, applying STEM phase retrieval to complex materials science questions requires going beyond the WPOA.
+Real specimens impart strong phase shifts, redistribute intensity nonlinearly, and may channel electrons through multiple atomic layers @Williams_2009 @Carter_2016 @Kirkland_2020.
+These effects are fundamentally incompatible with the linear WPOA model, requiring _iterative methods_ based on the strong-phase object approximation, in which the specimen is modeled according to @eq-ms.
+
+Iterative approaches offer several key advantages.
+First, they enable super-resolution @Maiden_2009, allowing recovery of specimen information beyond the twice numerical-aperture limit of direct methods, and without imposing scan-step size restrictions.
+Second, they are remarkably flexible: the same mathematical framework can be extended to incorporate depth-information (multislice @Chen_2021), multiple scattering channels (e.g. electrostatic and magnetic potentials @Varnavides_2023_mag), or partial-coherence in the converged illumination (mixed-state @Thibault_2013).
+Third, iterative reconstructions do not require perfect prior knowledge of the converged illumination; they naturally support blind deconvolution, jointly solving for both the specimen phase and probe aberrations.
+Finally, the optimization framework underlying iterative approaches naturally interfaces with modern machine-learning tools, enabling reconstructions driven by autodifferentiation or deep generative priors.
+
+
+In the following sections, we develop the major families of iterative methods, beginning with classical projection-based algorithms, then moving to gradient-based approaches, and finally extending to multislice, mixed-state, and machine-learning–based formulations.
 
 == Single slice methods
 
