@@ -292,32 +292,79 @@ $
 which is precisely the HRTEM CTF derived in the previous section.
 This result is often described as _reciprocity_ between TEM and STEM techniques.
 
+=== Statistically Reliable Information
+
+The CTF only describes the maximum transferable signal, not the statistical reliability of that signal under noise.
+A complete description of information transfer must account for noise statistics, notably Poisson shot noise in direct-electron detectors.
+The natural figure of merit is the spectral signal-to-noise ratio (SSNR) @Unser_1987 @Varnavides_2025_ssnr,
+$
+  text("SSNR")(bold(q)) = (|chevron.l tilde(psi)(bold(q)) chevron.r|)/sqrt(op("Var")[tilde(psi)(bold(q))]),
+$
+which quantifies the statistically reliable recoverable information at each spatial frequency.
+The SSNR formalism is related to the detective quantum efficiency (DQE), recently introduced as a quantitative performance metric for STEM phase retrieval @Bennemann_2025:
+$
+  text("DQE")(bold(q)) = (text("SSNR")_text("out")^2 (bold(q))) / (text("SSNR")_text("in")^2 (bold(q)) ),
+$ <dqe-eq>
+where $text("SSNR")_text("in")(bold(q))$ is the SSNR of an "ideal" reference system, typically taken as HRTEM with a Zernike phase plate @Zernike_1942 @Vega_2025.
+Thus, the DQE provides a normalized, absolute measure of how efficiently a STEM method transfers information relative to a theoretical optimum.
+
 = Direct Phase Retrieval Techniques
 
-Equipped with the WPOA aperture-overlap and CTF formalisms, we are now ready to investigate the zoo of direct STEM phase retrieval methods and their various acronyms.
+Equipped with the WPOA aperture-overlap and CTF/SSNR formalisms, we are now ready to investigate the zoo of direct STEM phase retrieval methods and their various acronyms.
 These differ primarily in how they combine the Fourier-transformed measured diffraction intensities $G(bold(q),bold(k))$ to produce an estimate for $tilde(phi)(bold(q))$.
 
 == Phase-Compensated Coherent Summation <sec-ssb>
 
 The first technique we will investigate goes by two seemingly unrelated names: _aberration-corrected bright-field (acBF) STEM_ @Ma_2025 and _phase-compensated single-sideband (SSB) ptychography_ @Yang_2016.
+The former highlights its close connection to _tilt-corrected bright-field (tcBF) STEM_, which we investigate further in @sec-parallax.
+The latter name reflects the structure of the WPOA forward model in @eq-wpoa-forward, which contains two redundant contributions at $bold(q)$ and $-bold(q)$.
 
-The former name emphasizes the technique's close connection with a more recent technique called _tilt-corrected bright-field (tcBF) STEM_, which we investigate further in @sec-parallax.
-Similarly, the term single-sideband comes from the structure of the WPOA forward model in @eq-wpoa-forward, which contains two redundant contributions at $bold(q)$ and $-bold(q)$.
-In the ideal, in-focus case these two contributions are related by complex conjugation given by Friedel's law @Friedel_1913.
-Thus, one can reconstruct $tilde(phi)(bold(q))$ using only one sideband.
+In the absence of aberrations, these two "sidebands" are related by complex conjugation (Friedel's law @Friedel_1913), so the specimen phase $tilde(phi)(bold(q))$ can be reconstructed using using only one of them.
+In practice, once aberrations are present, the two sidebands are no longer perfect conjugates: residual aberrations imprint an additional geometric phase to the aperture-overlap function $Gamma(bold(q),bold(k))$.
 
-In practice, the second sideband is not simply the first rotated by $pi$, because residual aberrations imprint additional phase structure on $Gamma(bold(q),bold(k))$.
-Phase-compensated SSB explicitly removes this geometric phase, keeping only the phase from the aperture-overlap function, before performing a coherent summation @Yang_2016:
+The key insight behind SSB is that, under the WPOA, detector pixels sampling the same sideband carry the same specimen phase $tilde(phi)(bold(q))$.
+Differences between pixels arise only from known, instrument-dependent phases, namely aberration-induced geometric phases and aperture-overlap geometry.
+If these extraneous phases are removed, all sideband contributions from all detector pixels can be added coherently.
+
+Phase-compensated SSB accomplishes this by dividing $Gamma(bold(q),bold(k))$ by its magnitude and retaining only its unit-modulus phase factor, effectively rotating each detector-plane frequency into a common phase reference.
+The estimated phase is then obtained by coherently summing all phase-aligned detector samples @Yang_2016:
 $
   tilde(phi)_text("SSB")(bold(q)) = sum_bold(k) (Gamma^*(bold(q),bold(k)))/(|Gamma(bold(q),bold(k))|) G(bold(q), bold(k)).
 $<eq-ssb-recon>
-This operation discards the magnitude of $Gamma(bold(q),bold(k))$  and uses only its phase to rotate all detector-plane frequencies into alignment.
-This works remarkably well and remains one of the most widely used direct phase retrieval techniques.
+
+This operation discards the magnitude of $Gamma(bold(q),bold(k))$  and uses only its phase.
+It works remarkably well and remains one of the most widely used direct phase retrieval techniques.
 Inserting the forward model $G(bold(q),bold(k)) = Gamma(bold(q),bold(k)) tilde(phi)(bold(q))$ into @eq-ssb-recon gives the SSB CTF @Yang_2016:
 $
   cal(L)_text("SSB")(bold(q)) = upright(i)/2 sum_bold(k) |Gamma(bold(q),bold(k))|.
 $
 For spatial frequencies beyond the aperture semiangle $|bold(q)| > q_0$, the overlap $Gamma(bold(q),bold(k))$ reduces to the "double-overlap" region, and the CTF collapses to the ideal autocorrelation enveloped derived in @eq-infocus-ctf.
+
+To understand the SSB noise term, note that each detector frequency contributes a noisy measurement:
+$
+  G(bold(q),bold(k)) = Gamma(bold(q),bold(k)) tilde(phi)(bold(q)) + n(bold(q),bold(k)), 
+$ <eq-noise-model>
+with unit-variance noise $n(bold(q),bold(k))$ @Bennemann_2025.
+The phase-alignment step preserves unit noise variance, so noise contributions add incoherently, while the signal adds coherently.
+Thus, the total variance at each spatial frequency $bold(q)$ is simply the number of detector pixels for which $Gamma(bold(q),bold(k))$ is nonzero: 
+$
+op("Var"[tilde(phi)_text("SSB")(bold(q))]) = sum_bold(k) 1_(\{|Gamma(bold(q),bold(k))| >0\})  = 2 D(bold(q)) + T(bold(q)),
+$
+where $D(bold(q))$ and $T(bold(q))$ are the double and triple overlap regions (@fig-gamma).
+The resulting SSNR is therefore:
+$
+  text("SSNR")_text("SSB")(bold(q)) = (sum_bold(k) |Gamma(bold(q),bold(k))|) / (2 sqrt(2 D(bold(q)) + T(bold(q))))
+$
+
+#figure(
+  rect(
+    width: 100%,
+    height: 200pt
+  )[
+    Placeholder for direct methods figure (schematic / CTFs)?
+  ],
+  placement: top
+) <fig-ctf>
 
 == Noise-Flattening Normalization <sec-obf>
 
@@ -339,15 +386,18 @@ $
   cal(L)_text("OBF")(bold(q)) = upright(i)/2 sqrt(sum_bold(k) |Gamma(bold(q),bold(k))|^2).
 $
 
-#figure(
-  rect(
-    width: 100%,
-    height: 200pt
-  )[
-    Placeholder for direct methods figure (schematic / CTFs)?
-  ],
-  placement: top
-) <fig-ctf>
+Using the additive unit-variance noise model from @eq-noise-model, the OBF estimator numerator becomes:
+$
+  sum_bold(k) Gamma^*(bold(q),bold(k)) G(bold(q),bold(k)) = sum_bold(k) |Gamma(bold(q),bold(k))|^2 tilde(phi)(bold(q)) + sum_bold(k) Gamma^*(bold(q),bold(k)) n(bold(q),bold(k)),
+$
+with the second term describing the additive noise contributions with total variance:
+$
+  op("Var")[sum_bold(k) Gamma^*(bold(q),bold(k)) n (bold(q),bold(k))] = sum_bold(k) |Gamma(bold(q),bold(k))|^2.
+$
+This is precisely the square of the OBF denominator, which normalizes the OBF variance to unity, $op("Var")[tilde(phi)_text("OBF")(bold(q))]=1$, and thus the resulting OBF SSNR is given by the magnitude of its CTF:
+$
+  text("SSNR")_text("OBF")(bold(q)) = 1/2 sqrt(sum_bold(k) |Gamma(bold(q),bold(k))|^2).
+$
 
 == Least Squares Matched Filter <sec-wdd>
 
@@ -377,6 +427,22 @@ $<eq-wdd-recon>
 
 When only one of the aperture-overlap sidebands is used to form the kernel $W(bold(q),bold(rho)) = cal(F)^(-1){tilde(psi)(bold(k-q))tilde(psi)^*(bold(k)))}$, @eq-wdd-recon is referred to as the _Wigner distribution deconvolution (WDD)_ method @Rodenburg_1992 @Li_2014 @Yang_2017. 
 
+The matched-filter (and equivalently WDD) estimator can be characterized by a contrast transfer function by inserting the forward model into @eq-mf-recon:
+$
+  cal(L)_text("MF")(bold(q)) =  (sum_bold(k) |Gamma(bold(q),bold(k))|^2 )/(sum_bold(k)|Gamma(bold(q),bold(k))|^2 + epsilon(bold(q))).
+$
+Note that for sufficiently small regularization $epsilon(bold(q))$, the matched-filter CTF approaches unity, implying perfect phase transfer.
+This is misleading, since the matched-filter noise variance is similarly increased:
+$
+  sqrt(op("Var")[tilde(phi)_text("MF")(bold(q))]) = sqrt(sum_bold(k) |Gamma(bold(q),bold(k))|^2)/ (sum_bold(k) |Gamma(bold(q),bold(k))|^2) = 1/(sqrt(sum_bold(k) |Gamma(bold(q),bold(k))|^2)),
+$
+to obtain an SSNR which is identical to the OBF SSNR:
+$
+  text("SSNR")_text("MF")(bold(q)) =  1/2 sqrt(sum_bold(k) |Gamma(bold(q),bold(k))|^2).
+$
+
+This highlights an important subtlety: the statistically-reliable information content is the same for all three linear estimators we have explored so far, namely SSB, OBF, and MF/WDD.
+
 == Quadratic Approximation <sec-parallax>
 
 The methods we have introduced so far all relied on the full aperture-overlap kernel $Gamma(bold(q),bold(k))$, which is expensive to compute numerically.
@@ -405,6 +471,12 @@ $
 $
 which reduces to the axial illumination CTF, modulated by the aperture autocorrelation function.
 
+Since the parallax estimator simply applies a phase ramp to each virtual bright-field image before coherently summing, the noise contributions retain unit variance.
+Consequently, the parallax SSNR is given by:
+$
+  text("SSNR")_text("prlx")(bold(q)) = |sin[chi(bold(q))]| [A star A](bold(q)),
+$
+
 == First Moment Projection <sec-icom>
 
 An alternative and computationally efficient route to direct STEM phase retrieval is to take the first moment of the aperture–overlap function, known either as _integrated center-of-mass (iCOM) imaging_ or _integrated differential phase contrast (iDPC or DPC)_ @Dekkers_1974 @Lazic_2016.
@@ -427,48 +499,39 @@ $
 $
 showing explicitly that iCOM reconstructs the specimen phase convolved with the probe autocorrelation @Bekkevold_2025.
 
-== Unified Comparison of Direct STEM Phase Estimators
-
-The phase estimators introduced above -- SSB, OBF, MF/WDD, parallax, and iCOM -- all originate from the same WPOA forward model in @eq-wpoa-forward.
-They primarily differ in i) how they weight the bright-field intensities, ii) how they normalize the coherent sum, and iii) how much of the full aperture-overlap kernel they retain.
-
-SSB performs an unnormalized coherent projection using the full aperture-overlap kernel.
-OBF applies a noise-flattening scalar normalization.
-MF/WDD implements the least-squares matched filter, either in detector-space (MF) or in a mixed-domain (WDD).
-Note that due to the mixed-domain requirement, WDD cannot be computed by looping solely over bright-field pixels.
-Parallax imaging uses a first-order approximation to the aperture-overlap kernel, keeping only the detector-frequency-dependent phase ramp $upright(e)^(upright(i) nabla_bold(k) chi(bold(k))dot bold(q))$.
-It is computationally cheap, and its subpixel accuracy enables upsampling.
-Finally, iCOM bypasses the overlap-kernel entirely, and instead takes the first moment of the bright-field intensities and reconstructs the phase by Fourier-integration of the resulting COM signal.
-With the exception of iCOM, these techniques rely on an accurate estimation of the aberrations, which can be calculated through optimization routines, based on self consistency error, or in the case of parallax through fitting of cross-correlation shifts of real space images with a linear systems of equations.
-
-@unified-pseudocode shows a unified pseudocode for the direct estimators we have seen so far, using a loop over bright-field pixels $bold(k)_text("BF")$.
-This leverages the fact that the aperture-overlap function is identically zero outside the probe aperture, is computationally more efficient, and enables natural upsampling via Fourier-tiling.
+Since COM is a first-moment measurement and each Fourier component of the estimated iCOM phase is obtained by integrating the COM signal and dividing by $|bold(q)|$, the noise in the reconstruction scales with $|bold(q)|$ @Varnavides_2025_ssnr:
+$
+  text("SSNR")_text("iCOM")(bold(q)) = (|[tilde(psi) star tilde(psi)](bold(q))|)/(|bold(q)|),
+$
+highlighting that while the iCOM CTF implies low spatial frequencies should transfer with unit contrast, the corresponding SSNR shows these components become increasingly noisy in practice @Varnavides_2023 @Yu_2025 @Varnavides_2025_ssnr.
 
 #figure(
   kind: "algorithm",
   supplement: [Algorithm],
-  placement: auto,
+  placement: bottom,
   pseudocode-list(
     booktabs:true,
     booktabs-stroke:0.5pt + black,
+    line-numbering:none,
+    hooks: .5em,
     numbered-title: [
-      Unified direct STEM phase retrieval (SSB, OBF, MF, parallax, iCOM)
+      Unified direct STEM phase retrieval (SSB, OBF, MF, prlx, iCOM)
     ]
   )[  
     *Inputs:* \
     • 4D-STEM dataset $I(bold(r),bold(k))$ \
-    • estimator type $in {text("SSB"), text("OBF"), text("MF"), text("parallax"), text("iCOM")}$ \
+    • estimator type $in {text("SSB"), text("OBF"), text("MF"), text("prlx"), text("iCOM")}$ \
     • integer upsampling factor $f$ \
     • aberration coefficients $C_(n,m)$  (for $chi$ and $nabla_bold(k) chi$) \
     • convergence semiangle $k_0$ \
     • scan/detector rotation angle $theta$
 
-    *Output:* reconstruction upsampled by factor $f$
+    *Output:* estimated phase upsampled by factor $f$
 
     *Initialization:* \
     • allocate $f$-upsampled output array $I'(bold(r)') arrow.l 0$ \
     • define bright-field index set $ bold(k)_text("BF") = {bold(k): |bold(k)| < k_0}$ \
-    • extract BF stack $I_text("BF") = {I(bold(r),bold(k)) : |bold(k)| < k_0}$ \
+    • extract bright-field stack $I_text("BF") = {I(bold(r),bold(k)) : |bold(k)| < k_0}$ \
     • construct upsampled and $theta$-rotated spatial frequency grid $bold(q)'$
     
     *Reconstruction:* \
@@ -481,28 +544,43 @@ This leverages the fact that the aperture-overlap function is identically zero o
         -upright(i) thin Gamma^*(bold(q)',bold(k)_text("BF"))\/|Gamma(bold(q)',bold(k)_text("BF"))| quad &"if SSB",
         -upright(i) thin Gamma^*(bold(q)',bold(k)_text("BF"))\/sqrt(sum_(bold(k)in bold(k)_text("BF"))|Gamma(bold(q)',bold(k)_text("BF"))|^2) quad &"if OBF",
         -upright(i) thin Gamma^*(bold(q)',bold(k)_text("BF"))\/(sum_(bold(k in bold(k)_text("BF")))|Gamma(bold(q)',bold(k)_text("BF"))|^2 + epsilon(bold(q)')) quad &"if MF",
-        #h(0.85em) exp[-upright(i) nabla_bold(k) chi(bold(k)_text("BF")) dot bold(q)'] thin op("sgn")[sin[chi(bold(q)')]] quad &"if parallax",
+        #h(0.85em) exp[-upright(i) nabla_bold(k) chi(bold(k)_text("BF")) dot bold(q)'] thin op("sgn")[sin[chi(bold(q)')]] quad &"if prlx",
         -upright(i) thin bold(k)_text("BF") dot bold(q)' \/ |bold(q)|^2 quad &"if iCOM"
       )$ #h(1fr) #text(rgb("#808080"))[(compute estimator kernel)]
       + $I'(bold(r)') +#h(-0.1em)= Re[cal(F)^(-1)_(bold(q)' arrow bold(r)'){G(bold(q)') H(bold(q)')}] \/ N_text("BF")$ #h(1fr) #text(rgb("#808080"))[(apply kernel and accumulate)]
     + *end*\
-  ]
+  ],
 ) <unified-pseudocode>
+
+== Unified Comparison of Direct STEM Phase Estimators
+
+The phase estimators introduced above -- SSB, OBF, MF/WDD, parallax, and iCOM -- all originate from the same WPOA forward model in @eq-wpoa-forward and additive noise model in @eq-noise-model.
+They primarily differ in i) how they weight the bright-field intensities, ii) how they normalize the coherent sum, and iii) how much of the full aperture-overlap kernel they retain.
+
+SSB performs an unnormalized coherent projection using the full aperture-overlap kernel.
+OBF applies a noise-flattening scalar normalization.
+MF/WDD implements the least-squares matched filter, either in detector-space (MF) or in a mixed-domain (WDD).
+Parallax imaging uses a first-order approximation to the aperture-overlap kernel, keeping only the detector-frequency-dependent phase ramp $upright(e)^(upright(i) nabla_bold(k) chi(bold(k))dot bold(q))$.
+It is computationally cheap, and its subpixel accuracy enables scan step-size upsampling @Varnavides_2025.
+Finally, iCOM bypasses the overlap-kernel entirely, and instead takes the first moment of the bright-field intensities and reconstructs the phase by Fourier-integration of the resulting COM signal.
+
+With the exception of iCOM, these techniques rely on an accurate estimation of the aberrations, which can be calculated through optimization routines, based on self consistency error @Varnavides_2025, or in the case of parallax through fitting of cross-correlation shifts of real space images with a linear systems of equations @Varnavides_2023 @Yu_2025.
+@unified-pseudocode shows a unified pseudocode for the direct estimators we have seen so far, using a loop over bright-field pixels $bold(k)_text("BF")$.
+This leverages the fact that the aperture-overlap function is identically zero outside the probe aperture, is computationally more efficient, and enables natural upsampling via Fourier-tiling @Varnavides_2025.
+Due to the mixed-domain requirement, WDD cannot be computed by looping solely over bright-field pixels.
 
 == Impact of Direct Techniques on Materials Science
 
-As highlighted in @fig-ctf, the ideal approach depends on the nature of the data. 
-For in focus experiments, iCOM is often the preferred approach and the  low computational overhead approach of this technique makes it most compatible with in-situ approaches @bekkevold2024ultra.
-Conversely, defocus is essential for parallax reconstructions.
-As shown in ..... something something about similarity between SSB, OBF, and MF/WDD. 
-Moreover, most experiments, especially on aberration corrected instruments, are dominated by stigmation and defocus, meaning the quadratic approximation of parallax provides a nearly identical reconstruction as a full deconvolution.
+As highlighted in @fig-ctf, the ideal approach depends on the nature of the data and acquisition parameters. 
+For in focus experiments, iCOM is often the preferred approach with the low computational overhead of this technique making it most compatible with in-situ approaches @bekkevold2024ultra.
+Conversely, parallax reconstructions are often performed for defocused acquisitions using large step-sizes, e.g. for beam-sensitive biological samples @Berk_2024 @Yu_2025.
+The SSB, OBF, and MF/WDD techniques, performing a full deconvolution of the aperture-overlap are suited for both in-focus and defocused acquisitions @Varnavides_2025, and can in-fact correct residual higher-order aberrations @Susi_2025.
+However, acquisitions on aberration corrected instruments are often dominated by first-order aberrations such as defocus and astigmatism, suggesting the quadratic approximation provided by parallax yields a nearly identical reconstruction as SSB, OBF, or MF/WDD.
 
-
-Ultimately all of these approaches provide a powerful approach for phase retrieval for materials science samples, with examples including carbon nanotubes @yang2016simultaneous, 2D materials @o2022increasing, @susi2025quantifying, and metal organic frameworks @Ma_2025, @shen2020imaging, and battery samples @lozano2018low. 
-These techniques are computationally efficient, meaning with modern computational resources,they can be reconstructed in during experimentation.
-For low dose experiments, the direct phase retrieval techniques perform remarkably well as compared to their more computationally expensive counterparts, meaning that more advanced reconstruction approaches may not be needed offline.
-However, for thick samples and experiments with higher electron fluence, iterative approaches can outperform their direct phase retrieval counterparts as described in @sec-iterative.
-
+Ultimately these approaches provide a powerful approach for phase retrieval for materials science samples, with examples including carbon nanotubes @yang2016simultaneous, 2D materials @o2022increasing @Susi_2025, and metal organic frameworks @Ma_2025, @shen2020imaging, and battery samples @lozano2018low. 
+These techniques are computationally efficient, meaning with modern computational resources,they can be reconstructed "live" during acquisition @Yu_2022 @Ooe_2021 @Pelz_2022 @Strauch_2021.
+For low dose experiments, the direct phase retrieval techniques perform remarkably well as compared to their more computationally expensive counterparts @Varnavides_2025_ssnr, suggesting that more advanced reconstruction approaches may not be needed offline.
+However, for thick samples and experiments with higher electron fluence, iterative approaches outperform their direct phase retrieval counterparts as described in @sec-iterative.
 
 = Iterative Ptychography <sec-iterative>
 We now move to a different class of phase retrieval techniques, iterative electron ptychography. 
