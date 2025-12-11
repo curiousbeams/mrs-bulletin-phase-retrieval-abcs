@@ -612,8 +612,37 @@ Single-slice ptychography attempts to recover estimates for the complex-valued o
 The nonlinear modulus constraint $abs(tilde(psi)_text("exit")^((j))(bold(k))) = sqrt(I_text("meas")^((j))(bold(k)))$, must be satisfied for each scan position independently, requiring iterative algorithms that repeatedly enforce constraints in real and Fourier space.
 These algorithms can be grouped in two broad families: proximal gradient / projection-set methods and gradient-based optimization methods @Varnavides_2023.
 
-=== Projection-set methods
-ER, DM, RAAR
+=== Proximal-Gradient / Projection-Set Methods <sec-projection-methods>
+
+The earliest iterative ptychographic algorithms arise from phase-retrieval methods in crystallography and coherent diffractive imaging @Fienup_1982 @Levi_1984 @Miao_1999 @Bauschke_2002 @Elser_2003 @Thibault_2008.
+These methods frame the reconstruction as the problem of finding an object-illumination pair $(cal(O),psi)$ lying in the intersection of two constraint sets: i) real-space constraint: the exit-wave must equal the product of the object and shifted illumination estimates, and ii) Fourier-modulus constraint: the exit-wave Fourier magnitude must match the measured intensities.
+
+Algorithms such as _error reduction_ (ER) @Levi_1984, _difference map_ (DM) @Elser_2003 @Thibault_2008, and _relaxed averaged alternating reflections_ (RAAR) @Luke_2004, achieve this by alternating projections / reflections between these two sets.
+For example, the canonical ER exit-wave update is given by @Bauschke_2002:
+$
+  psi'_text("exit")^((j))(bold(r)) = Pi_f [psi_text("exit")^((j))(bold(r))] &= cal(F)_(bold(k) arrow bold(r))^(-1) lr({ sqrt(I_text("meas")^((j))(bold(k))) thick theta.alt{cal(F)_(bold(r) arrow bold(k)){psi_text("exit")^((j))(bold(r))}}}) \
+  theta.alt(tilde(v)) &= cases(
+    tilde(v) \/ abs(tilde(v)) &"if" tilde(v) eq.not 0,
+    0 &"otherwise,"
+  )
+$<eq-proj-exit-wave>
+where the Fourier-projection operator $Pi_f$ replaces the Fourier exit-wave magnitude with the measured amplitude, retaining only its phase @Fienup_1982 @Bauschke_2002.
+The object and illumination estimates are then updated by enforcing the real-space multiplicative constraint @Thibault_2008:
+$
+  cal(O)'(bold(r)) = (sum_j psi^*(bold(r)-bold(R)_j) psi'_text("exit")^((j))(bold(r)))/(sum_j norm(psi(bold(r)-bold(R)_j))^2_alpha) #h(0.5em) &text("and") #h(0.5em) psi'(bold(r)) = (sum_j cal(O)^*(bold(r)) psi'_text("exit")^((j))(bold(r)))/(sum_j norm(cal(O)(bold(r)))^2_alpha), \
+  norm(dot)^2_alpha = (1-alpha) sum_j &abs(dot)^2 + alpha sum_j abs(dot)^2_text("max")
+$
+where $alpha$ is a scalar 0-1 parameter controlling the weight of the maximum overlap in the $norm(dot)^2_alpha$ normalization.
+DM and RAAR combine projections in more sophisticated ways to form the exit-wave update given by @eq-proj-exit-wave.
+In-fact, we can parametrize a family of projection-set algorithms, using the scalar parameters $(a,b,c)$:
+$
+  psi'_text("exit")^((j))(bold(r)) = (1-a-b) thin psi'_text("exit")^((j))(bold(r)) + a thin psi_text("exit")^((j))(bold(r)) + b thin Pi_f [c thin psi_text("exit")^((j))(bold(r)) + (1-c) thin psi'_text("exit")^((j))(bold(r))].
+$
+Named algorithms can then be recovered using specific $(a,b,c)$ combinations:
+ER $(a=0,b=1,c=1)$ @Levi_1984, DM $(a=-1, b=1, c=2)$ @Elser_2003, and RAAR $(a=1-2 gamma, b=gamma, c =2)$ @Luke_2004, with $gamma$ an additional relaxation parameter.
+
+Projection-set methods have two major strengths: they are robust and computationally simple, requiring only Fourier transforms and pointwise operations.
+However, their connection to an explicit optimization problem is indirect, making them difficult to generalize, and they can converge slowly in regimes where the data redundancy is limited or when object-illumination mixing increases due to strong scattering @Varnavides_2023.
 
 === Gradient-based methods
 ePie, SGD
