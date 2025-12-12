@@ -536,7 +536,7 @@ MF/WDD implements the least-squares matched filter, either in detector-space (MF
 Parallax imaging uses a first-order approximation to the aperture-overlap kernel, keeping only the detector-frequency-dependent phase ramp $upright(e)^(upright(i) nabla_bold(k) chi(bold(k))dot bold(q))$.
 It is computationally cheap, and its subpixel accuracy enables scan step-size upsampling @Varnavides_2025.
 Finally, iCOM bypasses the overlap-kernel entirely, and instead takes the first moment of the bright-field intensities and reconstructs the phase by Fourier-integration of the resulting COM signal.
-
+ 
 With the exception of iCOM, these techniques rely on an accurate estimation of the aberrations, which can be calculated through optimization routines, based on self consistency error @Varnavides_2025, or by least-squares fitting of linear systems of equations @Varnavides_2023 @Yu_2025.
 
 @unified-pseudocode shows a unified pseudocode for the direct estimators we have seen so far, using a loop over bright-field pixels $bold(k)_text("BF")$.
@@ -761,14 +761,20 @@ Combining ptychography with tomography can substantially improve multislice dept
 Approaches such as few-tilt aperture synthesis and joint ptychography-tomography optimization recover complementary angular information, reducing the ambiguities inherent to purely depth-slicing multislice reconstructions @Lee_2023 @You_2024 @Dong_2025.
 These hybrid methods achieve more accurate 3D reconstructions and mitigate slice-mixing artifacts, particularly in thick or compositionally heterogeneous specimens.
 
-=== Regularization
-
-Explain how methods share a data-consistency constraint/loss, differ in object/probe updated and regularization
-
 = Outlook
 
-Despite recent studies that demonstrate the ability to perform ptychographic reconstructions on uncorrected instruments @nguyen2024achieving, including with small converge angles @blackburn2025sub, proper reconstruction on most samples benefits from an aberration corrector and overlap in reciprocal space assures beams are phase relative to each other leading to a unique and accurate sample reconstruction. 
+The ability of phase retrieval techniques to recover weakly scattering signals lends the approaches described here to myriad applications, spanning materials science and engineering. 
+Phase retrieval techniques are used for imaging of beam-sensitive samples composed of low atomic number species, such as polymers, DNA, and proteins. 
+They can also be used for hard, inorganic structures, including to probe subtle structure changes of low atomic number species for example for functional materials with applications in energy and quantum science. 
+Specimen range from nano-particles, to two-dimensional materials, including both monolayer and few layer samples, as well as bulk structures. 
+
+Current challenges in the field are related to extending these approaches to more materials samples, including larger volumes, more beam sensitive materials, and more hardware configurations.
+Despite recent studies that demonstrate the ability to perform ptychographic reconstructions on uncorrected instruments @nguyen2024achieving, including with small converge angles at low accelerating voltages @blackburn2025sub, proper reconstruction on most samples benefits from an aberration corrector.
+Overlap in reciprocal space assures beams are phase relative to each other leading to a unique and accurate sample reconstruction. 
 Ultimately phase retrieval approaches in materials science still largely depend on expensive hardware, including advanced detectors and aberration correctors.
+
+
+
 
 = Acknowledgement 
 Work at the Molecular Foundry was supported by the Office of Science, Office of Basic Energy Sciences, of the U.S. Department of Energy under Contract No. DE-AC02-05CH11231.
