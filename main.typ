@@ -634,7 +634,7 @@ Unlike the WPOA, the detected bright-field intensities are no longer linear in $
 for each scan position $bold(R)_j$, the exit wave and corresponding diffraction pattern are given by:
 $
   psi_text("exit")^((j)) (bold(r)) &= cal(O)(bold(r)) psi(bold(r)-bold(R)_j) \ 
-  I_text("model")^((j)) (bold(k)) &= abs(cal(F)_(bold(r) arrow bold(k)){tilde(psi)_text("exit")^((j))(bold(r))})^2 = abs(tilde(psi)_text("exit")^((j))(bold(k)))^2
+  I_text("model")^((j)) (bold(k)) &= abs(cal(F)_(bold(r) arrow bold(k)){psi_text("exit")^((j))(bold(r))})^2 = abs(tilde(psi)_text("exit")^((j))(bold(k)))^2
 $<eq-spoa-intensities>
 
 The goal of single-slice ptychography is to recover the complex-valued object $cal(O)(bold(r))$ and, often, refine the illumination probe $psi(bold(r))$, by enforcing consistency between the measured intensities $I_text("meas")^((j)) (bold(k))$ and the modeled intensities using the current estimates.
@@ -703,7 +703,7 @@ $<eq-sgd-update>
 Gradient-based methods offer clear statistical interpretability, support batching and adaptive learning rates, and integrate naturally with extensions such as multislice, mixed-state, and parametric probe models.
 Unlike projection-set methods, they make the optimization landscape explicit, enabling principled regularization and convergence diagnostics.
 
-=== Comments on Transfer of Information
+=== Transfer of Information
 
 Although iterative ptychography does not admit simple closed-form CTF/SSNR like the direct methods, several useful observations can be made @Varnavides_2025_ssnr:
 + With a reasonably accurate probe guess, the first iteration update of ePIE/SGD effectively performs probe deconvolution under the WPOA, yielding a CTF similar to the SSB CTF.
@@ -713,35 +713,59 @@ Although iterative ptychography does not admit simple closed-form CTF/SSNR like 
 
 Together, these observations show that although iterative ptychography can achieve super-resolution, the statistical information content is similar to direct linear methods at low spatial frequencies, with predictable saturation at intermediate frequencies.
 
-== Beyond single slice ptychography 
+== Beyond single slice ptychography <sec-beyond-ss>
 
-This section discusses how the flexibility of the iterative electron ptychography approach can be leveraged to move beyond the single slice, single probe approximation.
-The iterative ptychography framework can be expanded to account for partial coherence, through mixed-state formalism, and multiple scattering for thicker samples through a multi-slice approach. 
-As reconstructions become more complex, regularization can be applied to help converge reconstructions in a more consistent manner. 
-The need for these physics-informed regularization parameters becomes reduced in machine learning approaches, thanks to implicit regularization and denoising in more advanced approaches.
-Ultimately, reconstructions of many materials science specimens, especially those that move beyond the WPOA, rely on multi-slice, mixed-state reconstructions.
+The flexibility of iterative ptychography becomes especially powerful once we move beyond the single-slice, single-probe approximation used in the earlier sections.
+Real experiments often deviate from this idealization: illumination is never perfectly coherent, specimens may be tens to hundreds of nanometers thick, and additional physical channels such as magnetization and inelastic excitations contribute to the detected intensity.
+Iterative methods can incorporate these complexities directly into the forward model, allowing reconstructions that remain accurate well outside the WPOA regime.
 
-=== Mixed-state
+As these models grow in complexity, the reconstruction problem becomes more ill-posed necessitating robust regularization.
+Classical regularizers stabilize the solution by encouraging smoothness, sparsity, physical consistency, or low-rank structure @Varnavides_2023. 
+Machine-learning approaches, replace such hand-designed priors with learned generative models or implicit architectural biases, often yielding cleaner and more robust reconstructions @McCray_2025.
 
-=== Multi-slice ptychography
+In practice, high-resolution reconstructions of realistic materials systems almost always rely on some combination of multislice propagation, mixed-state probe modeling, and regularization.
+These ingredients are essential for moving beyond the WPOA and unlocking the full information content of modern 4D-STEM experiments.
 
+=== Partial Coherence
 
+The first major generalization is using a mixed-state illumination @Thibault_2013 @Chen_2020, which relaxes the assumption of a single, fully coherent probe.
+Instead, the illumination intensity is modeled as an incoherent mixture of mutually-orthogonal probes @Odstrcil_2016:
+$
+  psi_text("exit")^((j,l)) (bold(r)) &= cal(O)(bold(r)) psi^((l))(bold(r)-bold(R)_j) \ 
+  I_text("model")^((j)) (bold(k)) &= sum_l abs(cal(F)_(bold(r) arrow bold(k)){psi_text("exit")^((j,l))(bold(r))})^2 
+$<eq-mixed-state>
 
+The formalism naturally models partial spatial and temporal coherence of the electron source, including energy spread and finite source size.
+In the reconstruction loop, mixed-state ptychography jointly updates the object and all probe modes so that their incoherent sum matches the measured intensity according to @eq-mixed-state.
 
-The depth resolution of multislice ptychography is on the order of a few nanometers, depending on experimental parameters including dose, defocus, convergence angle, collection angle, composition....
-Beyond the scope of this review, there are approaches that combine tomography and ptychography to improve the depth resolution of multi-slice ptychography. 
+The expressiveness of @eq-mixed-state comes at the risk of overfitting unphysical probes, necessitating strong regularization.
+Conventional approaches impose orthogonality, sparsity, or low-rank constraints on the probe modes @Odstrcil_2016 @Varnavides_2023, whereas machine-learning-based reconstructions require fewer hard constraints due to their implicit regularization @McCray_2025.
 
-This includes few tilt aperture synthesis... and full ptycho-tomo... joint algorithms are better.
+=== Depth Information
+
+A second often-necessary extension is the multislice approximation, which models strong multiple scattering in thicker specimens using @eq-ms-both.
+Specifically, the modeled intensities for $N$ slices are given by:
+$
+  psi_text("exit")^((j,n)) (bold(r)) &= cal(O)^((n))(bold(r)) psi^((n))(bold(r)-bold(R)_j) \
+  psi^((n))(bold(r)) &= op("Prop")_(Delta z)[psi^((n-1))(bold(r))] text("for") n gt.eq 2\
+  I_text("model")^((j)) (bold(k)) &= abs(cal(F)_(bold(r) arrow bold(k)){psi_text("exit")^((j,N))(bold(r))})^2 
+$<eq-multi-slice>
+
+Multislice ptychography is crucial for quantitative imaging of materials far outside the weak-scattering regime, including thick crystals, buried interfaces, and defect structures @Ribet_2024.
+By explicitly modeling dynamical diffraction, the multislice framework mitigates systematic errors that appear when single-slice reconstructions attempt to explain multiple scattering using only a 2D projected potential.
+
+As with mixed-state ptychography, this increased expressive power introduces additional degrees of freedom.
+Explicit regularization along the beam direction helps stabilize the reconstruction, with machine-learning-based approaches relying on the implicit regularization of the network architecture  @McCray_2025.
+
+Combining ptychography with tomography can substantially improve multislice depth resolution @chen2024imaging @allars2025depth.
+Approaches such as few-tilt aperture synthesis and joint ptychography-tomography optimization recover complementary angular information, reducing the ambiguities inherent to purely depth-slicing multislice reconstructions @Lee_2023 @You_2024 @Dong_2025.
+These hybrid methods achieve more accurate 3D reconstructions and mitigate slice-mixing artifacts, particularly in thick or compositionally heterogeneous specimens.
 
 === Regularization
+
 Explain how methods share a data-consistency constraint/loss, differ in object/probe updated and regularization
 
-== Machine learning methods 
-autodifferentiation 
-generative priors 
-
 = Outlook
-
 
 Despite recent studies that demonstrate the ability to perform ptychographic reconstructions on uncorrected instruments @nguyen2024achieving, including with small converge angles @blackburn2025sub, proper reconstruction on most samples benefits from an aberration corrector and overlap in reciprocal space assures beams are phase relative to each other leading to a unique and accurate sample reconstruction. 
 Ultimately phase retrieval approaches in materials science still largely depend on expensive hardware, including advanced detectors and aberration correctors.
@@ -753,7 +777,6 @@ Work at the Molecular Foundry was supported by the Office of Science, Office of 
   *Total number of words is #total-words.*
 ]
 
-#pagebreak()
 #bibliography(
   "references.bib",
   style: "american-chemical-society"
