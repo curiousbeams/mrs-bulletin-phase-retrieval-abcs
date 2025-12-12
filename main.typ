@@ -404,14 +404,13 @@ $
 $<eq-obf-ssnr>
 
 #figure(
-  rect(
-    width: 100%,
-    height: 190pt
-  )[
-    Placeholder for direct methods figure (CTFs and SSNRs)?
-  ],
+  // image("raster/direct-ctf-figure.png"),
+  image("vector/direct-ctf-figure.svg",width: 95%),
   placement: top,
-  scope: "parent"
+  scope: "parent",
+  caption: [
+    Contrast transfer functions (CTFs) and spectral signal-to-noise (SSNRs) for all direct techniques investigated across different acquisition parameters, highlighting the SSNR equivalence for SSB, OBF, and MF/WDD. 
+  ]
 ) <fig-ctf>
 
 == Least Squares Matched Filter <sec-wdd>
@@ -618,11 +617,12 @@ These effects are fundamentally incompatible with the linear WPOA model, requiri
 
 Iterative approaches offer several key advantages.
 First, they enable super-resolution @Maiden_2009, allowing recovery of specimen information beyond the twice numerical-aperture limit of direct methods, and without imposing scan-step size restrictions.
-Second, they are remarkably flexible: the same mathematical framework can be extended to incorporate depth-information (multislice @Chen_2021), multiple scattering channels (e.g. electrostatic and magnetic potentials @Varnavides_2023_mag), or partial-coherence in the converged illumination (mixed-state @Thibault_2013).
+Second, they are remarkably flexible: the same mathematical framework can be extended to incorporate depth-information @Chen_2021, multiple scattering channels (e.g. electrostatic and magnetic potentials @Varnavides_2023_mag), or partial-coherence in the converged illumination @Thibault_2013.
 Third, iterative reconstructions do not require perfect prior knowledge of the converged illumination; they naturally support blind deconvolution, jointly solving for both the specimen phase and probe aberrations.
 Finally, the optimization framework underlying iterative approaches naturally interfaces with modern machine-learning tools, enabling reconstructions driven by autodifferentiation or deep generative priors @Lee_2025 @Gilgenbach_2025 @McCray_2025.
 
-In the following sections, we develop the major families of iterative methods, beginning with classical projection-based algorithms, then moving to gradient-based approaches, and finally extending to multislice, mixed-state, and machine-learning–based formulations.
+In the following sections, we develop the two major families of iterative methods, namely classical projection-based algorithms, and gradient-based approaches.
+We show hot the gradient-based approaches can be extended to multislice, mixed-state, and machine-learning–based formulations.
 
 == Single Slice Iterative Methods <sec-single-slice>
 
@@ -630,28 +630,31 @@ Iterative reconstruction methods begin from the strong-phase object approximatio
 $
   cal(O)(bold(r)) = exp[upright(i) thin phi(bold(r))].
 $<eq-spoa>
-Unlike the WPOA, the detected bright-field intensity no longer responds linearly to $phi(bold(r))$; instead, the exit wave and corresponding diffraction pattern for each scan position $bold(R)_j$ are given by:
+Unlike the WPOA, the detected bright-field intensities are no longer linear in $phi(bold(r))$.
+for each scan position $bold(R)_j$, the exit wave and corresponding diffraction pattern are given by:
 $
   psi_text("exit")^((j)) (bold(r)) &= cal(O)(bold(r)) psi(bold(r)-bold(R)_j) \ 
   I_text("model")^((j)) (bold(k)) &= abs(cal(F)_(bold(r) arrow bold(k)){tilde(psi)_text("exit")^((j))(bold(r))})^2 = abs(tilde(psi)_text("exit")^((j))(bold(k)))^2
 $<eq-spoa-intensities>
-Single-slice ptychography attempts to recover estimates for the complex-valued object $cal(O)(bold(r))$, and often refine the illumination estimate $psi(bold(r))$, by enforcing consistency between the measured intensities $I_text("meas")^((j)) (bold(k))$ and the modeled intensities using the current object and illumination estimates.
-The nonlinear modulus constraint $abs(tilde(psi)_text("exit")^((j))(bold(k))) = sqrt(I_text("meas")^((j))(bold(k)))$, must be satisfied for each scan position independently, requiring iterative algorithms that repeatedly enforce constraints in real and Fourier space.
+
+The goal of single-slice ptychography is to recover the complex-valued object $cal(O)(bold(r))$ and, often, refine the illumination probe $psi(bold(r))$, by enforcing consistency between the measured intensities $I_text("meas")^((j)) (bold(k))$ and the modeled intensities using the current estimates.
+
+Each scan position must satisfy the nonlinear Fourier-modulus constraint $abs(tilde(psi)_text("exit")^((j))(bold(k))) = sqrt(I_text("meas")^((j))(bold(k)))$, which requires iterative algorithms alternating between real-space and Fourier space constraints.
 These algorithms can be grouped in two broad families: proximal gradient / projection-set methods and gradient-based optimization methods @Varnavides_2023.
 
 === Proximal-Gradient / Projection-Set Methods <sec-projection-methods>
 
-The earliest iterative ptychographic algorithms arise from phase-retrieval methods in crystallography and coherent diffractive imaging @Fienup_1982 @Levi_1984 @Miao_1999 @Bauschke_2002 @Elser_2003 @Thibault_2008.
-These methods frame the reconstruction as the problem of finding an object-illumination pair $(cal(O),psi)$ lying in the intersection of two constraint sets: i) real-space constraint: the exit-wave must equal the product of the object and shifted illumination estimates, and ii) Fourier-modulus constraint: the exit-wave Fourier magnitude must match the measured intensities.
+The earliest iterative ptychographic algorithms derive from classical phase-retrieval methods in crystallography and coherent diffractive imaging @Fienup_1982 @Levi_1984 @Miao_1999 @Bauschke_2002 @Elser_2003 @Thibault_2008.
+These approaches frame reconstruction as finding an object-illumination pair $(cal(O),psi)$ lying in the intersection of two constraint sets: i) real-space constraint: the exit-wave must equal the product of the object and shifted illumination estimates, and ii) Fourier-modulus constraint: the exit-wave Fourier magnitude must match the measured intensities.
 
-Algorithms such as _error reduction_ (ER) @Levi_1984, _difference map_ (DM) @Elser_2003 @Thibault_2008, and _relaxed averaged alternating reflections_ (RAAR) @Luke_2004, achieve this by alternating projections / reflections between these two sets.
-For example, the canonical ER exit-wave update is given by @Bauschke_2002:
+Algorithms such as _error reduction_ (ER) @Levi_1984, _difference map_ (DM) @Elser_2003 @Thibault_2008, and _relaxed averaged alternating reflections_ (RAAR) @Luke_2004, repeatedly project (and/or reflect) the exit wave between these two sets.
+The canonical ER exit-wave update is given by @Bauschke_2002:
 $
   psi'_text("exit")^((j))(bold(r)) &= cal(F)_(bold(k) arrow bold(r))^(-1) lr({ (sqrt(I_text("meas")^((j))(bold(k))))/abs(tilde(psi)_text("exit")^((j))(bold(k))) tilde(psi)_text("exit")^((j))(bold(k))}) \
   & equiv Pi_f [psi_text("exit")^((j))(bold(r))] #label("equate:revoke")\
 $<eq-proj-exit-wave>
 where the Fourier-projection operator $Pi_f$ replaces the Fourier exit-wave magnitude with the measured amplitude, retaining only its phase @Fienup_1982 @Bauschke_2002.
-The object and illumination estimates are then updated by enforcing the real-space multiplicative constraint @Thibault_2008:
+The object and probe updates follow from enforcing the real-space multiplicative constraint @Thibault_2008:
 $
   cal(O)'(bold(r)) &= (sum_j psi^*(bold(r)-bold(R)_j) psi'_text("exit")^((j))(bold(r)))/(norm(psi(bold(r)-bold(R)_j))^2_alpha) \ 
   psi'(bold(r)) &= (sum_j cal(O)^*(bold(r)) psi'_text("exit")^((j))(bold(r)))/(norm(cal(O)(bold(r)))^2_alpha)
@@ -660,61 +663,86 @@ where $alpha$ is a scalar 0-1 parameter controlling the maximum overlap weight i
 $
   norm(dot)^2_alpha &= (1-alpha) sum_j abs(dot)^2 + alpha sum_j abs(dot)^2_text("max")
 $<eq-normalization>
-DM and RAAR combine projections in more sophisticated ways to form the exit-wave update given by @eq-proj-exit-wave.
+DM and RAAR combine projections in more sophisticated ways to form the exit-wave update given.
 In-fact, we can parametrize a family of projection-set algorithms, using the scalar parameters $(a,b,c)$:
 $
   psi'_text("exit")^((j))(bold(r)) = (1&-a-b) thin psi'_text("exit")^((j))(bold(r)) + a thin psi_text("exit")^((j))(bold(r)) \
   &+ b thin Pi_f [c thin psi_text("exit")^((j))(bold(r)) + (1-c) thin psi'_text("exit")^((j))(bold(r))]. #label("equate:revoke")
 $<eq-proj-fam>
 Named algorithms can then be recovered using specific $(a,b,c)$ combinations:
-ER $(a=0,b=1,c=1)$ @Levi_1984, DM $(a=-1, b=1, c=2)$ @Elser_2003, and RAAR $(a=1-2 gamma, b=gamma, c =2)$ @Luke_2004, with $gamma$ an additional relaxation parameter.
+ER $(a=0,b=1,c=1)$ @Levi_1984, DM $(a=-1, b=1, c=2)$ @Elser_2003, and RAAR $(a=1-2 gamma, b=gamma, c =2)$ @Luke_2004, with relaxation parameter $gamma$.
 
-Projection-set methods have two major strengths: they are robust and computationally simple, requiring only Fourier transforms and pointwise operations.
-However, their connection to an explicit optimization problem is indirect, making them difficult to generalize, and they can converge slowly in regimes where the data redundancy is limited or when object-illumination mixing increases due to strong scattering @Varnavides_2023.
+Projection-set algorithms are robust and computationally simple, relying only on pointwise operations.
+However, their relation to an explicit optimization problem is indirect, making them harder to generalize and sometimes slow to converge in low-redundancy or strong-scattering regimes @Varnavides_2023.
 
 === Gradient-Based Methods
 
-A more modern viewpoint casts ptychography as an optimization problem, where one minimizes a data-fidelity loss.
-For the amplitude-based noise model, the loss for a given exit wave is given by
+A more modern view formulates ptychography as minimizing a data-fidelity loss.
+For the amplitude-based noise model, the loss for a given exit wave is:
 $
-  cal(L)(tilde(psi)_text("exit")^((j))(bold(k))) = sum_j norm(abs(tilde(psi)_text("exit")^((j))(bold(k))) - sqrt(I_text("meas")^((j))(bold(k))))^2.
+  cal(L) = sum_j norm(abs(tilde(psi)_text("exit")^((j))(bold(k))) - sqrt(I_text("meas")^((j))(bold(k))))^2.
 $<eq-loss>
 
-One of the earliest gradient-based ptychographic algorithms is the _extended ptychographic iterative engine_ (ePIE) @Maiden_2009, which performs block-wise stochastic gradient descent (SGD): each scan position $bold(R)_j$ provides a local loss whose gradient updates the object and illumination over the illumination footprint.
-Modern formulations generalize this idea to true mini-batch optimization methods such as SGD and ADAM @Lee_2025 @Gilgenbach_2025 @McCray_2025.
+One of the earliest gradient-based ptychographic algorithms is the _extended ptychographic iterative engine_ (ePIE) @Maiden_2009, which performs block-wise stochastic gradient descent (SGD) in which each scan position provides a local loss and gradient update.
+Modern approaches generalize this to true mini-batch optimization methods such as SGD and Adam @Lee_2025 @Gilgenbach_2025 @McCray_2025.
 
-The loss in @eq-loss, corresponds to the _maximum a posteriori_ (MAP) estimate assuming Gaussian detector noise with unit variance @Gilgenbach_2025.
-Although electron detection is fundamentally Poissonian,
-While detector shot noise follows a Poisson distribution, for moderate electron counts the Gaussian approximation becomes valid, matching the same assumption used in the WPOA noise model in @eq-noise-model.
-Under this assumption, the exit-wave gradient has a closed-form expression identical to the familiar Fourier projection form:
+The amplitude loss in @eq-loss, corresponds to the _maximum a posteriori_ (MAP) estimator under Gaussian detector noise with unit variance @Gilgenbach_2025.
+Although electron detection is fundamentally Poissonian, at moderate electron counts the Gaussian approximation becomes valid, matching the same assumption used in the WPOA noise model @eq-noise-model.
+
+Under this approximation, the exit-wave gradient has a closed-form expression, identical to the ER Fourier-magnitude projection:
 $
-  Delta psi_text("exit")^((j))(bold(r)) &= - cal(F)_(bold(k)arrow bold(r)){alpha nabla cal(L)(tilde(psi)_text("exit")^((j))(bold(k)))}  \
-  &= Pi_f [psi_text("exit")^((j))(bold(r))] - psi_text("exit")^((j))(bold(r)). #label("equate:revoke")
+  Delta psi_text("exit")^((j))(bold(r)) = Pi_f [psi_text("exit")^((j))(bold(r))] - psi_text("exit")^((j))(bold(r)).
 $<eq-gd>
+
 This can be used to update the object and illumination estimates using a form very similar to @eq-proj-update:
 $
   cal(O)'(bold(r)) &= cal(O)(bold(r)) + beta (sum_j^J psi^*(bold(r)-bold(R)_j) Delta psi_text("exit")^((j))(bold(r)))/(norm(psi(bold(r)-bold(R)_j))^2_alpha) \
   psi'(bold(r)) &= psi(bold(r)) + beta (sum_j^J cal(O)^*(bold(r)) Delta psi_text("exit")^((j))(bold(r)))/(norm(cal(O)(bold(r)))^2_alpha).
 $<eq-sgd-update>
 
-Gradient-based methods provide several advantages: they have a clear statistical interpretation, they can exploit batching and adaptive learning rates, they integrate naturally with more complex forward models.
-Unlike project-set methods, gradient-based approaches make the optimization landscape explicit, enabling principled regularization and convergence diagnostics.
+Gradient-based methods offer clear statistical interpretability, support batching and adaptive learning rates, and integrate naturally with extensions such as multislice, mixed-state, and parametric probe models.
+Unlike projection-set methods, they make the optimization landscape explicit, enabling principled regularization and convergence diagnostics.
+
+=== Comments on Transfer of Information
+
+Although iterative ptychography does not admit simple closed-form CTF/SSNR like the direct methods, several useful observations can be made @Varnavides_2025_ssnr:
++ With a reasonably accurate probe guess, the first iteration update of ePIE/SGD effectively performs probe deconvolution under the WPOA, yielding a CTF similar to the SSB CTF.
++ As iterations proceed, the effective CTF fills in information, approaching unity everywhere.
++ Numerical tests reveal that the low-frequency SSNR of iterative ptychography matches SSB.
+  At higher frequencies, the SSNR plateaus to $sqrt(2)\/2$, consistent with recent Fisher information limits which suggest a STEM DQE ceiling of 1/2 @Dwyer_2024 @Vega_2025 @Varnavides_2025_ssnr.
+
+Together, these observations show that although iterative ptychography can achieve super-resolution, the statistical information content is similar to direct linear methods at low spatial frequencies, with predictable saturation at intermediate frequencies.
 
 == Beyond single slice ptychography 
+
+This section discusses how the flexibility of the iterative electron ptychography approach can be leveraged to move beyond the single slice, single probe approximation.
+The iterative ptychography framework can be expanded to account for partial coherence, through mixed-state formalism, and multiple scattering for thicker samples through a multi-slice approach. 
+As reconstructions become more complex, regularization can be applied to help converge reconstructions in a more consistent manner. 
+The need for these physics-informed regularization parameters becomes reduced in machine learning approaches, thanks to implicit regularization and denoising in more advanced approaches.
+Ultimately, reconstructions of many materials science specimens, especially those that move beyond the WPOA, rely on multi-slice, mixed-state reconstructions.
+
 === Mixed-state
 
 === Multi-slice ptychography
 
+
+
+
+The depth resolution of multislice ptychography is on the order of a few nanometers, depending on experimental parameters including dose, defocus, convergence angle, collection angle, composition....
+Beyond the scope of this review, there are approaches that combine tomography and ptychography to improve the depth resolution of multi-slice ptychography. 
+
+This includes few tilt aperture synthesis... and full ptycho-tomo... joint algorithms are better.
+
 === Regularization
 Explain how methods share a data-consistency constraint/loss, differ in object/probe updated and regularization
+
 == Machine learning methods 
 autodifferentiation 
 generative priors 
 
-
-
-
 = Outlook
+
+
 Despite recent studies that demonstrate the ability to perform ptychographic reconstructions on uncorrected instruments @nguyen2024achieving, including with small converge angles @blackburn2025sub, proper reconstruction on most samples benefits from an aberration corrector and overlap in reciprocal space assures beams are phase relative to each other leading to a unique and accurate sample reconstruction. 
 Ultimately phase retrieval approaches in materials science still largely depend on expensive hardware, including advanced detectors and aberration correctors.
 
