@@ -120,7 +120,7 @@ We emphasize the implications of these methods for quantitative materials charac
 #figure(
   image("vector/schematic.pdf",width: 90%),
   caption: [
-    Microscope configurations (a) Zernike phase plate for TEM phase contrast imaging, (b) nanobeam 4D-STEM, and (c) large convergence angle 4D-STEM, which is most commonly used for phase retrieval experiments.
+    Microscope configurations. *a)* Zernike phase plate for TEM phase contrast imaging, *b)* nanobeam 4D-STEM, and *c)* large convergence angle 4D-STEM, which is most commonly used for phase retrieval experiments.
   ],
   placement: top,
   scope: "parent"
@@ -527,6 +527,20 @@ $<eq-icom-ssnr>
 
 == Comparison of Direct Techniques
 
+
+#figure(
+  image("vector/direct_gold_mos2.pdf",width: 100%),
+  caption: [
+    Experimental direct phase retrieval.
+    *a)* $"MoS"_2$ reconstruction. For in focus and near focus datasets, iCOM, parallax, and SSB perform similarly. iCOM has poor convergence of low spatial frequencies, so a high pass filter was applied. The incoherent bright-field also shows lattice information but with poorer contrast. Data from @zhang2025atom. Inset scalebar 0.5 $"Å"^(-1)$.
+    *b)* gold nanoparticles on carbon reconstruction. For defocused datasets, parallax and SSB preform much better than incoherence bright-field or iCOM imaging. Inset scalebar 0.5 $"Å"^(-1)$.
+    In both datasets, parallax and SSB yield nearly identical results and both benefit from upsampling.
+  ],
+  placement: top,
+  scope: "parent"
+) <fig-exp-compare>
+
+
 The phase estimators introduced above -- SSB, OBF, MF/WDD, parallax, and iCOM -- all originate from the same WPOA forward model in @eq-wpoa-forward and additive noise model in @eq-noise-model.
 They primarily differ in i) how they weight the bright-field intensities, ii) how they normalize the coherent sum, and iii) how much of the aperture-overlap kernel they retain.
 
@@ -614,7 +628,7 @@ These effects are fundamentally incompatible with the linear WPOA model, requiri
 Iterative approaches offer several key advantages.
 First, they enable super-resolution @Maiden_2009, allowing recovery of specimen information beyond the twice numerical-aperture limit of direct methods, and without imposing scan-step size restrictions.
 Second, they are remarkably flexible: the same mathematical framework can be extended to incorporate depth-information @Chen_2021, multiple scattering channels (e.g. electrostatic and magnetic potentials @Varnavides_2023_mag), or partial-coherence in the converged illumination @Thibault_2013.
-Third, iterative reconstructions do not require perfect prior knowledge of the converged illumination; they naturally support blind deconvolution, jointly solving for both the specimen phase and probe aberrations.
+Third, iterative reconstructions do not require perfect prior knowledge of the converged illumination; they naturally support blind deconvolution, jointly solving for both the specimen phase and probe aberrations, albeit with improved reconstructions coming from a good initial guess.
 Finally, the optimization framework underlying iterative approaches naturally interfaces with modern machine-learning tools, enabling reconstructions driven by autodifferentiation or deep generative priors @Lee_2025 @Gilgenbach_2025 @McCray_2025.
 
 In the following sections, we develop the two major families of iterative methods, namely classical projection-based algorithms, and gradient-based approaches.
