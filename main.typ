@@ -118,10 +118,9 @@ In this review, we focus on the mathematical foundations of STEM phase-retrieval
 We emphasize the implications of these methods for quantitative materials characterization and set the stage for a unified treatment of the underlying physics.
 
 #figure(
-  image("raster/schematic.png",width: 90%),
+  image("vector/schematic.pdf",width: 90%),
   caption: [
-    \@Steph
-    #lorem(30)
+    Microscope configurations (a) Zernike phase plate for TEM phase contrast imaging, (b) nanobeam 4D-STEM, and (c) large convergence angle 4D-STEM, which is most commonly used for phase retrieval experiments.
   ],
   placement: top,
   scope: "parent"
@@ -180,7 +179,7 @@ Defocus thus converts sample-induced phase variations into intensity contrast th
 
 === Phase Plate Contrast
 
-Another approach is to introduce a phase shift using a post-specimen phase plate.
+Another approach is to introduce a phase shift using a post-specimen phase plate (@fig-schematic a).
 This originates from optical phase contrast microscopy, which was awarded the Nobel prize in Physics for its transformative impact on biological imaging @Zernike_1942.
 An ideal phase plate shifts the unscattered beam by $pi\/2$:
 $
@@ -225,6 +224,7 @@ However, they discard sensitive information encoded in the exit-wave phase.
 
 The development of fast, low-noise direct electron detectors@Levin_2021 has enabled recording the full diffraction pattern $I(bold(R),bold(k))$ at every scan position, giving rise to a family of techniques collectively known as 4D-STEM @Ophus_2019.
 These datasets retain the full diffractive signature of the probe–specimen interaction, far beyond what can be accessed with scalar annular signals.
+@fig-schematic b-c show both a small convergence angle (nanobeam) set-up and a large convergence angle alignment for 4D-STEM, the later of which is most commonly used for phase retrieval experiments.
 In what follows, we focus on the subset of 4D-STEM methods that use these position-resolved diffraction intensities to recover the specimen phase.
 We will refer to this class of approaches collectively as STEM _phase retrieval_ techniques @sanchez2025.
 
@@ -533,8 +533,8 @@ They primarily differ in i) how they weight the bright-field intensities, ii) ho
 SSB performs an unnormalized coherent projection using the full aperture-overlap kernel.
 OBF applies a noise-flattening scalar normalization.
 MF/WDD implements the least-squares matched filter, either in detector-space (MF) or in a mixed-domain (WDD).
-Parallax imaging uses a first-order approximation to the aperture-overlap kernel, keeping only the detector-frequency-dependent phase ramp $upright(e)^(upright(i) nabla_bold(k) chi(bold(k))dot bold(q))$.
-It is computationally cheap, and its subpixel accuracy enables scan step-size upsampling @Varnavides_2025.
+Parallax imaging uses a first-order approximation to the aperture-overlap kernel, keeping only the detector-frequency-dependent phase ramp $upright(e)^(upright(i) nabla_bold(k) chi(bold(k))dot bold(q))$, making it computationally cheap.
+Parallax's subpixel accuracy enables scan step-size upsampling, although this can be extended to other direct methods as well @Varnavides_2025.
 Finally, iCOM bypasses the overlap-kernel entirely, and instead takes the first moment of the bright-field intensities and reconstructs the phase by Fourier-integration of the resulting COM signal.
  
 With the exception of iCOM, these techniques rely on an accurate estimation of the aberrations, which can be calculated through optimization routines, based on self consistency error @Varnavides_2025, or by least-squares fitting of linear systems of equations @Varnavides_2023 @Yu_2025.
@@ -593,7 +593,6 @@ It should be noted that, due to the mixed-domain requirement, WDD cannot be comp
   ],
 ) <unified-pseudocode>
 
-== Materials Science Impact
 
 As highlighted in @fig-ctf, the ideal approach depends on the nature of the data and acquisition parameters. 
 For in focus experiments, iCOM is often the preferred approach with the low computational overhead of this technique making it most compatible with in-situ approaches @bekkevold2024ultra.
@@ -601,9 +600,6 @@ Conversely, parallax reconstructions are often performed for defocused acquisiti
 
 The SSB, OBF, and MF/WDD techniques, perform a full deconvolution of the aperture-overlap and are also suited for acquisitions with residual higher-order aberration @Varnavides_2025 @Susi_2025.
 However, acquisitions on aberration corrected instruments are often dominated by first-order aberrations such as defocus and astigmatism, suggesting the quadratic approximation provided by parallax yields a nearly identical reconstruction as SSB, OBF, or MF/WDD @Varnavides_2025_ssnr.
-
-Ultimately these approaches provide a powerful approach for phase retrieval for materials science samples, with examples including carbon nanotubes @yang2016simultaneous, 2D materials @o2022increasing @Susi_2025, and metal organic frameworks @Ma_2025 @shen2020imaging, and battery samples @lozano2018low. 
-These techniques are computationally efficient, meaning with modern computational resources,they can be reconstructed "live" during acquisition @Yu_2022 @Ooe_2021 @Pelz_2022 @Strauch_2021.
 
 For low dose experiments, the direct phase retrieval techniques perform remarkably well as compared to their more computationally expensive counterparts @Varnavides_2025_ssnr, suggesting that more advanced reconstruction approaches may not be needed offline.
 However, for thick samples and experiments with higher electron fluence, iterative approaches outperform their direct phase retrieval counterparts as described in @sec-iterative.
@@ -762,18 +758,29 @@ Approaches such as few-tilt aperture synthesis and joint ptychography-tomography
 These hybrid methods achieve more accurate 3D reconstructions and mitigate slice-mixing artifacts, particularly in thick or compositionally heterogeneous specimens.
 
 = Outlook
-
 The ability of phase retrieval techniques to recover weakly scattering signals lends the approaches described here to myriad applications, spanning materials science and engineering. 
-Phase retrieval techniques are used for imaging of beam-sensitive samples composed of low atomic number species, such as polymers, DNA, and proteins. 
-They can also be used for hard, inorganic structures, including to probe subtle structure changes of low atomic number species for example for functional materials with applications in energy and quantum science. 
-Specimen range from nano-particles, to two-dimensional materials, including both monolayer and few layer samples, as well as bulk structures. 
+Phase retrieval techniques are used for imaging of beam-sensitive samples composed of low atomic number species, such as polymers @bardot2025mechanically, and biological structures @Berk_2024 @Yu_2025 @Spoth_2017, and hard-soft composites, including metal organic frameworks @Ma_2025 @shen2020imaging and DNA origami @ding2022three. 
+They can also be used for hard, inorganic structures, including to probe subtle structure changes of low atomic number species for example for functional materials with applications in energy and quantum science @lozano2018low, @kp2025electron. 
+Specimen include nanoparticles @shi2025electron @Ribet_2024 @Varnavides_2023, one-dimensional nanotubes @yang2016simultaneous @pelz2023solving two-dimensional materials, including both monolayer and few layer samples, @jiang2018electron @o2022increasing @Susi_2025 @byrne2025fabrication @zhang2025atom thin films @dong2025sub, and cross sections of thicker structures @scheid2025atomic @chen2024imaging. 
 
-Current challenges in the field are related to extending these approaches to more materials samples, including larger volumes, more beam sensitive materials, and more hardware configurations.
-Despite recent studies that demonstrate the ability to perform ptychographic reconstructions on uncorrected instruments @nguyen2024achieving, including with small converge angles at low accelerating voltages @blackburn2025sub, proper reconstruction on most samples benefits from an aberration corrector.
+There are many experimental considerations when preforming phase retrieval experiments. 
+Recent studies that demonstrate the ability to perform ptychographic reconstructions on uncorrected instruments @nguyen2024achieving, including with small converge angles at low accelerating voltages @blackburn2025sub.
+However, proper reconstruction on most samples benefits from an aberration corrector.
 Overlap in reciprocal space assures beams are phase relative to each other leading to a unique and accurate sample reconstruction. 
-Ultimately phase retrieval approaches in materials science still largely depend on expensive hardware, including advanced detectors and aberration correctors.
+Phase retrieval approaches in materials science still largely depend on expensive hardware, including advanced detectors and aberration correctors.
 
+As discussed for both direct and iterative methods, defocused probe experiments can improve the transfer of information in phase retrieval experiments. 
+However, it can be challenging to select experimental parameters, and proper convergence as well as transfer of information, relies on the correct choice of defocus and step size. 
+Estimating the defocus value applied during an experiment can be challenging, especially for thicker samples. 
+This is especially true for very low dose experiments where a user may need to take data blindly and rely on post-processing to evaluate images. 
 
+Direct techniques are computationally efficient, meaning with modern computational resources,they can be reconstructed "live" during acquisition @Yu_2022 @Ooe_2021 @Pelz_2022 @Strauch_2021. 
+On-the-fly reconstructions can be helpful for assessing quality of experimental parameters, such as defocus and step size, and checking the sample is of appropriate thickness and free of damage.
+Typical workflows involve direct phase retrieval reconstructions during microscopy sessions, often leveraging GPU accelerated code if possible. 
+Iterative reconstructions, especially those that require multi-slice or mixed-state code, are performed on GPU equipped workstations, typically after experimentation. 
+
+Current challenges in the field include extending phase retrieval techniques to more types of samples, larger volumes, multidimensional datasets that combine phase retrieval with tomography or spectroscopy, time-resolved experiments, and more microscope configurations. 
+Many groups are already pushing to extend these techniques through both hardware and software advances, which will allow for more advanced materials characterization in the future.
 
 
 = Acknowledgement 
