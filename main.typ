@@ -536,7 +536,7 @@ $<eq-icom-ssnr>
     *b)* gold nanoparticles on carbon reconstruction. For defocused datasets, parallax and SSB preform much better than incoherence bright-field or iCOM imaging. Inset scalebar 0.5 $"Å"^(-1)$.
     In both datasets, parallax and SSB yield nearly identical results and both benefit from upsampling.
   ],
-  placement: top,
+  placement: auto,
   scope: "parent"
 ) <fig-exp-compare>
 
@@ -548,9 +548,21 @@ SSB performs an unnormalized coherent projection using the full aperture-overlap
 OBF applies a noise-flattening scalar normalization.
 MF/WDD implements the least-squares matched filter, either in detector-space (MF) or in a mixed-domain (WDD).
 Parallax imaging uses a first-order approximation to the aperture-overlap kernel, keeping only the detector-frequency-dependent phase ramp $upright(e)^(upright(i) nabla_bold(k) chi(bold(k))dot bold(q))$, making it computationally cheap.
-Parallax's subpixel accuracy enables scan step-size upsampling, although this can be extended to other direct methods as well @Varnavides_2025.
+Parallax's subpixel accuracy enables scan step-size upsampling (@fig-uspsample), although this can be extended to other direct methods as well @Varnavides_2025.
 Finally, iCOM bypasses the overlap-kernel entirely, and instead takes the first moment of the bright-field intensities and reconstructs the phase by Fourier-integration of the resulting COM signal.
- 
+
+
+
+#figure(
+  image("vector/upsample.pdf",width: 100%),
+  caption: [
+    Parallax upsampling.
+    *a)* gold and *b)* apoferritin direct parallax reconstructions benefit from upsampling (factor of 3 and 2 respectively). Upsampling allows for more flexibility in experiments, as data does not need to be acquired at the same frequency as the final reconstruction.Data in *b)* from @Berk_2024. Inset scalebar 0.5 $"Å"^(-1)$ in *a)* and 0.5 $"nm"^(-1)$ in *b)*
+  ],
+  placement: auto,
+) <fig-uspsample>
+
+
 With the exception of iCOM, these techniques rely on an accurate estimation of the aberrations, which can be calculated through optimization routines, based on self consistency error @Varnavides_2025, or by least-squares fitting of linear systems of equations @Varnavides_2023 @Yu_2025.
 
 @unified-pseudocode shows a unified pseudocode for the direct estimators we have seen so far, using a loop over bright-field pixels $bold(k)_text("BF")$.
@@ -608,7 +620,7 @@ It should be noted that, due to the mixed-domain requirement, WDD cannot be comp
 ) <unified-pseudocode>
 
 
-As highlighted in @fig-ctf, the ideal approach depends on the nature of the data and acquisition parameters. 
+As highlighted in @fig-ctf and @fig-exp-compare, the ideal approach depends on the nature of the data and acquisition parameters. 
 For in focus experiments, iCOM is often the preferred approach with the low computational overhead of this technique making it most compatible with in-situ approaches @bekkevold2024ultra.
 Conversely, parallax reconstructions are often performed for defocused acquisitions using large step-sizes, e.g. for beam-sensitive biological samples @Berk_2024 @Yu_2025.
 
