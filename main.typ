@@ -557,7 +557,7 @@ Finally, iCOM bypasses the overlap-kernel entirely, and instead takes the first 
   image("vector/upsample.pdf",width: 100%),
   caption: [
     Parallax upsampling.
-    *a)* gold and *b)* apoferritin direct parallax reconstructions benefit from upsampling (factor of 3 and 2 respectively). Upsampling allows for more flexibility in experiments, as data does not need to be acquired at the same frequency as the final reconstruction.Data in *b)* from @Berk_2024. Inset scalebar 0.5 $"Å"^(-1)$ in *a)* and 0.5 $"nm"^(-1)$ in *b)*
+    *a)* gold and *b)* apoferritin direct parallax reconstructions benefit from upsampling (factor of 3 and 2 respectively). Relaxing of sampling requirements allows for more flexibility in experiments, as data does not need to be acquired at the same frequency as the final reconstruction. Data in *b)* from @Berk_2024. Inset scalebar 0.5 $"Å"^(-1)$ in *a)* and 0.5 $"nm"^(-1)$ in *b)*
   ],
   placement: auto,
 ) <fig-uspsample>
@@ -785,7 +785,7 @@ These hybrid methods achieve more accurate 3D reconstructions and mitigate slice
 
 = Outlook
 The ability of phase retrieval techniques to recover weakly scattering signals lends the approaches described here to myriad applications, spanning materials science and engineering. 
-Phase retrieval techniques are used for imaging of beam-sensitive samples composed of low atomic number species, such as polymers @bardot2025mechanically, and biological structures @Berk_2024 @Yu_2025 @Spoth_2017, and hard-soft composites, including metal organic frameworks @Ma_2025 @shen2020imaging and DNA origami @ding2022three. 
+Phase retrieval techniques are used for imaging of beam-sensitive samples composed of low atomic number elements, such as polymers @bardot2025mechanically and biological structures @Berk_2024 @Yu_2025 @Spoth_2017, and hard-soft composites, including metal organic frameworks @Ma_2025 @shen2020imaging and DNA origami @ding2022three. 
 They can also be used for hard, inorganic structures, including to probe subtle structure changes of low atomic number species for example for functional materials with applications in energy and quantum science @lozano2018low, @kp2025electron. 
 Specimen include nanoparticles @shi2025electron @Ribet_2024 @Varnavides_2023, one-dimensional nanotubes @yang2016simultaneous @pelz2023solving two-dimensional materials, including both monolayer and few layer samples, @jiang2018electron @o2022increasing @Susi_2025 @byrne2025fabrication @zhang2025atom thin films @dong2025sub, and cross sections of thicker structures @scheid2025atomic @chen2024imaging. 
 
