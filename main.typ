@@ -1,7 +1,7 @@
 #import "@preview/pubmatter:0.2.2"
 #import "@preview/lovelace:0.3.0": pseudocode-list
 #import "@preview/equate:0.3.2": equate
-#import "@preview/wordometer:0.1.5": word-count, total-words
+// #import "@preview/wordometer:0.1.5": word-count, total-words
 
 #let fm = pubmatter.load(
   (
@@ -89,7 +89,7 @@
   }
 }
 
-#show: word-count
+// #show: word-count
 #let diaer = "\u{308}"
 
 #place(
@@ -118,9 +118,12 @@ In this review, we focus on the mathematical foundations of STEM phase-retrieval
 We emphasize the implications of these methods for quantitative materials characterization and set the stage for a unified treatment of the underlying physics.
 
 #figure(
-  image("vector/schematic.pdf",width: 90%),
+  image("vector/schematic.pdf",width: 100%),
   caption: [
-    Microscope configurations. *a)* Zernike phase plate for TEM phase contrast imaging, *b)* nanobeam 4D-STEM, and *c)* large convergence angle 4D-STEM, which is most commonly used for phase retrieval experiments.
+    Microscope configurations.
+    *a)* TEM Zernike phase-contrast imaging, 
+    *b)* small convergence angle 4D-STEM, used for "nanobeam" experiments, 
+    and *c)* large convergence angle 4D-STEM, used for diffractive imaging experiments.
   ],
   placement: top,
   scope: "parent"
@@ -179,9 +182,10 @@ Defocus thus converts sample-induced phase variations into intensity contrast th
 
 === Phase Plate Contrast
 
-Another approach is to introduce a phase shift using a post-specimen phase plate (@fig-schematic a).
-This originates from optical phase contrast microscopy, which was awarded the Nobel prize in Physics for its transformative impact on biological imaging @Zernike_1942.
+Another approach is to introduce a phase shift using a post-specimen phase plate (@fig-schematic\a).
+Originating from optical phase contrast microscopy, it was awarded the 1953 Physics Nobel prize for transformative impact on biological imaging @Zernike_1942.
 An ideal phase plate shifts the unscattered beam by $pi\/2$:
+
 $
   tilde(psi)'(bold(q)) = cases(
     upright(i) tilde(psi)(bold(q)) &"if" bold(q) = bold(0),
@@ -200,7 +204,7 @@ Defocus improves visibility but introduces frequency-dependent contrast reversal
 Zernike phase contrast recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the CNTs from vacuum.
 
 #figure(
-  image("raster/phase_contrast_imaging_CNTs.png",width: 92.5%),
+  image("raster/phase_contrast_imaging_CNTs.png",width: 100%),
   caption: [
     High-resolution TEM imaging *a)* of simulated single- and double-walled carbon nanotubes, acquired with an electron dose of 500 e/\u{00C5}#super[2]  using:
     *b)* in-focus optics, *c)* 50 nm of over-focus, and *d)* an ideal Zernike phase plate.
@@ -224,9 +228,9 @@ However, they discard sensitive information encoded in the exit-wave phase.
 
 The development of fast, low-noise direct electron detectors@Levin_2021 has enabled recording the full diffraction pattern $I(bold(R),bold(k))$ at every scan position, giving rise to a family of techniques collectively known as 4D-STEM @Ophus_2019.
 These datasets retain the full diffractive signature of the probe–specimen interaction, far beyond what can be accessed with scalar annular signals.
-@fig-schematic b-c show both a small convergence angle (nanobeam) set-up and a large convergence angle alignment for 4D-STEM, the later of which is most commonly used for phase retrieval experiments.
-In what follows, we focus on the subset of 4D-STEM methods that use these position-resolved diffraction intensities to recover the specimen phase.
-We will refer to this class of approaches collectively as STEM _phase retrieval_ techniques @sanchez2025.
+Small convergence angle ("nanobeam") and large convergence angle (diffractive imaging) geometries are shown in @fig-schematic\b-c respectively.
+In what follows, we focus on the latter, i.e. methods that use these position-resolved diffraction intensities to recover the specimen phase.
+We will refer to this class of approaches collectively as diffractive imaging or STEM _phase retrieval_ techniques @sanchez2025.
 
 === Weak Phase Object Approximation
 
@@ -405,7 +409,7 @@ $<eq-obf-ssnr>
 
 #figure(
   // image("raster/direct-ctf-figure.png"),
-  image("vector/direct-ctf-figure.svg",width: 95%),
+  image("vector/direct-ctf-figure.svg",width: 100%),
   placement: top,
   scope: "parent",
   caption: [
@@ -452,6 +456,21 @@ $
 $<eq-mf-ssnr>
 
 This highlights an important subtlety: the statistically-reliable information content is the effectively the same for all three linear estimators we have explored so far, namely SSB, OBF, and MF/WDD.
+
+#figure(
+  image("vector/direct_gold_mos2.pdf",width: 100%),
+  caption: [
+    Direct methods reconstructions for *a)* near focus MoS#sub[2] acquisition @zhang2025atom and *b)* defocused gold nanoparticle experimental datasets.
+    Near focus, iCOM, parallax, and SSB perform similarly.
+    Note high-pass filtering was used to suppress low spatial frequency artifacts common in iCOM reconstructions.
+    Inset scalebar 0.5 $"Å"^(-1)$.
+    For defocused acquisitions, parallax and SSB perform much better than iCOM imaging, and further benefit from upsampling.
+    Inset scalebar 0.5 $"Å"^(-1)$.
+    
+  ],
+  placement: auto,
+  scope: "parent"
+) <fig-exp-compare>
 
 == Quadratic Approximation <sec-parallax>
 
@@ -527,20 +546,6 @@ $<eq-icom-ssnr>
 
 == Comparison of Direct Techniques
 
-
-#figure(
-  image("vector/direct_gold_mos2.pdf",width: 100%),
-  caption: [
-    Experimental direct phase retrieval.
-    *a)* $"MoS"_2$ reconstruction. For in focus and near focus datasets, iCOM, parallax, and SSB perform similarly. iCOM has poor convergence of low spatial frequencies, so a high pass filter was applied. The incoherent bright-field also shows lattice information but with poorer contrast. Data from @zhang2025atom. Inset scalebar 0.5 $"Å"^(-1)$.
-    *b)* gold nanoparticles on carbon reconstruction. For defocused datasets, parallax and SSB preform much better than incoherence bright-field or iCOM imaging. Inset scalebar 0.5 $"Å"^(-1)$.
-    In both datasets, parallax and SSB yield nearly identical results and both benefit from upsampling.
-  ],
-  placement: auto,
-  scope: "parent"
-) <fig-exp-compare>
-
-
 The phase estimators introduced above -- SSB, OBF, MF/WDD, parallax, and iCOM -- all originate from the same WPOA forward model in @eq-wpoa-forward and additive noise model in @eq-noise-model.
 They primarily differ in i) how they weight the bright-field intensities, ii) how they normalize the coherent sum, and iii) how much of the aperture-overlap kernel they retain.
 
@@ -548,26 +553,31 @@ SSB performs an unnormalized coherent projection using the full aperture-overlap
 OBF applies a noise-flattening scalar normalization.
 MF/WDD implements the least-squares matched filter, either in detector-space (MF) or in a mixed-domain (WDD).
 Parallax imaging uses a first-order approximation to the aperture-overlap kernel, keeping only the detector-frequency-dependent phase ramp $upright(e)^(upright(i) nabla_bold(k) chi(bold(k))dot bold(q))$, making it computationally cheap.
-Parallax's subpixel accuracy enables scan step-size upsampling (@fig-uspsample), although this can be extended to other direct methods as well @Varnavides_2025.
+Parallax subpixel shift estimation accuracy enables scan step-size upsampling (@fig-uspsample), although this can be extended to other direct methods as well @Varnavides_2025.
 Finally, iCOM bypasses the overlap-kernel entirely, and instead takes the first moment of the bright-field intensities and reconstructs the phase by Fourier-integration of the resulting COM signal.
-
-
 
 #figure(
   image("vector/upsample.pdf",width: 100%),
   caption: [
-    Parallax upsampling.
-    *a)* gold and *b)* apoferritin direct parallax reconstructions benefit from upsampling (factor of 3 and 2 respectively). Relaxing of sampling requirements allows for more flexibility in experiments, as data does not need to be acquired at the same frequency as the final reconstruction. Data in *b)* from @Berk_2024. Inset scalebar 0.5 $"Å"^(-1)$ in *a)* and 0.5 $"nm"^(-1)$ in *b)*
+    Upsampled 
+    *a)* gold nanoparticles and *b)* apoferritin @Berk_2024 parallax reconstructions.
+    Inset scalebars 0.5 $"Å"^(-1)$ and 0.5 $"nm"^(-1)$ respectively.
   ],
   placement: auto,
 ) <fig-uspsample>
-
 
 With the exception of iCOM, these techniques rely on an accurate estimation of the aberrations, which can be calculated through optimization routines, based on self consistency error @Varnavides_2025, or by least-squares fitting of linear systems of equations @Varnavides_2023 @Yu_2025.
 
 @unified-pseudocode shows a unified pseudocode for the direct estimators we have seen so far, using a loop over bright-field pixels $bold(k)_text("BF")$.
 This leverages the fact that the aperture-overlap function is identically zero outside the probe aperture, making it computationally efficient, and enabling natural upsampling via Fourier-tiling @Varnavides_2025.
 It should be noted that, due to the mixed-domain requirement, WDD cannot be computed by solely looping over $bold(k)_text("BF")$.
+
+As highlighted in @fig-ctf and @fig-exp-compare, the ideal approach depends on the nature of the data and acquisition parameters. 
+For in focus experiments, iCOM is often the preferred approach with the low computational overhead of this technique making it most compatible with in-situ approaches @bekkevold2024ultra.
+Conversely, parallax reconstructions are often performed for defocused acquisitions using large step-sizes, e.g. for beam-sensitive biological samples @Berk_2024 @Yu_2025.
+
+The SSB, OBF, and MF/WDD techniques, perform a full deconvolution of the aperture-overlap and are also suited for acquisitions with residual higher-order aberration @Varnavides_2025 @Susi_2025.
+However, acquisitions on aberration corrected instruments are often dominated by first-order aberrations such as defocus and astigmatism, suggesting the quadratic approximation provided by parallax yields a nearly identical reconstruction as SSB, OBF, or MF/WDD @Varnavides_2025_ssnr.
 
 #figure(
   kind: "algorithm",
@@ -618,14 +628,6 @@ It should be noted that, due to the mixed-domain requirement, WDD cannot be comp
     + *end*\
   ],
 ) <unified-pseudocode>
-
-
-As highlighted in @fig-ctf and @fig-exp-compare, the ideal approach depends on the nature of the data and acquisition parameters. 
-For in focus experiments, iCOM is often the preferred approach with the low computational overhead of this technique making it most compatible with in-situ approaches @bekkevold2024ultra.
-Conversely, parallax reconstructions are often performed for defocused acquisitions using large step-sizes, e.g. for beam-sensitive biological samples @Berk_2024 @Yu_2025.
-
-The SSB, OBF, and MF/WDD techniques, perform a full deconvolution of the aperture-overlap and are also suited for acquisitions with residual higher-order aberration @Varnavides_2025 @Susi_2025.
-However, acquisitions on aberration corrected instruments are often dominated by first-order aberrations such as defocus and astigmatism, suggesting the quadratic approximation provided by parallax yields a nearly identical reconstruction as SSB, OBF, or MF/WDD @Varnavides_2025_ssnr.
 
 For low dose experiments, the direct phase retrieval techniques perform remarkably well as compared to their more computationally expensive counterparts @Varnavides_2025_ssnr, suggesting that more advanced reconstruction approaches may not be needed offline.
 However, for thick samples and experiments with higher electron fluence, iterative approaches outperform their direct phase retrieval counterparts as described in @sec-iterative.
@@ -725,6 +727,15 @@ $<eq-sgd-update>
 Gradient-based methods offer clear statistical interpretability, support batching and adaptive learning rates, and integrate naturally with extensions such as multislice, mixed-state, and parametric probe models.
 Unlike projection-set methods, they make the optimization landscape explicit, enabling principled regularization and convergence diagnostics.
 
+#figure(
+  rect(width: 100%,height: 200pt)[iterative ptycho placeholder],
+  placement: top,
+  scope: "parent",
+  caption: [
+    #lorem(30)
+  ]
+)
+
 === Transfer of Information
 
 Although iterative ptychography does not admit simple closed-form CTF/SSNR like the direct methods, several useful observations can be made @Varnavides_2025_ssnr:
@@ -784,6 +795,7 @@ Approaches such as few-tilt aperture synthesis and joint ptychography-tomography
 These hybrid methods achieve more accurate 3D reconstructions and mitigate slice-mixing artifacts, particularly in thick or compositionally heterogeneous specimens.
 
 = Outlook
+
 The ability of phase retrieval techniques to recover weakly scattering signals lends the approaches described here to myriad applications, spanning materials science and engineering. 
 Phase retrieval techniques are used for imaging of beam-sensitive samples composed of low atomic number elements, such as polymers @bardot2025mechanically and biological structures @Berk_2024 @Yu_2025 @Spoth_2017, and hard-soft composites, including metal organic frameworks @Ma_2025 @shen2020imaging and DNA origami @ding2022three. 
 They can also be used for hard, inorganic structures, including to probe subtle structure changes of low atomic number species for example for functional materials with applications in energy and quantum science @lozano2018low, @kp2025electron. 
@@ -808,13 +820,12 @@ Iterative reconstructions, especially those that require multi-slice or mixed-st
 Current challenges in the field include extending phase retrieval techniques to more types of samples, larger volumes, multidimensional datasets that combine phase retrieval with tomography or spectroscopy, time-resolved experiments, and more microscope configurations. 
 Many groups are already pushing to extend these techniques through both hardware and software advances, which will allow for more advanced materials characterization in the future.
 
-
 = Acknowledgement 
 Work at the Molecular Foundry was supported by the Office of Science, Office of Basic Energy Sciences, of the U.S. Department of Energy under Contract No. DE-AC02-05CH11231.
 
-#text(mrs-col)[
-  *Total number of words is #total-words.*
-]
+// #text(mrs-col)[
+//   *Total number of words is #total-words.*
+// ]
 
 #bibliography(
   "references.bib",
