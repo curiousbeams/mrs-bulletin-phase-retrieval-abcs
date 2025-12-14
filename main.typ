@@ -727,18 +727,24 @@ $<eq-sgd-update>
 Gradient-based methods offer clear statistical interpretability, support batching and adaptive learning rates, and integrate naturally with extensions such as multislice, mixed-state, and parametric probe models.
 Unlike projection-set methods, they make the optimization landscape explicit, enabling principled regularization and convergence diagnostics.
 
+@fig-iterative illustrates the advantages of iterative phase retrieval over direct methods across several experimental datasets spanning different materials classes, using the aberration coefficients optimized in @fig-exp-compare.
+In each case, iterative ptychography yields improved contrast, reduced artifacts, and more faithful recovery of structural features.
+
 #figure(
-  rect(width: 100%,height: 200pt)[iterative ptycho placeholder],
+  image("vector/iterative.pdf",width: 100%),
   placement: top,
   scope: "parent",
   caption: [
-    #lorem(30)
+    Iterative ptychography reconstructions of
+    *a)* apoferritin @Berk_2024, *b)*MoS#sub[2] @zhang2025atom, and *c)* gold nanoparticles on amorphous carbon. 
+    Aberrations coefficients were initialized using direct ptychography reconstructions in @fig-exp-compare and @fig-uspsample.
   ]
-)
+) <fig-iterative>
 
 === Transfer of Information
 
 Although iterative ptychography does not admit simple closed-form CTF/SSNR like the direct methods, several useful observations can be made @Varnavides_2025_ssnr:
+
 + With a reasonably accurate probe guess, the first iteration update of ePIE/SGD effectively performs probe deconvolution under the WPOA, yielding a CTF similar to the SSB CTF.
 + As iterations proceed, the effective CTF fills in information, approaching unity everywhere.
 + Numerical tests reveal that the low-frequency SSNR of iterative ptychography matches SSB.
@@ -824,6 +830,8 @@ Work at the Molecular Foundry was supported by the Office of Science, Office of 
 // #text(mrs-col)[
 //   *Total number of words is #total-words.*
 // ]
+
+#pagebreak()
 
 #bibliography(
   "references.bib",
