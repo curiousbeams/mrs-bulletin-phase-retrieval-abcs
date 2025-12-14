@@ -796,18 +796,17 @@ These hybrid methods achieve more accurate 3D reconstructions and mitigate slice
 
 = Outlook
 
-The ability of phase retrieval techniques to recover weakly scattering signals lends the approaches described here to myriad applications, spanning materials science and engineering. 
+The ability of phase retrieval techniques to recover weakly scattering signals lends the approaches described here to many materials science and engineering applications. 
 Phase retrieval techniques are used for imaging of beam-sensitive samples composed of low atomic number elements, such as polymers @bardot2025mechanically and biological structures @Berk_2024 @Yu_2025 @Spoth_2017, and hard-soft composites, including metal organic frameworks @Ma_2025 @shen2020imaging and DNA origami @ding2022three. 
-They can also be used for hard, inorganic structures, including to probe subtle structure changes of low atomic number species for example for functional materials with applications in energy and quantum science @lozano2018low, @kp2025electron. 
-Specimen include nanoparticles @shi2025electron @Ribet_2024 @Varnavides_2023, one-dimensional nanotubes @yang2016simultaneous @pelz2023solving two-dimensional materials, including both monolayer and few layer samples, @jiang2018electron @o2022increasing @Susi_2025 @byrne2025fabrication @zhang2025atom thin films @dong2025sub, and cross sections of thicker structures @scheid2025atomic @chen2024imaging. 
+They can also be used for hard, inorganic structures, including probing subtle structural changes of low atomic number species in functional materials with applications in energy and quantum science @lozano2018low, @kp2025electron. 
+Common specimens imaged using phase retrieval techniques include nanoparticles @shi2025electron @Ribet_2024 @Varnavides_2023, one-dimensional nanotubes @yang2016simultaneous @pelz2023solving, two-dimensional materials @jiang2018electron @o2022increasing @Susi_2025 @byrne2025fabrication @zhang2025atom, thin films @dong2025sub, and cross sections of thicker crystalline samples @scheid2025atomic @chen2024imaging. 
 
-There are many experimental considerations when preforming phase retrieval experiments. 
-Recent studies that demonstrate the ability to perform ptychographic reconstructions on uncorrected instruments @nguyen2024achieving, including with small converge angles at low accelerating voltages @blackburn2025sub.
-However, proper reconstruction on most samples benefits from an aberration corrector.
-Overlap in reciprocal space assures beams are phase relative to each other leading to a unique and accurate sample reconstruction. 
+Recent studies demonstrate the ability to perform ptychographic reconstructions on uncorrected instruments @nguyen2024achieving, including with small converge angles at low accelerating voltages @blackburn2025sub.
+However, there are many experimental considerations for successful phase retrieval experiments and in-practice most samples benefits from an aberration corrector.
+Overlap in reciprocal space ensures beams can be phased relative to each other leading to a unique and accurate sample reconstruction. 
 Phase retrieval approaches in materials science still largely depend on expensive hardware, including advanced detectors and aberration correctors.
 
-As discussed for both direct and iterative methods, defocused probe experiments can improve the transfer of information in phase retrieval experiments. 
+As discussed for both direct and iterative methods, defocused acquisitions can improve the transfer of information in phase retrieval experiments. 
 However, it can be challenging to select experimental parameters, and proper convergence as well as transfer of information, relies on the correct choice of defocus and step size. 
 Estimating the defocus value applied during an experiment can be challenging, especially for thicker samples. 
 This is especially true for very low dose experiments where a user may need to take data blindly and rely on post-processing to evaluate images. 
@@ -815,10 +814,10 @@ This is especially true for very low dose experiments where a user may need to t
 Direct techniques are computationally efficient, meaning with modern computational resources,they can be reconstructed "live" during acquisition @Yu_2022 @Ooe_2021 @Pelz_2022 @Strauch_2021. 
 On-the-fly reconstructions can be helpful for assessing quality of experimental parameters, such as defocus and step size, and checking the sample is of appropriate thickness and free of damage.
 Typical workflows involve direct phase retrieval reconstructions during microscopy sessions, often leveraging GPU accelerated code if possible. 
-Iterative reconstructions, especially those that require multi-slice or mixed-state code, are performed on GPU equipped workstations, typically after experimentation. 
+Iterative reconstructions, especially those that require multi-slice or mixed-state code, are performed on GPU equipped workstations, typically offline after experimentation. 
 
-Current challenges in the field include extending phase retrieval techniques to more types of samples, larger volumes, multidimensional datasets that combine phase retrieval with tomography or spectroscopy, time-resolved experiments, and more microscope configurations. 
-Many groups are already pushing to extend these techniques through both hardware and software advances, which will allow for more advanced materials characterization in the future.
+Current challenges in the field include extending phase retrieval techniques to a wider range of samples and for larger volumes, multidimensional datasets that combine phase retrieval with tomography or spectroscopy, time-resolved experiments, and more microscope configurations. 
+Many groups are already pushing to extend these techniques through both hardware and software advances, which will allow for more advanced materials characterization in the near future.
 
 = Acknowledgement 
 Work at the Molecular Foundry was supported by the Office of Science, Office of Basic Energy Sciences, of the U.S. Department of Energy under Contract No. DE-AC02-05CH11231.
