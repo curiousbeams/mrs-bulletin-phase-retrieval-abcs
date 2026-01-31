@@ -827,6 +827,13 @@ Many groups are already pushing to extend these techniques through both hardware
 = Acknowledgement 
 Work at the Molecular Foundry was supported by the Office of Science, Office of Basic Energy Sciences, of the U.S. Department of Energy under Contract No. DE-AC02-05CH11231.
 
+
+= Data availability
+The experimental data and reconstruction notebooks are freely available #link("https://drive.google.com/drive/folders/1TNlqmMsiHQPIMZ5UW42MSd0yy6W9gnEL?usp=sharing")[
+  here
+].
+
+
 // #text(mrs-col)[
 //   *Total number of words is #total-words.*
 // ]
