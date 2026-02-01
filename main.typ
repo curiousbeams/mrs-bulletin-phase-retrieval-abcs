@@ -105,7 +105,7 @@
 = Introduction
 
 Scanning transmission electron microscopy (S/TEM) enables the characterization of specimens from the micron scale down to the atomic scale, making it an indispensable characterization tool for any materials scientist @Williams_2009.
-S/TEM instruments operate in two complimentary acquisition modalities: _imaging mode_, which produces a magnified real-space image of the specimen, and _diffraction mode_, which records the angular distribution of scattered electrons in reciprocal-space @Carter_2016.
+S/TEM instruments operate in two complimentary acquisition modalities: _imaging mode_, which produces a magnified real-space image of the specimen, and _diffraction mode_, which records the angular distribution of scattered electrons in reciprocal space @Carter_2016.
 
 Traditional parallel-illumination TEM imaging is widely used across disciplines, from high-resolution studies of frozen-hydrated biomolecules @Vinothkumar_2016 to lattice-resolved @Alcorn_2023 and defect@Fultz_2013 imaging of materials.
 In contrast, STEM employs a highly converged electron probe containing a broad range of incident wavevectors. 
@@ -226,7 +226,7 @@ yielding familiar contrast modes such as bright-field (BF), annular bright-field
 Dark field images in particular are highly interpretable -- especially for crystalline specimens -- leading to their prevalence in materials science characterization @Ophus_2023. 
 However, they discard sensitive information encoded in the exit-wave phase and are often not sufficiently electron dose-efficient for beam-sensitive samples.
 
-The development of fast, low-noise direct electron detectors@Levin_2021 has enabled recording the full diffraction pattern $I(bold(R),bold(k))$ at every scan position, giving rise to a family of techniques collectively known as 4D-STEM @Ophus_2019.
+The development of fast, low-noise direct-electron detectors@Levin_2021 has enabled recording the full diffraction pattern $I(bold(R),bold(k))$ at every scan position, giving rise to a family of techniques collectively known as 4D-STEM @Ophus_2019.
 These datasets retain the full diffractive signature of the probe–specimen interaction, far beyond what can be accessed with scalar annular signals.
 Small convergence angle ("nanobeam") and large convergence angle (diffractive imaging) geometries are shown in @fig-schematic\b-c respectively.
 In this review, we will focus on the large set of approaches that computationally recover the phase of the specimen from this set of diffraction patterns, and this largely relies on a large convergence alignment (@fig-schematic\c).
@@ -240,7 +240,7 @@ $
   I(bold(R),bold(k)) = integral integral &tilde(psi)(bold(k')) tilde(phi)(bold(k-k')) tilde(psi)^*(bold(k''))tilde(phi)^*(bold(k-k'')) \ &exp[2 pi upright(i) bold(R) dot (bold(k'-k''))] d bold(k') d bold(k'')
 $ <equate:revoke>
 
-Following #cite(<Rodenburg_1993>,form: "author"), it is convenient to take the Fourier transform of the measured intensities with respect to the scan position: $G(bold(q),bold(k)) = cal(F)_(bold(R) arrow bold(q)){I(bold(R),bold(k))}$, where $q$ resents the fourier transform of the real space vector $r$.
+Following #cite(<Rodenburg_1993>,form: "author"), it is convenient to take the Fourier transform of the measured intensities with respect to the scan position: $G(bold(q),bold(k)) = cal(F)_(bold(R) arrow bold(q)){I(bold(R),bold(k))}$, where $q$ represents the Fourier transform of the real space vector $r$.
 Using $tilde(phi)(bold(k)) = - tilde(phi)^*(-bold(k))$ @Rodenburg_1993, one obtains the compact form @Yang_2016:
 $
   G(bold(q),bold(k)) &= abs(tilde(psi)(bold(k)))^2 delta(bold(q)) + Gamma(bold(q),bold(k)) tilde(phi)(bold(q)) \
@@ -346,7 +346,7 @@ If these extra phases are removed, sideband contributions from all detector pixe
 Phase-compensated SSB accomplishes this by dividing $Gamma(bold(q),bold(k))$ by its magnitude and retaining only its phase factor, effectively rotating each detector-plane frequency into a common phase reference.
 The estimated phase is then obtained by coherently summing all phase-aligned detector samples @Yang_2016:
 $
-  tilde(phi)_text("SSB")(bold(q)) = sum_bold(k) (Gamma^*(bold(q),bold(k)))/(abs(Gamma(bold(q),bold(k)))) G(bold(q), bold(k)).
+  tilde(phi)_text("SSB")(bold(q)) = sum_bold(k) (Gamma^*(bold(q),bold(k)) G(bold(q), bold(k)))/(abs(Gamma(bold(q),bold(k)))).
 $<eq-ssb-recon>
 
 @eq-ssb-recon works remarkably well and remains one of the most widely used direct phase retrieval techniques.
@@ -417,7 +417,7 @@ $<eq-obf-ssnr>
   ]
 ) <fig-ctf>
 
-== Least Squares Matched Filter <sec-wdd>
+== Least-Squares Matched-Filter <sec-wdd>
 
 The OBF estimator above improves SSB by normalizing the coherent sum, but it is not formally a least-squares estimator.
 The proper matched-filter (MF) solution for recovering $tilde(phi)(bold(q))$ from the WPOA forward model is obtained by minimizing $sum_bold(k) abs(G(bold(q),bold(k)) - Gamma(bold(q),bold(k))tilde(phi)(bold(q)))^2$, yielding the estimator:
@@ -460,8 +460,8 @@ This highlights an important subtlety: the statistically-reliable information co
 #figure(
   image("vector/direct_gold_mos2.pdf",width: 100%),
   caption: [
-    Direct methods reconstructions for *a)* near focus MoS#sub[2] acquisition @zhang2025atom and *b)* defocused gold nanoparticle experimental datasets.
-    Near focus, iCOM, parallax, and SSB perform similarly.
+    Direct methods reconstructions for *a)* near-focus MoS#sub[2] acquisition @zhang2025atom and *b)* defocused gold nanoparticle experimental datasets.
+    Near-focus, iCOM, parallax, and SSB perform similarly.
     Note high-pass filtering was used to suppress low spatial frequency artifacts common in iCOM reconstructions.
     Inset scalebar 0.5 $"Å"^(-1)$.
     For defocused acquisitions, parallax and SSB perform much better than iCOM imaging, due to their ability to correct for aberrations. 
@@ -479,7 +479,7 @@ The methods we have introduced so far all relied on the full aperture-overlap ke
 A natural question is whether a computationally efficient approximation exists that retains most of the information.
 
 The _tilt-corrected bright-field (tcBF) STEM_ @Nguyen_2016 @Spoth_2017 @Yu_2025 or _parallax imaging_ @Varnavides_2023 @Varnavides_2024 @Varnavides_2025 method originated independently, based on the reciprocity principle.
-Specifically, a virtual bright-field image formed form a given nonzero detector frequency during a defocused acquisition will appear laterally shifted in real-space.
+Specifically, a virtual bright-field image formed form a given nonzero detector frequency during a defocused acquisition will appear laterally shifted in real space.
 Computationally reversing this parallax effect, with subpixel accuracy using a detector-frequency-dependent phase ramp, restores all virtual BF images into a common focal plane, where they can be coherently summed @Yu_2025 @Varnavides_2025.
 
 Formally, this parallax correction is equivalent to applying a phase factor $exp[upright(i) nabla_bold(k) chi(bold(k)) dot bold(q)]$ to the virtual bright-field images, where $nabla_bold(k) chi(bold(k))$ is the gradient of the aberration surface at bright field frequency $bold(k)$.
@@ -508,7 +508,7 @@ $
   text("CTF")_text("prlx")(bold(q)) &= upright(i)/2 sum_bold(k) Beta(bold(q),bold(k)) \
   &= -upright(i) sin[chi(bold(q))] [A star A](bold(q)), #label("equate:revoke")
 $<eq-prlx-ctf>
-which reduces to the axial illumination CTF, modulated by the aperture autocorrelation function @Yu_2022 @Varnavides_2024 @Varnavides_2025.
+which reduces to the axial-illumination CTF, modulated by the aperture autocorrelation function @Yu_2022 @Varnavides_2024 @Varnavides_2025.
 
 Since the parallax estimator simply shifts each virtual bright-field image before coherently summing, the noise contributions retain unit variance.
 Consequently, $op("Var")[tilde(phi)_text("prlx")(bold(q))]=1$ and the parallax SSNR is:
@@ -516,7 +516,7 @@ $
   text("SSNR")_text("prlx")(bold(q)) = abs(sin[chi(bold(q))]) [A star A](bold(q)),
 $<eq-prlx-ssnr>
 
-== First Moment Projection <sec-icom>
+== First-Moment Projection <sec-icom>
 
 An alternative and computationally efficient route to STEM phase retrieval is to take the first moment of the aperture–overlap function, known either as _integrated center-of-mass (iCOM) imaging_ or _integrated differential phase contrast (iDPC or DPC)_ @Dekkers_1974 @Lazic_2016.
 Compared to other direct approaches, these are by far the most computationally-efficient and straightforward, although they do not provide the same aberration deconvolution advantages discussed above for the other direct approaches.
@@ -568,18 +568,18 @@ Finally, iCOM bypasses the overlap-kernel entirely, and instead takes the first 
   placement: auto,
 ) <fig-uspsample>
 
-With the exception of iCOM, these techniques rely on an accurate estimation of the aberrations, which can be calculated through optimization routines, based on self consistency error @Varnavides_2025, or by least-squares fitting of linear systems of equations @Varnavides_2023 @Yu_2025.
+With the exception of iCOM, these techniques rely on an accurate estimation of the aberrations, which can be calculated through optimization routines, based on self-consistency error @Varnavides_2025, or by least-squares fitting of linear systems of equations @Varnavides_2023 @Yu_2025.
 
 @unified-pseudocode shows a unified pseudocode for the direct estimators we have seen so far, using a loop over bright-field pixels $bold(k)_text("BF")$.
 This leverages the fact that the aperture-overlap function is identically zero outside the probe aperture, making it computationally efficient, and enabling natural upsampling via Fourier-tiling @Varnavides_2025.
 It should be noted that, due to the mixed-domain requirement, WDD cannot be computed by solely looping over $bold(k)_text("BF")$.
 
 As highlighted in @fig-ctf and @fig-exp-compare, the ideal approach depends on the nature of the data and acquisition parameters. 
-For in focus experiments, iCOM is often the preferred approach with the low computational overhead of this technique making it most compatible with in-situ approaches @bekkevold2024ultra.
+For in-focus experiments, iCOM is often the preferred approach with the low computational overhead of this technique making it most compatible with in-situ approaches @bekkevold2024ultra.
 Conversely, parallax reconstructions are often performed for defocused acquisitions using large step-sizes, e.g. for beam-sensitive biological samples @Berk_2024 @Yu_2025.
 
-The SSB, OBF, and MF/WDD techniques, perform a full deconvolution of the aperture-overlap and are also suited for acquisitions with residual higher-order aberration @Varnavides_2025 @Susi_2025.
-However, acquisitions on aberration corrected instruments are often dominated by first-order aberrations such as defocus and astigmatism, suggesting the quadratic approximation provided by parallax yields a nearly identical reconstruction as SSB, OBF, or MF/WDD @Varnavides_2025_ssnr.
+The SSB, OBF, and MF/WDD techniques perform a full deconvolution of the aperture-overlap and are also suited for acquisitions with residual higher-order aberration @Varnavides_2025 @Susi_2025.
+However, acquisitions on aberration-corrected instruments are often dominated by first-order aberrations such as defocus and astigmatism, suggesting the quadratic approximation provided by parallax yields a nearly identical reconstruction as SSB, OBF, or MF/WDD @Varnavides_2025_ssnr.
 
 #figure(
   kind: "algorithm",
@@ -631,7 +631,7 @@ However, acquisitions on aberration corrected instruments are often dominated by
   ],
 ) <unified-pseudocode>
 
-For low dose experiments, the direct phase retrieval techniques perform remarkably well as compared to their more computationally expensive counterparts @Varnavides_2025_ssnr, suggesting that more advanced reconstruction approaches may not be needed offline.
+For low-dose experiments, the direct phase-retrieval techniques perform remarkably well as compared to their more computationally expensive counterparts @Varnavides_2025_ssnr, suggesting that more advanced reconstruction approaches may not be needed offline.
 However, for thick samples and experiments with higher electron fluence, iterative approaches outperform their direct phase retrieval counterparts as described in @sec-iterative.
 
 = Iterative Ptychography <sec-iterative>
@@ -650,7 +650,7 @@ Finally, the optimization framework underlying iterative approaches naturally in
 In the following sections, we develop the two major families of iterative methods, namely classical projection-based algorithms, and gradient-based approaches.
 We show how the gradient-based approaches can be extended to multislice, mixed-state, and machine-learning–based formulations.
 
-== Single Slice Iterative Methods <sec-single-slice>
+== Single-Slice Iterative Methods <sec-single-slice>
 
 Iterative reconstruction methods begin from the strong-phase object approximation, in which the specimen is represented by a single transmission function related to the projected potential:
 $
@@ -738,7 +738,7 @@ In each case, iterative ptychography yields improved contrast, reduced artifacts
   scope: "parent",
   caption: [
     Iterative ptychography reconstructions of
-    *a)* apoferritin @Berk_2024, *b)*MoS#sub[2] @zhang2025atom, and *c)* gold nanoparticles on amorphous carbon. 
+    *a)* apoferritin @Berk_2024, *b)* MoS#sub[2] @zhang2025atom, and *c)* gold nanoparticles on amorphous carbon. 
     Aberrations coefficients were initialized using direct ptychography reconstructions in @fig-exp-compare and @fig-uspsample.
   ]
 ) <fig-iterative>
@@ -754,7 +754,7 @@ Although iterative ptychography does not admit simple closed-form CTF/SSNR like 
 
 Together, these observations show that although iterative ptychography can achieve super-resolution, the statistical information content is similar to direct linear methods at low spatial frequencies, with predictable saturation at intermediate frequencies.
 
-== Beyond single slice ptychography <sec-beyond-ss>
+== Beyond Single-slice Ptychography <sec-beyond-ss>
 
 The flexibility of iterative ptychography becomes especially powerful once we move beyond the single-slice, single-probe approximation used in the earlier sections.
 Real experiments often deviate from this idealization: illumination is never perfectly coherent, specimens may be tens to hundreds of nanometers thick, and additional physical channels such as magnetization and inelastic excitations contribute to the detected intensity.
@@ -762,7 +762,7 @@ Iterative methods can incorporate these complexities directly into the forward m
 
 As these models grow in complexity, the reconstruction problem becomes more ill-posed necessitating robust regularization.
 Classical regularizers stabilize the solution by encouraging smoothness, sparsity, physical consistency, or low-rank structure @Varnavides_2023. 
-Machine-learning approaches, replace such hand-designed priors with learned generative models or implicit architectural biases, often yielding cleaner and more robust reconstructions, requiring less hyperparameter tuning @McCray_2025.
+Machine-learning approaches replace such hand-designed priors with learned generative models or implicit architectural biases, often yielding cleaner and more robust reconstructions, requiring less hyperparameter tuning @McCray_2025.
 
 In practice, high-resolution reconstructions of many materials systems almost always rely on some combination of multislice propagation, mixed-state probe modeling, and regularization.
 These ingredients are essential for moving beyond the WPOA and unlocking the full information content of modern 4D-STEM experiments.
@@ -804,7 +804,7 @@ These hybrid methods achieve more accurate 3D reconstructions and mitigate slice
 
 = Outlook
 
-The ability of phase retrieval techniques to recover weak scattering signals makes the approaches described here broadly applicable across materials science and engineering.
+The ability of phase-retrieval techniques to recover weak scattering signals makes the approaches described here broadly applicable across materials science and engineering.
 They are particularly well suited for beam-sensitive, low-atomic-number specimens such as polymers @bardot2025mechanically, biological structures @Berk_2024 @Yu_2025 @Spoth_2017, and hard–soft composites including metal–organic frameworks @Ma_2025 @shen2020imaging and DNA origami @ding2022three.
 Phase retrieval methods are also increasingly applied to inorganic materials, where they enable sensitivity to subtle structural variations of light elements in functional systems relevant to energy and quantum science @lozano2018low @kp2025electron.
 Common specimens include nanoparticles @shi2025electron @Ribet_2024 @Varnavides_2023, one-dimensional nanostructures such as nanotubes @yang2016simultaneous @pelz2023solving, two-dimensional materials @jiang2018electron @o2022increasing @Susi_2025 @byrne2025fabrication @zhang2025atom, thin films @dong2025sub, and cross-sectional views of thicker crystalline samples @scheid2025atomic @chen2024imaging. 
@@ -838,8 +838,6 @@ The experimental data and reconstruction notebooks are freely available #link("h
 // #text(mrs-col)[
 //   *Total number of words is #total-words.*
 // ]
-
-#pagebreak()
 
 #bibliography(
   "references.bib",
