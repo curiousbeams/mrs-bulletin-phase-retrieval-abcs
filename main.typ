@@ -285,7 +285,7 @@ $
   - &D_j (bold(k)) tilde(psi)(bold(k)) tilde(psi)^*(bold(q+k)) d bold(k). 
 $ <eq-ctf>
 
-For a pixelated detector, $D_j (bold(k)) = delta(bold(k))$, the integrand reduces to the aperture-overlap function $Gamma(bold(q),bold(k))$.
+For a pixelated detector, $D_j (bold(k)) = delta(bold(k))$, so the integrand reduces to the aperture-overlap function $Gamma(bold(q),bold(k))$.
 More compact expressions follow from an asymmetric decomposition of cross-correlations @Bekkevold_2025 @Lazic_2017
 #[
 #show math.equation.where(block: true): set align(left)
@@ -464,7 +464,8 @@ This highlights an important subtlety: the statistically-reliable information co
     Near focus, iCOM, parallax, and SSB perform similarly.
     Note high-pass filtering was used to suppress low spatial frequency artifacts common in iCOM reconstructions.
     Inset scalebar 0.5 $"Å"^(-1)$.
-    For defocused acquisitions, parallax and SSB perform much better than iCOM imaging, and further benefit from upsampling.
+    For defocused acquisitions, parallax and SSB perform much better than iCOM imaging, due to their ability to correct for aberrations. 
+    The parallax and SSB gold reconstructions further benefit from upsampling.
     Inset scalebar 0.5 $"Å"^(-1)$.
     
   ],
@@ -518,6 +519,7 @@ $<eq-prlx-ssnr>
 == First Moment Projection <sec-icom>
 
 An alternative and computationally efficient route to STEM phase retrieval is to take the first moment of the aperture–overlap function, known either as _integrated center-of-mass (iCOM) imaging_ or _integrated differential phase contrast (iDPC or DPC)_ @Dekkers_1974 @Lazic_2016.
+Compared to other direct approaches, these are by far the most computationally-efficient and straightforward, although they do not provide the same aberration deconvolution advantages discussed above for the other direct approaches.
 
 Starting from the WPOA CTF expression in @eq-ctf and using a vectorial detector response $D(bold(k)) = bold(k)$, we obtain the vector COM transfer function as:
 $
@@ -710,7 +712,7 @@ $<eq-loss>
 One of the earliest gradient-based ptychographic algorithms is the _extended ptychographic iterative engine_ (ePIE) @Maiden_2009, which performs block-wise stochastic gradient descent (SGD) in which each scan position provides a local loss and gradient update.
 Modern approaches generalize this to true mini-batch optimization methods such as SGD and Adam @Lee_2025 @Gilgenbach_2025 @McCray_2025.
 
-The amplitude loss in @eq-loss, corresponds to the _maximum a posteriori_ (MAP) estimator under Gaussian detector noise with unit variance @Gilgenbach_2025.
+The amplitude loss in @eq-loss, corresponds to the _maximum a posteriori_ estimator under Gaussian detector noise with unit variance @Gilgenbach_2025.
 Although electron detection is fundamentally Poissonian, at moderate electron counts the Gaussian approximation becomes valid, matching the same assumption used in the WPOA noise model @eq-noise-model.
 
 Under this approximation, the exit-wave gradient has a closed-form expression, identical to the ER Fourier-magnitude projection:
@@ -760,9 +762,9 @@ Iterative methods can incorporate these complexities directly into the forward m
 
 As these models grow in complexity, the reconstruction problem becomes more ill-posed necessitating robust regularization.
 Classical regularizers stabilize the solution by encouraging smoothness, sparsity, physical consistency, or low-rank structure @Varnavides_2023. 
-Machine-learning approaches, replace such hand-designed priors with learned generative models or implicit architectural biases, often yielding cleaner and more robust reconstructions @McCray_2025.
+Machine-learning approaches, replace such hand-designed priors with learned generative models or implicit architectural biases, often yielding cleaner and more robust reconstructions, requiring less hyperparameter tuning @McCray_2025.
 
-In practice, high-resolution reconstructions of realistic materials systems almost always rely on some combination of multislice propagation, mixed-state probe modeling, and regularization.
+In practice, high-resolution reconstructions of many materials systems almost always rely on some combination of multislice propagation, mixed-state probe modeling, and regularization.
 These ingredients are essential for moving beyond the WPOA and unlocking the full information content of modern 4D-STEM experiments.
 
 === Partial Coherence
