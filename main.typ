@@ -33,9 +33,9 @@
     ],
     abstract: [
       High-resolution scanning transmission electron microscopy (STEM) is an indispensable tool for characterizing the structure and properties of materials down to the atomic scale.
-      Conventional STEM imaging, however, is limited by the phase problem, whereby the phase of the electron exit wave is lost upon intensity detection.
+      Conventional STEM imaging, however, is limited by the phase problem, whereby the phase of the electron exit wave is lost upon detection.
       Recent advances in diffractive imaging and 4D-STEM have enabled a range of phase retrieval techniques that computationally reconstruct the missing information.
-      These approaches offer improved dose efficiency and enhanced  sensitivity to weakly scattering signals, extending quantitative imaging to beam-sensitive materials with light elements.
+      These approaches offer improved dose efficiency and enhanced  sensitivity to weakly scattering signals, extending quantitative imaging to beam-sensitive materials composed of light elements.
       In this work, we introduce the phase problem in electron microscopy and survey the diverse landscape of phase retrieval techniques used in the field.
       Despite their many acronyms and algorithmic variations, these techniques share a common physical and mathematical foundation.
       We present a unified framework that connects these seemingly distinct methods, from parallax imaging and tilt-corrected bright field (tcBF-STEM), to aberration-corrected bright-field (acBF-STEM), optimum bright field (OBF-STEM) and single-sideband (SSB) ptychography, as well as iterative ptychographic algorithms.
@@ -809,7 +809,6 @@ Common specimens include nanoparticles @shi2025electron @Ribet_2024 @Varnavides_
 
 Recent work has demonstrated that ptychographic phase retrieval can be performed even on uncorrected instruments @nguyen2024achieving, including at low accelerating voltages and small convergence angles @blackburn2025sub.
 Nevertheless, successful phase retrieval remains experimentally demanding, and in practice most samples benefit substantially from aberration correction.
-Overlap in reciprocal space ensures beams can be phased relative to each other leading to a unique and accurate sample reconstruction. 
 Adequate overlap in reciprocal space is essential to ensure a unique and accurate reconstruction, and phase retrieval workflows in materials science still largely rely on advanced hardware, including fast pixelated detectors and aberration-corrected probes.
 
 As discussed for both direct and iterative approaches, defocused acquisitions can improve information transfer in phase retrieval experiments. 
@@ -819,7 +818,7 @@ These challenges are exacerbated in very low-dose experiments, where data may ne
 
 Direct reconstruction techniques are computationally efficient and can often be performed live during data acquisition using modern hardware @Yu_2022 @Ooe_2021 @Pelz_2022 @Strauch_2021. 
 Such on-the-fly reconstructions are valuable for optimizing experimental parameters, verifying sample thickness, and detecting beam damage in real time.
-In typical workflows, direct phase retrieval is used during acquisition, while more computationally intensive iterative reconstructions, especially those involving multislice propagation or mixed-state modeling, are carried out offline on GPU-equipped workstations.
+In typical workflows, direct phase retrieval is used during acquisition, while more computationally intensive iterative reconstructions, especially those involving multislice propagation or mixed-state modeling, are carried out offline on GPU-equipped workstations and high-performance computer clusters.
 
 Looking forward, key challenges include extending phase retrieval to thicker specimens, larger fields of view, and higher-dimensional datasets that combine phase retrieval with tomography, spectroscopy, or time-resolved measurements, as well as adapting these methods to an increasingly diverse range of microscope configurations. 
 Many groups are already pushing to extend these techniques through both hardware and software advances, which will allow for more advanced materials characterization in the near future.
