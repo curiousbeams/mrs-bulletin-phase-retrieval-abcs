@@ -9,18 +9,18 @@
         name: "Georgios Varnavides",
         email: "g.varnavides@tudelft.nl",
         orcid: "0000-0001-8338-3323",
-        affiliations: "Department of Imaging Physics, Delft University of Technology",
+        affiliations: "Department of Imaging Physics, Delft University of Technology, Lorentzweg 1, 2628 CJ Delft, The Netherlands",
       ),
       (
         name: "Willem P.M. de Kleijne",
-        affiliations: "Department of Imaging Physics, Delft University of Technology",
+        affiliations: "Department of Imaging Physics, Delft University of Technology, Lorentzweg 1, 2628 CJ Delft, The Netherlands",
         orcid: "0009-0009-9635-8763"
       ),
       (
         name: "Stephanie M. Ribet",
         email: "sribet@lbl.gov",
         orcid: "0000-0002-7117-066X",
-        affiliations: "National Center for Electron Microscopy, Molecular Foundry, Lawrence Berkeley National Laboratory",
+        affiliations: "National Center for Electron Microscopy, Molecular Foundry, Lawrence Berkeley National Laboratory, Berkeley, CA 94720, USA",
       ),
   ),
     date: datetime.today(),
@@ -63,6 +63,7 @@
 )
 #show cite: it => text(fill: mrs-col, it)
 #show ref: it => text(fill: mrs-col, it)
+#show link: it => text(fill: mrs-col, it)
 
 #set text(font: "Noto Serif", size: 9pt)
 #set par(justify: true)
@@ -70,8 +71,6 @@
 
 #show: equate.with(sub-numbering: false,number-mode:"label")
 #set math.equation(numbering: "(1.1)", supplement: "Eq. ")
-
-// #let no-number-eq = math.equation.with(block: true, numbering: none)
 
 #show figure: align.with(center)
 #show figure: set text(8pt)
@@ -162,8 +161,8 @@ To illustrate the basic principle, we restrict our attention to weakly-scatterin
 $
   psi_text("exit")(bold(r)) approx 1 + upright(i) sigma V_p (bold(r)) + cal(O)(sigma^2 V_p^2(bold(r))),
 $ <eq-wpoa>
-where $V_p (bold(r)) = integral_(-infinity)^infinity V(bold(r)) d z$ is the projected potential and we drop terms quadratic in the interaction constant.
-In this regime the specimen modifies only the phase of the electron wavefunction, so additional optical manipulations are required to convert the phase into measurable amplitude contrast.
+where $V_p (bold(r)) = integral_(-infinity)^infinity V(bold(r)) d z$ is the projected sample potential and drop terms quadratic in the interaction constant.
+In this regime the specimen modifies only the phase of the electron wavefunction, so optical manipulations are required to convert the phase into measurable amplitude contrast.
 
 === Defocus Phase Contrast
 
@@ -198,7 +197,7 @@ $<eq-zernike-int>
 showing that a phase plate enables direct, linear transfer of the specimen phase into image intensity.
 
 @fig-pci illustrates these effects for a simulated 3D arrangement of single- and double-walled carbon nanotubes (CNTs) acquired at low dose. 
-The in-focus HRTEM image shows almost no contrast, especially for the top nanotube which is at exactly the focal plane of the microscope.
+The in-focus HRTEM image shows almost no contrast, especially for the top nanotube which is exactly at the focal plane of the microscope.
 Defocus improves visibility but introduces frequency-dependent contrast reversals, causing different regions of the CNTs to appear in or out of focus.
 Zernike phase contrast recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the CNTs from vacuum.
 
@@ -233,20 +232,20 @@ We  refer to this class of approaches as diffractive imaging or STEM _phase retr
 
 === Weak Phase Object Approximation
 
-Under the WPOA in @eq-wpoa, the specimen transmission function is $t(bold(r)) approx 1 + upright(i) sigma V_p (bold(r))$, with the Fourier transform of the scattered component given by $tilde(phi)(bold(k)) = cal(F)_(bold(r) arrow bold(k)){sigma V_p (bold(r))}$.
+Under the WPOA in @eq-wpoa, the specimen transmission function is $t(bold(r)) approx 1 + upright(i) sigma V_p (bold(r))$, with the Fourier transform of the scattered component given by $tilde(phi)(bold(k)) = cal(F)_(bold(r) arrow bold(k)){t(bold(r))}$.
 In this regime, the diffraction intensity can be written as the self-convolution of the converged probe $tilde(psi)(bold(k))$ with the WPOA term @Rodenburg_1993:
 $
   I(bold(R),bold(k)) = integral integral &tilde(psi)(bold(k')) tilde(phi)(bold(k-k')) tilde(psi)^*(bold(k''))tilde(phi)^*(bold(k-k'')) \ &exp[2 pi upright(i) bold(R) dot (bold(k'-k''))] d bold(k') d bold(k'')
 $ <equate:revoke>
 
 Following #cite(<Rodenburg_1993>,form: "author"), it is convenient to take the Fourier transform of the measured intensities with respect to the scan position: $G(bold(q),bold(k)) = cal(F)_(bold(R) arrow bold(q)){I(bold(R),bold(k))}$, where $q$ represents the Fourier transform of the real space vector $r$.
-Using $tilde(phi)(bold(k)) = - tilde(phi)^*(-bold(k))$ @Rodenburg_1993, one obtains the compact form @Yang_2016:
+Using $tilde(phi)(bold(k)) = - tilde(phi)^*(-bold(k))$ @Rodenburg_1993, one obtains @Yang_2016:
 $
   G(bold(q),bold(k)) &= abs(tilde(psi)(bold(k)))^2 delta(bold(q)) + Gamma(bold(q),bold(k)) tilde(phi)(bold(q)) \
   Gamma(bold(q),bold(k)) &equiv tilde(psi)^*(bold(k))tilde(psi)(bold(k-q)) - tilde(psi)(bold(k))tilde(psi)^*(bold(k+q)),
 $<eq-wpoa-forward>
-where the aperture overlap function $Gamma(bold(q),bold(k))$ encapsulates the probe geometry and forms the basis of all direct STEM phase retrieval methods.
-@fig-gamma shows characteristic views of $Gamma(bold(q),bold(k))$ for a defocused converged probe with a circular aperture.
+where the aperture overlap function $Gamma(bold(q),bold(k))$ encapsulates the probe geometry and forms the basis of all non-iterative STEM phase retrieval methods.
+@fig-gamma shows characteristic views of $Gamma(bold(q),bold(k))$ for a defocused probe with a circular aperture.
 
 We take the probe to have the form $tilde(psi)(bold(k)) = A(bold(k)) upright(e)^(-upright(i) chi(bold(k)))$, where
 $A(bold(k))$ is a top-hat function describing the probe-forming aperture and $chi(bold(k))$ is the aberration surface given by:
@@ -284,7 +283,7 @@ $
   - &D_j (bold(k)) tilde(psi)(bold(k)) tilde(psi)^*(bold(q+k)) d bold(k). 
 $ <eq-ctf>
 
-For a pixelated detector, $D_j (bold(k)) = delta(bold(k))$, so the integrand reduces to the aperture-overlap function $Gamma(bold(q),bold(k))$.
+For a pixelated detector, $D_j (bold(k)) = delta(bold(k))$, the integrand reduces to the aperture-overlap function $Gamma(bold(q),bold(k))$.
 More compact expressions follow from an asymmetric decomposition of cross-correlations @Bekkevold_2025 @Lazic_2017
 #[
 #show math.equation.where(block: true): set align(left)
@@ -301,8 +300,8 @@ $
   text("CTF")_text("in-focus")(bold(q)) &= upright(i) [A star A](bold(q)) \
   &= upright(i) thin Re[cal(F)^(-1)_(bold(r)arrow bold(q)){abs(cal(F)_(bold(q)->bold(r)){A(bold(q))})^2}]. #label("equate:revoke")
 $<eq-infocus-ctf>
-This envelope is a fundamental limit for all direct STEM phase retrieval methods.
-Similarly, evaluating @eq-ctf for the axial illumination case, $bold(k)=0$, yields a purely imaginary CTF:
+This envelope is a fundamental limit for all non-iterative STEM phase retrieval methods.
+Similarly, evaluating @eq-ctf for the axial-illumination case, $bold(k)=0$, yields a purely imaginary CTF:
 $
   text("CTF")_text("axial")(bold(q)) = -upright(i) sin[chi(bold(q))],
 $<eq-ctf-axial>
@@ -326,7 +325,7 @@ Thus, the DQE provides a normalized measure of how efficiently a method transfer
 
 = Direct Phase Retrieval Techniques
 
-Equipped with the WPOA aperture-overlap and CTF/SSNR formalisms, we are now ready to investigate the zoo of direct STEM phase retrieval methods and their various acronyms.
+Equipped with the WPOA aperture-overlap and CTF/SSNR formalisms, we are now ready to investigate the zoo of non-iterative STEM phase retrieval methods and their various acronyms.
 These differ primarily in how they combine the Fourier-transformed measured diffraction intensities $G(bold(q),bold(k))$ to produce an estimate for the specimen phase $tilde(phi)(bold(q))$.
 
 == Phase-Compensated Coherent Sum <sec-ssb>
@@ -401,7 +400,7 @@ $
   op("Var")[sum_bold(k) Gamma^*(bold(q),bold(k)) n (bold(q),bold(k))] = sum_bold(k) abs(Gamma(bold(q),bold(k)))^2.
 $<eq-obf-var>
 This is precisely the OBF denominator squared, thus normalizing the OBF variance to unity, $op("Var")[tilde(phi)_text("OBF")(bold(q))]=1$.
-The resulting OBF SSNR is given by the magnitude of its CTF:
+The resulting OBF SSNR is thus given simply by the magnitude of its CTF:
 $
   text("SSNR")_text("OBF")(bold(q)) = 1/2 sqrt(sum_bold(k) abs(Gamma(bold(q),bold(k)))^2).
 $<eq-obf-ssnr>
@@ -454,7 +453,7 @@ $
   text("SSNR")_text("MF")(bold(q)) =  1/2 sqrt(sum_bold(k) abs(Gamma(bold(q),bold(k)))^2).
 $<eq-mf-ssnr>
 
-This highlights an important subtlety: the statistically-reliable information content is the effectively the same for all three linear estimators we have explored so far, namely SSB, OBF, and MF/WDD.
+This highlights an important subtlety: the statistically-reliable information content is effectively the same for all three linear estimators we have explored so far, namely SSB, OBF, and MF/WDD.
 
 #figure(
   image("vector/direct_gold_mos2.pdf",width: 100%),
@@ -518,7 +517,7 @@ $<eq-prlx-ssnr>
 == First-Moment Projection <sec-icom>
 
 An alternative and computationally efficient route to STEM phase retrieval is to take the first moment of the aperture–overlap function, known either as _integrated center-of-mass (iCOM) imaging_ or _integrated differential phase contrast (iDPC or DPC)_ @Dekkers_1974 @Lazic_2016.
-Compared to other direct approaches, these are by far the most computationally-efficient and straightforward, although they do not provide the same aberration deconvolution advantages discussed above for the other direct approaches.
+Compared to other direct approaches, these are the most computationally-efficient and straightforward, although they do not provide the same aberration deconvolution advantages discussed above for the other direct approaches.
 
 Starting from the WPOA CTF expression in @eq-ctf and using a vectorial detector response $D(bold(k)) = bold(k)$, we obtain the vector COM transfer function as:
 $
@@ -578,7 +577,7 @@ For in-focus experiments, iCOM is often the preferred approach with the low comp
 Conversely, parallax reconstructions are often performed for defocused acquisitions using large step-sizes, e.g. for beam-sensitive biological samples @Berk_2024 @Yu_2025.
 
 The SSB, OBF, and MF/WDD techniques perform a full deconvolution of the aperture-overlap and are also suited for acquisitions with residual higher-order aberration @Varnavides_2025 @Susi_2025.
-However, acquisitions on aberration-corrected instruments are often dominated by first-order aberrations such as defocus and astigmatism, suggesting the quadratic approximation provided by parallax yields a nearly identical reconstruction as SSB, OBF, or MF/WDD @Varnavides_2025_ssnr.
+However, ptychographic acquisitions on aberration-corrected instruments are often dominated by first-order aberrations such as defocus and astigmatism, suggesting the quadratic approximation provided by parallax yields a nearly identical reconstruction as SSB, OBF, or MF/WDD @Varnavides_2025_ssnr.
 
 #figure(
   kind: "algorithm",
@@ -643,7 +642,7 @@ These effects are fundamentally incompatible with the linear WPOA model, requiri
 Iterative approaches offer several key advantages.
 First, they enable super-resolution @Maiden_2009, allowing recovery of specimen information beyond the twice numerical-aperture limit of direct methods, and without imposing scan-step size restrictions.
 Second, they are remarkably flexible: the same mathematical framework can be extended to incorporate depth-information @Chen_2021, multiple scattering channels (e.g. electrostatic and magnetic potentials @Varnavides_2023_mag), or partial-coherence in the converged illumination @Thibault_2013.
-Third, iterative reconstructions do not require perfect prior knowledge of the converged illumination; they naturally support blind deconvolution, jointly solving for both the specimen phase and probe aberrations, albeit with improved reconstructions coming from a good initial guess.
+Third, iterative reconstructions do not require perfect prior knowledge of the converged illumination; they naturally support blind deconvolution, jointly solving for both the specimen phase and probe aberrations, although robust reconstructions often require a good initial guess.
 Finally, the optimization framework underlying iterative approaches naturally interfaces with modern machine-learning tools, enabling reconstructions driven by autodifferentiation or deep generative priors @Lee_2025 @Gilgenbach_2025 @McCray_2025.
 
 In the following sections, we develop the two major families of iterative methods, namely classical projection-based algorithms, and gradient-based approaches.
@@ -808,9 +807,9 @@ They are particularly well suited for beam-sensitive, low-atomic-number specimen
 Phase retrieval methods are also increasingly applied to inorganic materials, where they enable sensitivity to subtle structural variations of light elements in functional systems relevant to energy and quantum science @lozano2018low @kp2025electron.
 Common specimens include nanoparticles @shi2025electron @Ribet_2024 @Varnavides_2023, one-dimensional nanostructures such as nanotubes @yang2016simultaneous @pelz2023solving, two-dimensional materials @jiang2018electron @o2022increasing @Susi_2025 @byrne2025fabrication @zhang2025atom, thin films @dong2025sub, and cross-sectional views of thicker crystalline samples @scheid2025atomic @chen2024imaging. 
 
-Recent work has demonstrated that ptychographic phase retrieval can be performed even on uncorrected instruments @nguyen2024achieving, including at low accelerating voltages and small convergence angles @blackburn2025sub.
+Recent work has demonstrated that ptychographic phase retrieval can even be performed on uncorrected instruments @nguyen2024achieving, including at low accelerating voltages and small convergence angles @blackburn2025sub.
 Nevertheless, successful phase retrieval remains experimentally demanding, and in practice most samples benefit substantially from aberration correction.
-Adequate overlap in reciprocal space is essential to ensure a unique and accurate reconstruction, and phase retrieval workflows in materials science still largely rely on advanced hardware, including fast pixelated detectors and aberration-corrected probes.
+Adequate overlap in reciprocal space is essential to ensure a unique and accurate reconstruction, and phase retrieval workflows in materials science still largely rely on advanced hardware, including fast pixelated detectors and aberration-correction.
 
 As discussed for both direct and iterative approaches, defocused acquisitions can improve information transfer in phase retrieval experiments. 
 However, selecting suitable experimental parameters remains challenging: reliable convergence depends sensitively on defocus, probe size, and scan step, while accurate estimation of the applied defocus can be nontrivial, especially for thick specimens. 
@@ -829,9 +828,8 @@ Work at the Molecular Foundry was supported by the Office of Science, Office of 
 
 
 = Data availability
-The experimental data and reconstruction notebooks are freely available #link("https://drive.google.com/drive/folders/1TNlqmMsiHQPIMZ5UW42MSd0yy6W9gnEL?usp=sharing")[
-  here
-].
+The calibrated experimental datasets supporting the findings of this study are publicly available on Zenodo at #link("https://doi.org/10.5281/zenodo.18449975").
+All reconstruction and analysis notebooks used to generate the figures are available on GitHub at #link("https://github.com/curiousbeams/mrs-bulletin-phase-retrieval-abcs").
 
 #bibliography(
   "references.bib",
