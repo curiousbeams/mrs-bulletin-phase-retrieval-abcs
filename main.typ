@@ -461,11 +461,8 @@ This highlights an important subtlety: the statistically-reliable information co
     Direct methods reconstructions for *a)* near-focus MoS#sub[2] acquisition @zhang2025atom and *b)* defocused gold nanoparticle experimental datasets.
     Near-focus, iCOM, parallax, and SSB perform similarly.
     Note high-pass filtering was used to suppress low spatial frequency artifacts common in iCOM reconstructions.
-    Inset scalebar 0.5 $"Å"^(-1)$.
     For defocused acquisitions, parallax and SSB perform much better than iCOM imaging, due to their ability to correct for aberrations. 
-    The parallax and SSB gold reconstructions further benefit from upsampling.
-    Inset scalebar 0.5 $"Å"^(-1)$.
-    
+    The parallax and SSB gold reconstructions further benefit from upsampling.    
   ],
   placement: auto,
   scope: "parent"
@@ -560,8 +557,7 @@ Finally, iCOM bypasses the overlap-kernel entirely, and instead takes the first 
   image("vector/upsample.pdf",width: 100%),
   caption: [
     Upsampled 
-    *a)* gold nanoparticles and *b)* apoferritin @Berk_2024 parallax reconstructions.
-    Inset scalebars 0.5 $"Å"^(-1)$ and 0.5 $"nm"^(-1)$ respectively.
+    *a)* gold nanoparticles and *b)* apoferritin @Berk_2024 parallax imaging reconstructions.
   ],
   placement: auto,
 ) <fig-uspsample>
