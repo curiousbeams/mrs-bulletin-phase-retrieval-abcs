@@ -1,7 +1,6 @@
 #import "@preview/pubmatter:0.2.2"
 #import "@preview/lovelace:0.3.0": pseudocode-list
 #import "@preview/equate:0.3.2": equate
-// #import "@preview/wordometer:0.1.5": word-count, total-words
 
 #let fm = pubmatter.load(
   (
@@ -69,7 +68,7 @@
 #set par(justify: true)
 #show heading: set text(mrs-col)   
 
-#show: equate.with(sub-numbering: true,number-mode:"label")
+#show: equate.with(sub-numbering: false,number-mode:"label")
 #set math.equation(numbering: "(1.1)", supplement: "Eq. ")
 
 // #let no-number-eq = math.equation.with(block: true, numbering: none)
@@ -505,8 +504,8 @@ $<eq-par-recon>
 
 The corresponding CTF is obtained by summing the omitted kernel $Beta(bold(q),bold(k))$ over the bright-field disk:
 $
-  text("CTF")_text("prlx")(bold(q)) &= upright(i)/2 sum_bold(k) Beta(bold(q),bold(k)) \
-  &= -upright(i) sin[chi(bold(q))] [A star A](bold(q)), #label("equate:revoke")
+  text("CTF")_text("prlx")(bold(q)) &= upright(i)/2 sum_bold(k) Beta(bold(q),bold(k)) #label("equate:revoke") \
+  &= -upright(i) sin[chi(bold(q))] [A star A](bold(q)),
 $<eq-prlx-ctf>
 which reduces to the axial-illumination CTF, modulated by the aperture autocorrelation function @Yu_2022 @Varnavides_2024 @Varnavides_2025.
 
@@ -523,8 +522,8 @@ Compared to other direct approaches, these are by far the most computationally-e
 
 Starting from the WPOA CTF expression in @eq-ctf and using a vectorial detector response $D(bold(k)) = bold(k)$, we obtain the vector COM transfer function as:
 $
-  text("CTF")_text("COM")(bold(q)) &= upright(i)/2 integral Gamma(bold(q),bold(k)) thin bold(k) thin d bold(k) \
-  &= (upright(i) thin bold(q))/2 [tilde(psi) star tilde(psi)](bold(q)), #label("equate:revoke")
+  text("CTF")_text("COM")(bold(q)) &= upright(i)/2 integral Gamma(bold(q),bold(k)) thin bold(k) thin d bold(k) #label("equate:revoke") \
+  &= (upright(i) thin bold(q))/2 [tilde(psi) star tilde(psi)](bold(q)),
 $<eq-com-ctf>
 i.e. the first moment of $Gamma(bold(q),bold(k))$ which is proportional to the probe autocorrelation weighted by $bold(q)$.
 
@@ -676,8 +675,8 @@ These approaches frame reconstruction as finding an object-illumination pair $(c
 Algorithms such as _error reduction_ (ER) @Levi_1984, _difference map_ (DM) @Elser_2003 @Thibault_2008, and _relaxed averaged alternating reflections_ (RAAR) @Luke_2004, repeatedly project (and/or reflect) the exit wave between these two sets.
 The canonical ER exit-wave update is given by @Bauschke_2002:
 $
-  psi'_text("exit")^((j))(bold(r)) &= cal(F)_(bold(k) arrow bold(r))^(-1) lr({ (sqrt(I_text("meas")^((j))(bold(k))))/abs(tilde(psi)_text("exit")^((j))(bold(k))) tilde(psi)_text("exit")^((j))(bold(k))}) \
-  & equiv Pi_f [psi_text("exit")^((j))(bold(r))] #label("equate:revoke")\
+  psi'_text("exit")^((j))(bold(r)) &= cal(F)_(bold(k) arrow bold(r))^(-1) lr({ (sqrt(I_text("meas")^((j))(bold(k))))/abs(tilde(psi)_text("exit")^((j))(bold(k))) tilde(psi)_text("exit")^((j))(bold(k))}) #label("equate:revoke") \
+  & equiv Pi_f [psi_text("exit")^((j))(bold(r))]
 $<eq-proj-exit-wave>
 where the Fourier-projection operator $Pi_f$ replaces the Fourier exit-wave magnitude with the measured amplitude, retaining only its phase @Fienup_1982 @Bauschke_2002.
 The object and probe updates follow from enforcing the real-space multiplicative constraint @Thibault_2008:
@@ -833,11 +832,6 @@ Work at the Molecular Foundry was supported by the Office of Science, Office of 
 The experimental data and reconstruction notebooks are freely available #link("https://drive.google.com/drive/folders/1TNlqmMsiHQPIMZ5UW42MSd0yy6W9gnEL?usp=sharing")[
   here
 ].
-
-
-// #text(mrs-col)[
-//   *Total number of words is #total-words.*
-// ]
 
 #bibliography(
   "references.bib",
