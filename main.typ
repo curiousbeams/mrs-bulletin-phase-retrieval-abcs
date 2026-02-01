@@ -646,7 +646,7 @@ Third, iterative reconstructions do not require perfect prior knowledge of the c
 Finally, the optimization framework underlying iterative approaches naturally interfaces with modern machine-learning tools, enabling reconstructions driven by autodifferentiation or deep generative priors @Lee_2025 @Gilgenbach_2025 @McCray_2025.
 
 In the following sections, we develop the two major families of iterative methods, namely classical projection-based algorithms, and gradient-based approaches.
-We show hot the gradient-based approaches can be extended to multislice, mixed-state, and machine-learning–based formulations.
+We show how the gradient-based approaches can be extended to multislice, mixed-state, and machine-learning–based formulations.
 
 == Single Slice Iterative Methods <sec-single-slice>
 
