@@ -198,15 +198,15 @@ $
 $<eq-zernike-int>
 showing that a phase plate enables direct, linear transfer of the specimen phase into image intensity.
 
-@fig-pci illustrates these effects for a simulated arrangement of single- and double-walled carbon nanotubes (CNTs) acquired at low dose. 
-The in-focus HRTEM image shows almost no contrast.
+@fig-pci illustrates these effects for a simulated 3D arrangement of single- and double-walled carbon nanotubes (CNTs) acquired at low dose. 
+The in-focus HRTEM image shows almost no contrast, especially for the top nanotube which is at exactly the focal plane of the microscope.
 Defocus improves visibility but introduces frequency-dependent contrast reversals, causing different regions of the CNTs to appear in or out of focus.
 Zernike phase contrast recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the CNTs from vacuum.
 
 #figure(
   image("raster/phase_contrast_imaging_CNTs.png",width: 100%),
   caption: [
-    High-resolution TEM imaging *a)* of simulated single- and double-walled carbon nanotubes, acquired with an electron dose of 500 e/\u{00C5}#super[2]  using:
+    Simulated high-resolution TEM imaging *a)* of single- and double-walled carbon nanotubes, acquired with an electron dose of 500 e/\u{00C5}#super[2]  using:
     *b)* in-focus optics, *c)* 50 nm of over-focus, and *d)* an ideal Zernike phase plate.
 
   ],
@@ -223,14 +223,14 @@ $
   I_text("ann")(bold(R)) = integral_(theta_text("in"))^(theta_text("out")) I(bold(R),bold(k)) d bold(k),
 $<eq-annular-int>
 yielding familiar contrast modes such as bright-field (BF), annular bright-field (ABF), annular dark-field (ADF), and high-angle annular dark-field (HAADF) STEM @Crewe_1970 @Pennycook_1991.
-These images are highly interpretable -- especially for crystalline materials -- leading to their prevalence in materials science characterization @Ophus_2023. 
-However, they discard sensitive information encoded in the exit-wave phase.
+Dark field images in particular are highly interpretable -- especially for crystalline specimens -- leading to their prevalence in materials science characterization @Ophus_2023. 
+However, they discard sensitive information encoded in the exit-wave phase and are often not sufficiently electron dose-efficient for beam-sensitive samples.
 
 The development of fast, low-noise direct electron detectors@Levin_2021 has enabled recording the full diffraction pattern $I(bold(R),bold(k))$ at every scan position, giving rise to a family of techniques collectively known as 4D-STEM @Ophus_2019.
 These datasets retain the full diffractive signature of the probe–specimen interaction, far beyond what can be accessed with scalar annular signals.
 Small convergence angle ("nanobeam") and large convergence angle (diffractive imaging) geometries are shown in @fig-schematic\b-c respectively.
-In what follows, we focus on the latter, i.e. methods that use these position-resolved diffraction intensities to recover the specimen phase.
-We will refer to this class of approaches collectively as diffractive imaging or STEM _phase retrieval_ techniques @sanchez2025.
+In this review, we will focus on the large set of approaches that computationally recover the phase of the specimen from this set of diffraction patterns, and this largely relies on a large convergence alignment (@fig-schematic\c).
+We  refer to this class of approaches as diffractive imaging or STEM _phase retrieval_ techniques @sanchez2025.
 
 === Weak Phase Object Approximation
 
