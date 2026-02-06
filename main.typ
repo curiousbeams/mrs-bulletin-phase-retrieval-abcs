@@ -70,7 +70,7 @@
 #show heading: set text(mrs-col)   
 
 #show: equate.with(sub-numbering: false,number-mode:"label")
-#set math.equation(numbering: "(1.1)", supplement: "Eq. ")
+#set math.equation(numbering: "(1)", supplement: "Eq. ")
 
 #show figure: align.with(center)
 #show figure: set text(8pt)
@@ -111,8 +111,8 @@ When this probe interacts with the specimen, it produces a diffraction pattern t
 In this sense, STEM is inherently a diffraction-mode technique, although real-space images can be obtained by processing the resulting position-resolved diffraction patterns -- a process we will refer to as _diffractive imaging_.
 This approach routinely provides interpretable, atomic-resolution imaging of crystalline materials and forms the basis of modern materials characterization @Ophus_2023.
 
-Both modalities are fundamentally limited by the microscopy "phase problem," which suppresses contrast from weakly scattering specimens and limits quantitative interpretation.
-In this review, we focus on the mathematical foundations of STEM phase-retrieval techniques, which reconstruct the missing phase and thereby overcome these intrinsic contrast limitations.
+Both modalities are fundamentally limited by the microscopy "phase problem," first recognized in quantum scattering by Max Born @born1926quantenmechanik and discussed in his Nobel Lecture @born1954.
+Here, we focus on the mathematical foundations of STEM phase-retrieval techniques, which reconstruct the missing phase and thereby overcome these intrinsic contrast limitations.
 We emphasize the implications of these methods for quantitative materials characterization and set the stage for a unified treatment of the underlying physics.
 
 #figure(
@@ -130,7 +130,7 @@ We emphasize the implications of these methods for quantitative materials charac
 == Microscopy Phase Problem
 
 The phase problem arises in electron microscopy because the scattered electron wavefunction -- the "exit wave" -- is complex-valued, yet physical detectors only measure real-valued intensities @Fienup_1982.
-In other words, although the specimen primarily imprints a _phase shift_ on the complex incident electron wavefunction $psi$, the detector records $abs(psi)^2$, seemingly discarding the information that carries most of the specimen's structure.
+In other words, although the specimen primarily imprints a _phase shift_ on the complex incident electron wavefunction $psi$, the detector records $abs(psi)^2$, seemingly discarding the information that carries most of the specimen's structure @born1954.
 
 For S/TEM, this becomes clear in the wave propagation formalism.
 The evolution of an electron wavefunction, $psi(bold(r))$, along the optical axis $z$ is governed by the Schro#diaer;dinger equation for fast electrons @Kirkland_2020:
@@ -334,7 +334,7 @@ The first technique we will investigate goes by two seemingly unrelated names: _
 The former highlights its close connection to _tilt-corrected bright-field (tcBF) STEM_, which we investigate further in @sec-parallax.
 The latter name reflects the structure of the WPOA forward model in @eq-wpoa-forward, which contains two redundant contributions at $bold(q)$ and $-bold(q)$.
 
-In the absence of aberrations, these two "sidebands" are related by complex conjugation according to Friedel's law @Friedel_1913, so the specimen phase $tilde(phi)(bold(q))$ can be reconstructed using only one of them.
+In the absence of aberrations, these two "sidebands" are related by complex conjugation according to Friedel's law #footnote[Friedel’s law illustrates how a single mathematical principle -- the Hermitian conjugation symmetry of a Fourier transform of a real-valued function -- connects the physics of imaging with crystallographic structure determination @Friedel_1913 @karle1985.], so the specimen phase $tilde(phi)(bold(q))$ can be reconstructed using only one of them.
 In practice, once aberrations are present, the two sidebands are no longer perfect conjugates: residual aberrations imprint an additional geometric phase to the aperture-overlap function $Gamma(bold(q),bold(k))$.
 
 The key insight behind SSB is that, under the WPOA, detector pixels sampling the same sideband carry the same specimen phase $tilde(phi)(bold(q))$.
@@ -698,7 +698,7 @@ These algorithms can be grouped in two broad families: proximal gradient / proje
 
 === Proximal-Gradient / Projection-Set Methods <sec-projection-methods>
 
-The earliest iterative ptychographic algorithms derive from classical phase-retrieval methods in crystallography and coherent diffractive imaging @Fienup_1982 @Levi_1984 @Miao_1999 @Bauschke_2002 @Elser_2003 @Thibault_2008.
+The earliest iterative ptychographic algorithms derive from classical phase-retrieval methods in crystallography and coherent diffractive imaging @karle1985 @Fienup_1982 @Levi_1984 @Miao_1999 @Bauschke_2002 @Elser_2003 @Thibault_2008.
 These approaches frame reconstruction as finding an object-illumination pair $(cal(O),psi)$ lying in the intersection of two constraint sets: i) real-space constraint: the exit-wave must equal the product of the object and shifted illumination estimates, and ii) Fourier-modulus constraint: the exit-wave Fourier magnitude must match the measured intensities.
 
 Algorithms such as _error reduction_ (ER) @Levi_1984, _difference map_ (DM) @Elser_2003 @Thibault_2008, and _relaxed averaged alternating reflections_ (RAAR) @Luke_2004, repeatedly project (and/or reflect) the exit wave between these two sets.
@@ -816,9 +816,12 @@ A second often-necessary extension is the multislice approximation, which models
 Specifically, the modeled intensities for $N$ slices are given by:
 $
   psi_text("exit")^((j,n)) (bold(r)) &= cal(O)^((n))(bold(r)) psi^((n))(bold(r)-bold(R)_j) \
+$<eq-multi-slice-01>
+
+$
   psi^((n))(bold(r)) &= op("Prop")_(Delta z)[psi^((n-1))(bold(r))] text("for") n gt.eq 2\
   I_text("model")^((j)) (bold(k)) &= abs(cal(F)_(bold(r) arrow bold(k)){psi_text("exit")^((j,N))(bold(r))})^2 
-$<eq-multi-slice>
+$<eq-multi-slice-02>
 
 Multislice ptychography is crucial for quantitative imaging of materials far outside the weak-scattering regime, including thick crystals, buried interfaces, and defect structures @Ribet_2024.
 By explicitly modeling dynamical diffraction, the multislice framework mitigates systematic errors that appear when single-slice reconstructions attempt to explain multiple scattering using only a 2D projected potential.
@@ -827,8 +830,8 @@ As with mixed-state ptychography, this increased expressive power introduces add
 Explicit regularization along the beam direction helps stabilize the reconstruction, with machine-learning-based approaches relying on the implicit regularization of the network architecture  @McCray_2025.
 
 Combining ptychography with tomography can substantially improve multislice depth resolution @chen2024imaging @allars2025depth.
-Approaches such as few-tilt aperture synthesis and joint ptychography-tomography optimization recover complementary angular information, reducing the ambiguities inherent to purely depth-slicing multislice reconstructions @Lee_2023 @You_2024 @Dong_2025.
-These hybrid methods achieve more accurate 3D reconstructions and mitigate slice-mixing artifacts, particularly in thick or compositionally heterogeneous specimens.
+Approaches such as few-tilt acquisitions and joint ptychography-tomography optimization recover complementary angular information, reducing the ambiguities inherent to purely depth-slicing multislice reconstructions @Lee_2023 @You_2024 @Dong_2025.
+These methods achieve accurate 3D reconstructions and mitigate slice-mixing artifacts, particularly in thick or compositionally heterogeneous specimens.
 
 = Outlook
 
