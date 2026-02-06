@@ -619,7 +619,7 @@ However, ptychographic acquisitions on aberration-corrected instruments are ofte
         -upright(i) thin bold(k)_text("BF") dot bold(q)' \/ abs(bold(q))^2 quad &"if iCOM"
       )$ 
       // #h(1fr) #text(rgb("#808080"))[(compute estimator kernel)]
-      + $I'(bold(r)') +#h(-0.1em)= Re[cal(F)^(-1)_(bold(q)' arrow bold(r)'){G(bold(q)') H(bold(q)')}] \/ N_text("BF")$ 
+      + $I'(bold(r)') +#h(-0.1em)= Re{cal(F)^(-1)_(bold(q)' arrow bold(r)'){G(bold(q)') H(bold(q)')}} \/ N_text("BF")$ 
       // #h(1fr) #text(rgb("#808080"))[(apply kernel and accumulate)]
     + *end*\
   ],
@@ -628,12 +628,46 @@ However, ptychographic acquisitions on aberration-corrected instruments are ofte
 For low-dose experiments, the direct phase-retrieval techniques perform remarkably well as compared to their more computationally expensive counterparts @Varnavides_2025_ssnr, suggesting that more advanced reconstruction approaches may not be needed offline.
 However, for thick samples and experiments with higher electron fluence, iterative approaches outperform their direct phase retrieval counterparts as described in @sec-iterative.
 
-= Iterative Ptychography <sec-iterative>
+== Beyond the Weak Phase Object
 
 The direct phase-retrieval methods presented above provide fast, interpretable, and often remarkably robust reconstructions when multiple scattering is negligible.
-However, applying STEM phase retrieval to complex materials science questions requires going beyond the WPOA.
-Real specimens impart strong phase shifts, redistribute intensity nonlinearly, and may channel electrons through multiple atomic layers @Williams_2009 @Carter_2016 @Kirkland_2020.
-These effects are fundamentally incompatible with the linear WPOA model, requiring _iterative methods_ based on the strong-phase object approximation, in which the specimen is modeled according to @eq-ms.
+However, applying STEM phase retrieval to realistic materials often requires going beyond the WPOA.
+Strong phase shifts, nonlinear intensity redistribution, and electron channeling through multiple atomic layers @Williams_2009 @Carter_2016 @Kirkland_2020
+violate the assumptions of the linear WPOA model, motivating _iterative methods_ based on the strong-phase object approximation (@eq-ms).
+
+$
+  tilde(t)(bold(q)) = delta(bold(q)) + i tilde(phi)(bold(q)) - 1/2 [tilde(phi) star tilde(phi)](bold(q)) + cal(O)(tilde(phi)^3),
+$
+
+where $[tilde(phi) star tilde(phi)](bold(q))$ denotes the object phase autocorrelation. 
+Substituting this into the BF intensity and keeping terms up to second order gives
+
+$
+  G(bold(q),bold(k)) approx &abs(tilde(psi)(bold(k)))^2 delta(bold(q)) 
+  + 2 tilde(phi)(bold(q)) thin Gamma(bold(q),bold(k)) \
+  + & [tilde(phi) star tilde(phi)](bold(q)) thin Gamma(bold(q),bold(k)) 
+  + cal(O)(tilde(phi)^3),
+$<eq-beyond-wpoa>
+
+where the leading nonlinear correction factorizes into an object-dependent autocorrelation and the same $Gamma(bold(q),bold(k))$ aperture-overlap kernel used so far. 
+Formally, one could attempt a fixed-point iteration
+
+$
+  tilde(phi)^((n+1))(bold(q)) &= cal(A)^(-1)[G(bold(q),bold(k))-[tilde(phi) star tilde(phi)](bold(q)) thin Gamma(bold(q),bold(k)) ],
+$
+with $cal(A)^(-1)$ the linear inverse operator corresponding to a direct ptychography method, e.g., SSB:
+$
+ cal(A)^(-1)[X](bold(q)) &= sum_bold(k) (Gamma^*(bold(q),bold(k)) X(bold(q),bold(k))) / (abs(Gamma(bold(q),bold(k)))).
+$
+
+In practice, this quadratic correction has no effect on BF direct ptychography reconstructions.
+In the Born expansion, the linear term enters with an explicit factor of $i$, producing an odd-in-frequency, phase-like contribution, whereas the quadratic term is even in frequency and corresponds to absorptive-like contrast. 
+Phase-compensated direct ptychography operators such as SSB explicitly project onto the odd (phase) channel, so the quadratic contribution lies in the nullspace of the inverse operator and is identically zero. 
+While third-order terms are again odd and therefore non-zero, they scale as $tilde(phi)^3$ and do not factorize into a simple object–probe product, making them both negligible and incompatible with direct inversion, and rendering BF direct ptychography effectively self-linearizing.
+
+= Iterative Ptychography <sec-iterative>
+
+The limitations of direct phase-retrieval methods motivate a more general formulation, which abandons the linear WPOA inversion in favor of an explicit forward model of wave propagation, enabling quantitative reconstruction in the presence of strong phase shifts and multiple scattering. 
 
 Iterative approaches offer several key advantages.
 First, they enable super-resolution @Maiden_2009, allowing recovery of specimen information beyond the twice numerical-aperture limit of direct methods, and without imposing scan-step size restrictions.
@@ -824,8 +858,8 @@ Work at the Molecular Foundry was supported by the Office of Science, Office of 
 
 
 = Data availability
-The calibrated experimental datasets supporting the findings of this study are publicly available on Zenodo at #link("https://doi.org/10.5281/zenodo.18449975").
-All reconstruction and analysis notebooks used to generate the figures are available on GitHub at #link("https://github.com/curiousbeams/mrs-bulletin-phase-retrieval-abcs").
+The calibrated experimental datasets supporting the findings of this study are publicly available at #link("https://doi.org/10.5281/zenodo.18449975").
+All reconstruction and analysis notebooks used to generate the figures are available at #link("https://github.com/curiousbeams/mrs-bulletin-phase-retrieval-abcs").
 
 #bibliography(
   "references.bib",
