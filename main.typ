@@ -635,6 +635,7 @@ However, applying STEM phase retrieval to realistic materials often requires goi
 Strong phase shifts, nonlinear intensity redistribution, and electron channeling through multiple atomic layers @Williams_2009 @Carter_2016 @Kirkland_2020
 violate the assumptions of the linear WPOA model, motivating _iterative methods_ based on the strong-phase object approximation (@eq-ms).
 
+Beyond introducing those, it's instructive to ask whether including the second Born term suffices:
 $
   tilde(t)(bold(q)) = delta(bold(q)) + i tilde(phi)(bold(q)) - 1/2 [tilde(phi) star tilde(phi)](bold(q)) + cal(O)(tilde(phi)^3),
 $
@@ -644,8 +645,8 @@ Substituting this into the BF intensity and keeping terms up to second order giv
 
 $
   G(bold(q),bold(k)) approx &abs(tilde(psi)(bold(k)))^2 delta(bold(q)) 
-  + 2 tilde(phi)(bold(q)) thin Gamma(bold(q),bold(k)) \
-  + & [tilde(phi) star tilde(phi)](bold(q)) thin Gamma(bold(q),bold(k)) 
+  + Im[tilde(phi)(bold(q)) thin Gamma(bold(q),bold(k))] \
+  + & 1/2 Re[[tilde(phi) star tilde(phi)](bold(q)) thin Gamma(bold(q),bold(k))] 
   + cal(O)(tilde(phi)^3),
 $<eq-beyond-wpoa>
 
@@ -653,7 +654,7 @@ where the leading nonlinear correction factorizes into an object-dependent autoc
 Formally, one could attempt a fixed-point iteration
 
 $
-  tilde(phi)^((n+1))(bold(q)) &= cal(A)^(-1)[G(bold(q),bold(k))-[tilde(phi) star tilde(phi)](bold(q)) thin Gamma(bold(q),bold(k)) ],
+  tilde(phi)^((n+1))(bold(q)) &= cal(A)^(-1)[G(bold(q),bold(k))-1/2 [tilde(phi)^((n)) star tilde(phi)^((n))](bold(q)) thin Gamma(bold(q),bold(k)) ],
 $
 with $cal(A)^(-1)$ the linear inverse operator corresponding to a direct ptychography method, e.g., SSB:
 $
