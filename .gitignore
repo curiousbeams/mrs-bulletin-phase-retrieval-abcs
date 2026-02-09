@@ -2,3 +2,15 @@
 .ipynb_checkpoints
 .DS_Store
 *.raw
+
+# TeX
+main*.out
+main*.aux
+main*.bbl
+main*.blg
+main*.fls
+main*.log
+main*.gz
+main*.bib
+main.fdb_latexmk
+main*.pdf
