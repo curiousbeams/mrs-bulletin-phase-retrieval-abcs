@@ -161,7 +161,7 @@ To illustrate the basic principle, we restrict our attention to weakly-scatterin
 $
   psi_text("exit")(bold(r)) approx 1 + upright(i) sigma V_p (bold(r)) + cal(O)(sigma^2 V_p^2(bold(r))),
 $ <eq-wpoa>
-where $V_p (bold(r)) = integral_(-infinity)^infinity V(bold(r)) d z$ is the projected sample potential and drop terms quadratic in the interaction constant.
+where $V_p (bold(r)) = integral_(-infinity)^infinity V(bold(r)) d z$ is the projected sample potential and terms quadratic in the interaction constant are neglected.
 In this regime the specimen modifies only the phase of the electron wavefunction, so optical manipulations are required to convert the phase into measurable amplitude contrast.
 
 === Defocus Phase Contrast
@@ -181,7 +181,7 @@ Defocus thus converts sample-induced phase variations into intensity contrast th
 === Phase Plate Contrast
 
 Another approach is to introduce a phase shift using a post-specimen phase plate (@fig-schematic\a).
-Originating from optical phase contrast microscopy, it was awarded the 1953 Physics Nobel prize for transformative impact on biological imaging @Zernike_1942.
+Originating from optical phase contrast microscopy, this technique was awarded the 1953 Physics Nobel prize for transformative impact on biological imaging @Zernike_1942.
 An ideal phase plate shifts the unscattered beam by $pi\/2$:
 
 $
@@ -190,14 +190,14 @@ $
     tilde(psi)(bold(q)) &"otherwise."
   )
 $ <eq-zernike>
-Expanding again to first order in $sigma V_p (bold(r))$, the corresponding image intensity is given by:
+Expanding again to first order in $sigma V_p (bold(r))$, the corresponding image intensity is given by
 $
   I(bold(r)) approx 1 + 2 sigma V_p (bold(r)),
 $<eq-zernike-int>
 showing that a phase plate enables direct, linear transfer of the specimen phase into image intensity.
 
-@fig-pci illustrates these effects for a simulated 3D arrangement of single- and double-walled carbon nanotubes (CNTs) acquired at low dose. 
-The in-focus HRTEM image shows almost no contrast, especially for the top nanotube which is exactly at the focal plane of the microscope.
+@fig-pci illustrates these effects for a simulated three-dimensional arrangement of single- and double-walled carbon nanotubes (CNTs) acquired at low dose. 
+The in-focus HRTEM image shows almost no contrast, especially for the top nanotube, which is exactly at the focal plane of the microscope.
 Defocus improves visibility but introduces frequency-dependent contrast reversals, causing different regions of the CNTs to appear in or out of focus.
 Zernike phase contrast recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the CNTs from vacuum.
 
@@ -216,7 +216,7 @@ Zernike phase contrast recovers both the high-resolution lattice information and
 
 As discussed above, STEM is inherently a diffraction-based technique: at each probe position $bold(R)$, we have access to the diffraction intensity $I(bold(R),bold(k)) = abs(tilde(psi)_text("exit")(bold(R),bold(k)))^2$, where $bold(k)$ is the in-plane scattering vector.
 Historically, STEM has used monolithic annular detectors that integrate this intensity within annular collection limits to form a real-space image.
-A conventional annular signal is therefore given by:
+A conventional annular signal is therefore given by
 $
   I_text("ann")(bold(R)) = integral_(theta_text("in"))^(theta_text("out")) I(bold(R),bold(k)) d bold(k),
 $<eq-annular-int>
@@ -226,8 +226,8 @@ However, they discard sensitive information encoded in the exit-wave phase and a
 
 The development of fast, low-noise direct-electron detectors@Levin_2021 has enabled recording the full diffraction pattern $I(bold(R),bold(k))$ at every scan position, giving rise to a family of techniques collectively known as 4D-STEM @Ophus_2019.
 These datasets retain the full diffractive signature of the probe–specimen interaction, far beyond what can be accessed with scalar annular signals.
-Small convergence angle ("nanobeam") and large convergence angle (diffractive imaging) geometries are shown in @fig-schematic\b-c respectively.
-In this review, we will focus on the large set of approaches that computationally recover the phase of the specimen from this set of diffraction patterns, and this largely relies on a large convergence alignment (@fig-schematic\c).
+Small convergence angle ("nanobeam") and large convergence angle (diffractive imaging) geometries are shown in @fig-schematic\b-c, respectively.
+In this review, we focus on the large class of approaches that computationally recover the phase of the specimen from this set of diffraction patterns, which relies on a large convergence (@fig-schematic\c).
 We  refer to this class of approaches as diffractive imaging or STEM _phase retrieval_ techniques @sanchez2025.
 
 === Weak Phase Object Approximation
@@ -238,8 +238,8 @@ $
   I(bold(R),bold(k)) = integral integral &tilde(psi)(bold(k')) tilde(phi)(bold(k-k')) tilde(psi)^*(bold(k''))tilde(phi)^*(bold(k-k'')) \ &exp[2 pi upright(i) bold(R) dot (bold(k'-k''))] d bold(k') d bold(k'')
 $ <equate:revoke>
 
-Following #cite(<Rodenburg_1993>,form: "author"), it is convenient to take the Fourier transform of the measured intensities with respect to the scan position: $G(bold(q),bold(k)) = cal(F)_(bold(R) arrow bold(q)){I(bold(R),bold(k))}$, where $q$ represents the Fourier transform of the real space vector $r$.
-Using $tilde(phi)(bold(k)) = - tilde(phi)^*(-bold(k))$ @Rodenburg_1993, one obtains @Yang_2016:
+Following #cite(<Rodenburg_1993>,form: "author"), it is convenient to take the Fourier transform of the measured intensities with respect to the scan position, $G(bold(q),bold(k)) = cal(F)_(bold(R) arrow bold(q)){I(bold(R),bold(k))}$, where $bold(q)$ is the reciprocal variable corresponing to the real-space coordinate $bold(r)$.
+Using the identity $tilde(phi)(bold(k)) = - tilde(phi)^*(-bold(k))$ @Rodenburg_1993, one obtains @Yang_201
 $
   G(bold(q),bold(k)) &= abs(tilde(psi)(bold(k)))^2 delta(bold(q)) + Gamma(bold(q),bold(k)) tilde(phi)(bold(q)) \
   Gamma(bold(q),bold(k)) &equiv tilde(psi)^*(bold(k))tilde(psi)(bold(k-q)) - tilde(psi)(bold(k))tilde(psi)^*(bold(k+q)),
@@ -247,13 +247,12 @@ $<eq-wpoa-forward>
 where the aperture overlap function $Gamma(bold(q),bold(k))$ encapsulates the probe geometry and forms the basis of all non-iterative STEM phase retrieval methods.
 @fig-gamma shows characteristic views of $Gamma(bold(q),bold(k))$ for a defocused probe with a circular aperture.
 
-We take the probe to have the form $tilde(psi)(bold(k)) = A(bold(k)) upright(e)^(-upright(i) chi(bold(k)))$, where
-$A(bold(k))$ is a top-hat function describing the probe-forming aperture and $chi(bold(k))$ is the aberration surface given by:
+We take the probe to have the form $tilde(psi)(bold(k)) = A(bold(k)) upright(e)^(-upright(i) chi(bold(k)))$, where $A(bold(k))$ is a top-hat function describing the probe-forming aperture and $chi(bold(k))$ is the aberration surface given by:
 $
 chi(bold(k)) = (2 pi) / lambda sum_(n,m) 1 / (n+1) C_(n,m) (k lambda)^(n+1) cos[m(theta - theta_(n,m))] #h(1.5em)
 $<eq-chi>
 
-where $k = abs(bold(k))$, $theta = arctan[bold(k)]$, $n$ and $m$ are radial and azimuthal orders of coefficients $C_(n,m)$ with  axis $theta_(n,m)$.
+where $k = abs(bold(k))$, $theta = arctan[bold(k)]$, and $n$ and $m$ the radial and azimuthal orders of coefficients $C_(n,m)$ with axes $theta_(n,m)$.
 
 #figure(
   image("raster/mrs-bulletin-fig2.png",width: 100%),
@@ -271,7 +270,7 @@ where $k = abs(bold(k))$, $theta = arctan[bold(k)]$, $n$ and $m$ are radial and 
 
 Under the WPOA, STEM image formation is linear in the specimen phase.
 This allows us to define a contrast transfer function, $text("CTF")(bold(q))$,describing how well spatial frequencies of the specimen are transmitted or, in the context of STEM phase retrieval techniques, how faithfully they can be reconstructed.
-We write the reconstructed phase as:
+We write the reconstructed phase as
 $
   tilde(psi)_text("rec")(bold(q)) &= 2 tilde(phi)(bold(q)) times text("CTF")(bold(q)),
 $<eq-recon-ctf>
@@ -309,13 +308,14 @@ which is precisely the HRTEM CTF derived in the previous section, illustrating t
 
 === Statistically Reliable Information
 
-The CTF only describes the maximum transferable signal, not the statistical reliability of that signal under noise.
+The CTF only describes the maximum transferable signal, not the statistical reliability of that signal in the presence of noise.
 A complete description of information transfer must account for noise statistics, notably shot noise in electron detectors.
 The natural figure of merit is the spectral signal-to-noise ratio @Unser_1987 @Varnavides_2025_ssnr,
 $
   text("SSNR")(bold(q)) = (abs(chevron.l tilde(psi)(bold(q)) chevron.r))/sqrt(op("Var")[tilde(psi)(bold(q))]),
 $<eq-ssnr>
 which quantifies the statistically reliable recoverable information at each spatial frequency.
+
 The SSNR is related to the detective quantum efficiency (DQE), recently introduced as a quantitative performance metric for STEM phase retrieval @Bennemann_2025:
 $
   text("DQE")(bold(q)) = (text("SSNR")_text("out")^2 (bold(q))) / (text("SSNR")_text("in")^2 (bold(q)) ),
@@ -334,7 +334,8 @@ The first technique we will investigate goes by two seemingly unrelated names: _
 The former highlights its close connection to _tilt-corrected bright-field (tcBF) STEM_, which we investigate further in @sec-parallax.
 The latter name reflects the structure of the WPOA forward model in @eq-wpoa-forward, which contains two redundant contributions at $bold(q)$ and $-bold(q)$.
 
-In the absence of aberrations, these two "sidebands" are related by complex conjugation according to Friedel's law #footnote[Friedel’s law illustrates how a single mathematical principle -- the Hermitian conjugation symmetry of a Fourier transform of a real-valued function -- connects the physics of imaging with crystallographic structure determination @Friedel_1913 @karle1985.], so the specimen phase $tilde(phi)(bold(q))$ can be reconstructed using only one of them.
+In the absence of aberrations, these two "sidebands" are related by complex conjugation according to Friedel's law #footnote[Friedel’s law illustrates how a single mathematical principle -- the Hermitian conjugation symmetry of a Fourier transform of a real-valued function -- connects the physics of imaging with crystallographic structure determination @Friedel_1913 @karle1985.].
+Accordingly, the specimen phase $tilde(phi)(bold(q))$ can be reconstructed using only one of them.
 In practice, once aberrations are present, the two sidebands are no longer perfect conjugates: residual aberrations imprint an additional geometric phase to the aperture-overlap function $Gamma(bold(q),bold(k))$.
 
 The key insight behind SSB is that, under the WPOA, detector pixels sampling the same sideband carry the same specimen phase $tilde(phi)(bold(q))$.
@@ -352,21 +353,21 @@ Inserting the forward model $G(bold(q),bold(k)) = Gamma(bold(q),bold(k)) tilde(p
 $
   text("CTF")_text("SSB")(bold(q)) = upright(i)/2 sum_bold(k) abs(Gamma(bold(q),bold(k))).
 $<eq-ctf-ssb>
-For spatial frequencies beyond the aperture semiangle $abs(bold(q)) > q_0$, the overlap $Gamma(bold(q),bold(k))$ reduces to the "double-overlap" region, and the CTF collapses to the ideal autocorrelation enveloped in @eq-infocus-ctf.
+For spatial frequencies beyond the aperture semiangle $abs(bold(q)) > q_0$, the overlap $Gamma(bold(q),bold(k))$ reduces to the "double-overlap" region, and the CTF collapses to the ideal autocorrelation envelope in @eq-infocus-ctf.
 
-To understand the SSB variance, note that each detector frequency contributes a noisy measurement:
+To understand the SSB variance, note that each detector frequency contributes a noisy measurement,
 $
   G(bold(q),bold(k)) = Gamma(bold(q),bold(k)) tilde(phi)(bold(q)) + n(bold(q),bold(k)), 
 $ <eq-noise-model>
 with unit-variance noise $n(bold(q),bold(k))$ @Bennemann_2025.
-The phase-alignment step preserves unit variance, so noise contributions add incoherently, while the signal adds coherently.
+The phase-alignment step preserves unit variance, so noise contributions add incoherently while the signal adds coherently.
 Thus, the total variance at each spatial frequency $bold(q)$ is simply the number of detector pixels for which $Gamma(bold(q),bold(k))$ is nonzero: 
 $
 op("Var"[tilde(phi)_text("SSB")(bold(q))]) &= sum_bold(k) 1_(\{abs(Gamma(bold(q),bold(k))) >0\})  #label("equate:revoke")\
 & = 2 D(bold(q)) + T(bold(q)),
 $<eq-var-ssb>
-where $D(bold(q))$ and $T(bold(q))$ are the double and triple overlap regions (@fig-gamma).
-The resulting SSNR is @Bennemann_2025 @Varnavides_2025_ssnr:
+where $D(bold(q))$ and $T(bold(q))$ are the double- and triple-overlap regions (@fig-gamma).
+The resulting SSNR is @Bennemann_2025 @Varnavides_2025_ssnr
 $
   text("SSNR")_text("SSB")(bold(q)) = (sum_bold(k) abs(Gamma(bold(q),bold(k)))) / (2 sqrt(2 D(bold(q)) + T(bold(q))))
 $<eq-ssb-ssnr>
@@ -377,7 +378,7 @@ Phase-compensated SSB improves robustness against residual aberrations by removi
 However, SSB still treats all contributing detector pixels equally, even though the strength of the aperture overlap varies strongly across the BF disk, resulting in a statistically sub-optimal reconstruction.
 
 The _optimum bright-field (OBF) STEM_ method addresses this by applying a noise-matched normalization to the SSB estimator @Ooe_2021 @Ooe_2024.
-Starting from the phase-aligned numerator, OBF introduces a scalar normalization factor proportional to the root-mean-squared aperture overlap strength to obtain:
+Starting from the phase-aligned numerator, OBF introduces a scalar normalization factor proportional to the root-mean-squared aperture overlap strength:
 $
   tilde(phi)_text("OBF")(bold(q)) =  (sum_bold(k)Gamma^*(bold(q),bold(k)) G(bold(q), bold(k)))/sqrt(sum_bold(k)abs(Gamma(bold(q),bold(k)))^2).
 $<eq-obf-recon>
@@ -386,21 +387,21 @@ The denominator rescales the coherent SSB sum by the effective SSNR of the brigh
 For each spatial frequency, this normalization prevents a small subset of bright-field pixels with weak overlap from amplifying noise.
 Thus, OBF can be viewed as a noise-flattened SSB formulation, retaining geometric phase compensation but adjusting its gain to reflect information reliability.
 
-Substituting $G(bold(q),bold(k)) = Gamma(bold(q),bold(k)) tilde(phi)(bold(q))$ into @eq-obf-recon gives:
+Substituting the WPOA forward model into @eq-obf-recon gives
 $
   text("CTF")_text("OBF")(bold(q)) = upright(i)/2 sqrt(sum_bold(k) abs(Gamma(bold(q),bold(k)))^2).
 $<eq-obf-ctf>
 
-Using the additive unit-variance noise model from @eq-noise-model, the OBF estimator numerator becomes:
+Using the additive unit-variance noise model from @eq-noise-model, the OBF estimator numerator becomes
 $
   sum_bold(k) Gamma^*(bold(q),bold(k)) G(bold(q),bold(k)) = &sum_bold(k) abs(Gamma(bold(q),bold(k)))^2 tilde(phi)(bold(q)) + \ &sum_bold(k) Gamma^*(bold(q),bold(k)) n(bold(q),bold(k)), #label("eq-obf-numerator")
 $
-with the second term describing the additive noise contributions with total variance:
+with the second term describing the additive noise contributions with variance:
 $
   op("Var")[sum_bold(k) Gamma^*(bold(q),bold(k)) n (bold(q),bold(k))] = sum_bold(k) abs(Gamma(bold(q),bold(k)))^2.
 $<eq-obf-var>
 This is precisely the OBF denominator squared, thus normalizing the OBF variance to unity, $op("Var")[tilde(phi)_text("OBF")(bold(q))]=1$.
-The resulting OBF SSNR is thus given simply by the magnitude of its CTF:
+The resulting OBF SSNR is thus given simply by the magnitude of its CTF
 $
   text("SSNR")_text("OBF")(bold(q)) = 1/2 sqrt(sum_bold(k) abs(Gamma(bold(q),bold(k)))^2).
 $<eq-obf-ssnr>
