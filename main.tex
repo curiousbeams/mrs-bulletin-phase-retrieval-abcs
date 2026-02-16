@@ -487,15 +487,22 @@ This highlights an important subtlety: the statistically-reliable information co
 
 \subsection{Quadratic Approximation} \label{sec:parallax}
 
-Parallax imaging (tcBF) provides a computationally efficient approximation to SSB~\cite{Nguyen_2016,Spoth_2017,Yu_2025,Varnavides_2023,Varnavides_2024,Varnavides_2025}.
-Taylor-expanding $\Gamma(\boldsymbol{q},\boldsymbol{k})$ to first order in $\boldsymbol{q}$ gives
+The methods we have introduced so far all relied on the full aperture-overlap kernel $\Gamma(\boldsymbol{q},\boldsymbol{k})$, which is expensive to compute numerically.
+A natural question is whether a computationally efficient approximation exists that retains most of the information.
+
+The \emph{tilt-corrected bright-field (tcBF) STEM}~\cite{Nguyen_2016,Spoth_2017,Yu_2025} or \emph{parallax imaging}~\cite{Varnavides_2023,Varnavides_2024,Varnavides_2025} method originated independently, based on the reciprocity principle.
+Specifically, a virtual bright-field image formed form a given nonzero detector frequency during a defocused acquisition will appear laterally shifted in real space.
+Computationally reversing this parallax effect, with subpixel accuracy using a detector-frequency-dependent phase ramp, restores all virtual BF images into a common focal plane, where they can be coherently summed~\cite{Yu_2025,Varnavides_2025}.
+
+Formally, this parallax correction is equivalent to applying a phase factor $\exp[i \nabla_{\boldsymbol{k}} \chi(\boldsymbol{k}) \cdot \boldsymbol{q}]$ to the virtual bright-field images, where $\nabla_{\boldsymbol{k}} \chi(\boldsymbol{k})$ is the gradient of the aberration surface at bright field frequency $\boldsymbol{k}$.
+To see the connection with SSB explicitly, we Taylor-expand $\Gamma(\boldsymbol{q},\boldsymbol{k})$ to first order in $\boldsymbol{q}$:
 \begin{align}
 \Gamma(\boldsymbol{q},\boldsymbol{k})
 &\approx
-\beta(\boldsymbol{q},\boldsymbol{k})
+B(\boldsymbol{q},\boldsymbol{k})
 \exp\!\left[i\nabla_{\boldsymbol{k}}\chi(\boldsymbol{k})\cdot\boldsymbol{q}\right],
 \\
-\beta(\boldsymbol{q},\boldsymbol{k})
+B(\boldsymbol{q},\boldsymbol{k})
 &=
 A(\boldsymbol{k})
 \Big[
@@ -506,7 +513,10 @@ A(\boldsymbol{q}+\boldsymbol{k})e^{i\chi(\boldsymbol{q})}
 \label{eq:prlx-gamma-approx}
 \end{align}
 
-The parallax estimator is
+where $B(\boldsymbol{q},\boldsymbol{k})$ contains the aperture-overlap terms, while the remaining factor produces the parallax shift.
+Thus, parallax imaging can be seen as a quadratic approximation to SSB, where only the first-order-aberrations-induced phase ramp is retained.
+
+Combined with a global phase-flipping operation, parallax imaging provides a remarkably robust and computationally efficient approximation to SSB~\cite{Varnavides_2025}:
 \begin{equation}
 \tilde{\phi}_{\text{prlx}}(\boldsymbol{q})
 =
@@ -517,17 +527,20 @@ e^{-i\nabla_{\boldsymbol{k}}\chi(\boldsymbol{k})\cdot\boldsymbol{q}} .
 \label{eq:par-recon}
 \end{equation}
 
-Its CTF is
+The corresponding CTF is obtained by summing the omitted kernel $B(\boldsymbol{q},\boldsymbol{k})$ over the bright-field disk:
 \begin{align}
 \mathrm{CTF}_{\text{prlx}}(\boldsymbol{q})
 &=
-\frac{i}{2}\sum_{\boldsymbol{k}}\beta(\boldsymbol{q},\boldsymbol{k})
+\frac{i}{2}\sum_{\boldsymbol{k}}B(\boldsymbol{q},\boldsymbol{k})
 \nonumber\\
 &=
 -i\,\sin[\chi(\boldsymbol{q})]\,[A\star A](\boldsymbol{q}),
 \label{eq:prlx-ctf}
 \end{align}
-with SSNR
+which reduces to the axial-illumination CTF, modulated by the aperture autocorrelation function~\cite{Yu_2022,Varnavides_2024,Varnavides_2025}.
+
+Since the parallax estimator simply shifts each virtual bright-field image before coherently summing, the noise contributions retain unit variance.
+Consequently, $\operatorname{Var}\!\left[\tilde{\phi}_{\text{prlx}}(\boldsymbol{q})\right]=1$ and the parallax SSNR is
 \begin{equation}
 \mathrm{SSNR}_{\text{prlx}}(\boldsymbol{q})
 =
