@@ -135,6 +135,17 @@ Transforming this to real space and expanding to first order in $\sigma V_p(\bol
 where $h_{\Delta f}(\boldsymbol{r}) = \mathcal{F}^{-1}_{\boldsymbol{q}\rightarrow\boldsymbol{r}} \!\left\{ \sin\!\left[\pi \lambda \Delta f \lvert \boldsymbol{q} \rvert^2 \right] \right\}$ is the real-space convolution kernel corresponding to \cref{eq:defocus}, and $\circledast$ represents the convolution operation.
 Defocus thus converts sample-induced phase variations into intensity contrast through a sinusoidal convolution, leading to characteristic contrast reversals with increasing spatial frequency.
 
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{raster/phase_contrast_imaging_CNTs.png}
+  \caption{Simulated high-resolution TEM imaging
+  (a)~of single- and double-walled carbon nanotubes, acquired with an electron dose ofv$500~\mathrm{e}/\text{\AA}^2$ using:
+  (b)~in-focus optics,
+  (c)~$50$~nm of over-focus,
+  and (d)~an ideal Zernike phase plate.}
+  \label{fig:pci}
+\end{figure*}
+
 \subsubsection{Phase Plate Contrast}
 
 Another approach is to introduce a phase shift using a post-specimen phase plate (\cref{fig:schematic}a).
@@ -156,17 +167,6 @@ The in-focus HRTEM image shows almost no contrast, especially for the top nanotu
 Defocus improves visibility but introduces frequency-dependent contrast reversals, causing different regions of the CNTs to appear in or out of focus.
 Zernike phase contrast recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the CNTs from vacuum.
 
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=\textwidth]{raster/phase_contrast_imaging_CNTs.png}
-  \caption{Simulated high-resolution TEM imaging
-  (a)~of single- and double-walled carbon nanotubes, acquired with an electron dose ofv$500~\mathrm{e}/\text{\AA}^2$ using:
-  (b)~in-focus optics,
-  (c)~$50$~nm of over-focus,
-  and (d)~an ideal Zernike phase plate.}
-  \label{fig:pci}
-\end{figure*}
-
 \subsection{Diffractive Imaging}
 
 As discussed above, STEM is inherently a diffraction-based technique: at each probe position $\boldsymbol{R}$, we have access to the diffraction intensity $I(\boldsymbol{R},\boldsymbol{k}) = \lvert \tilde{\psi}_{\text{exit}}(\boldsymbol{R},\boldsymbol{k}) \rvert^2$, where $\boldsymbol{k}$ is the in-plane scattering vector.
@@ -185,6 +185,16 @@ These datasets retain the full diffractive signature of the probe–specimen int
 Small convergence-angle (``nanobeam'') and large convergence-angle (diffractive imaging) geometries are shown in \cref{fig:schematic}b-c, respectively.
 In this review, we focus on the large class of approaches that computationally recover the phase of the specimen from this set of diffraction patterns, which relies on a large convergence angle (\cref{fig:schematic}c).
 We refer to this class of approaches as diffractive imaging or STEM \emph{phase-retrieval} techniques~\cite{sanchez2025}.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{raster/mrs-bulletin-fig2.png}
+  \caption{Components of the aperture overlap function, $\Gamma(\boldsymbol{q},\boldsymbol{k})$.
+  (a)~Probe-forming aperture with (bottom) and without (top) aberration function at the back focal plane.
+  (b)~Slices along spatial frequencies $\boldsymbol{q}$ plotted over detector frequencies $\boldsymbol{k}$, highlighting the so-called ``double'' and ``triple'' overlap (``trotter'') regions.
+  (c)~Slices along detector frequencies $\boldsymbol{k}$ plotted over spatial frequencies $\boldsymbol{q}$, illustrating the effect of shifting the probe aperture and aberrations.}
+  \label{fig:gamma}
+\end{figure*}
 
 \subsubsection{Weak Phase Object Approximation}
 
@@ -217,16 +227,6 @@ We take the probe to have the form $\tilde{\psi}(\boldsymbol{k}) = A(\boldsymbol
 \end{equation}
 with $k=\lvert\boldsymbol{k}\rvert$, $\theta=\arctan(\boldsymbol{k})$, and $n$ and $m$ the radial and azimuthal orders of the aberration coefficients $C_{n,m}$ with axes $\theta_{n,m}$.
 
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=\textwidth]{raster/mrs-bulletin-fig2.png}
-  \caption{Components of the aperture overlap function, $\Gamma(\boldsymbol{q},\boldsymbol{k})$.
-  (a)~Probe-forming aperture with (bottom) and without (top) aberration function at the back focal plane.
-  (b)~Slices along spatial frequencies $\boldsymbol{q}$ plotted over detector frequencies $\boldsymbol{k}$, highlighting the so-called ``double'' and ``triple'' overlap (``trotter'') regions.
-  (c)~Slices along detector frequencies $\boldsymbol{k}$ plotted over spatial frequencies $\boldsymbol{q}$, illustrating the effect of shifting the probe aperture and aberrations.}
-  \label{fig:gamma}
-\end{figure*}
-
 \subsubsection{Transfer of Information}
 
 Under the WPOA, STEM image formation is linear in the specimen phase.
@@ -240,15 +240,13 @@ where the factor of $2$ follows common conventions~\cite{Dwyer_2024,Vega_2025}.
 An ideal phase-retrieval method would therefore satisfy $\mathrm{CTF}_{\text{ideal}}(\boldsymbol{q})=1$.
 
 For an arbitrary detector response function $D_j(\boldsymbol{k})$ (with $j$ indexing a detector pixel or segment), Hammel and Rose~\cite{Hammel_1995} showed that the complex-valued CTF is~\cite{Hammel_1995,rose_1977}
-\begin{equation}
+\begin{align}
   \mathrm{CTF}_j(\boldsymbol{q}) = \frac{i}{2} \int
-  \Big[
-    D_j(\boldsymbol{k})\,\tilde{\psi}^{*}(\boldsymbol{k})\tilde{\psi}(\boldsymbol{q}-\boldsymbol{k})
-    - D_j(\boldsymbol{k})\,\tilde{\psi}(\boldsymbol{k})\tilde{\psi}^{*}(\boldsymbol{q}+\boldsymbol{k})
-  \Big]
+    &D_j(\boldsymbol{k})\,\tilde{\psi}^{*}(\boldsymbol{k})\tilde{\psi}(\boldsymbol{q}-\boldsymbol{k}) \\
+    - &D_j(\boldsymbol{k})\,\tilde{\psi}(\boldsymbol{k})\tilde{\psi}^{*}(\boldsymbol{q}+\boldsymbol{k})
   \,\mathrm{d}\boldsymbol{k}.
   \label{eq:ctf}
-\end{equation}
+\end{align}
 
 For a pixelated detector, $D_j(\boldsymbol{k})=\delta(\boldsymbol{k})$, the integrand reduces to the aperture-overlap function $\Gamma(\boldsymbol{q},\boldsymbol{k})$.
 More compact expressions follow from an asymmetric decomposition of cross-correlations~\cite{Bekkevold_2025,Lazic_2017}:
@@ -420,9 +418,9 @@ The proper matched-filter (MF) solution for recovering $\tilde(\phi)(\boldsymbol
   \label{eq:mf-recon}
 \end{equation}
 
-While \cref{eq-mf-recon} is simple, direct evaluation in detector-space is numerically unstable:
+While~\cref{eq:mf-recon} is simple, direct evaluation in detector-space is numerically unstable:
 the numerator contains highly oscillatory phases from $\Gamma(\boldsymbol{q},\boldsymbol{k})$, and the denominator depends on the squared magnitude of a rapidly varying overlap kernel.
-Applying Parseval's theorem, $\sum_k \lvert \tilde(f)(k)\rvert^2 = \int d r \lvert f(r)\rvert^2$, and inverse Fourier transforming over $\boldsymbol{k}$ gives the MF estimator in the mixed-domain representation
+Applying Parseval's theorem, $\sum_k \lvert \tilde{f}(k)\rvert^2 = \int d r \lvert f(r)\rvert^2$, and inverse Fourier transforming over $\boldsymbol{k}$ gives the MF estimator in the mixed-domain representation
 \begin{align}
 \tilde{\phi}_{\text{MF-mix}}(\boldsymbol{q})
 &=
@@ -440,9 +438,18 @@ H(\boldsymbol{q},\boldsymbol{\rho})
 \mathcal{F}^{-1}\{G(\boldsymbol{q},\boldsymbol{k})\},
 \label{eq:wigner-h}
 \end{align}
-leading to the Wigner distribution deconvolution (WDD) estimator~\cite{Rodenburg_1992,Li_2014,Yang_2017}.
+where $\boldsymbol{\rho}$ is the detector separation.
+This utilizes the fact that the kernel $W(\boldsymbol{q},\boldsymbol{\rho})$ is highly-localized in $\rho$, suggesting that we can further improve numerical stability by switching to a pixelwise normalization
+\begin{equation}
+\tilde{\phi}_{\text{WDD}}(\boldsymbol{q})=
+\int \frac{ W^{*}(\boldsymbol{q},\boldsymbol{\rho})H(\boldsymbol{q},\boldsymbol{\rho})}
+{\lvert W(\boldsymbol{q},\boldsymbol{\rho}) \rvert^2+\epsilon(\boldsymbol{q},\boldsymbol{\rho})}\,\mathrm{d}\boldsymbol{\rho},
+\label{eq:wdd-recon}
+\end{equation}
+which is commonly referred to as the \emph{Wigner distribution deconvolution (WDD)} method~\cite{Rodenburg_1992,Li_2014,Yang_2017}.
+Similar to SSB, usually only one of the sidebands is used to form the kernel $W(\boldsymbol{q},\boldsymbol{\rho}) = \mathcal{F}^{-1}\{\tilde{\psi}(\boldsymbol{k-q})\tilde{\psi}^{*}(\boldsymbol{k})\}$.
 
-The MF/WDD CTF is
+The MF (and equivalently WDD) estimator can be characterized by a contrast transfer function by inserting the forward model into~\cref{eq:mf-recon}
 \begin{equation}
 \mathrm{CTF}_{\text{MF}}(\boldsymbol{q})
 =
@@ -450,14 +457,17 @@ The MF/WDD CTF is
 {\sum_{\boldsymbol{k}}\lvert \Gamma(\boldsymbol{q},\boldsymbol{k}) \rvert^2+\epsilon(\boldsymbol{q})},
 \label{eq:mf-ctf}
 \end{equation}
-with variance
+Note that for sufficiently small regularization $\epsilon(\boldsymbol{q})$, the matched-filter CTF approaches unity, implying perfect phase transfer.
+This is misleading, since the MF noise variance is similarly increased
 \begin{equation}
 \operatorname{Var}\!\left[\tilde{\phi}_{\text{MF}}(\boldsymbol{q})\right]
+=
+\frac{\operatorname{Var}\!\left[\tilde{\phi}_{\text{OBF}}(\boldsymbol{q})\right]}{\sum_{\boldsymbol{k}}\lvert \Gamma(\boldsymbol{q},\boldsymbol{k}) \rvert^2}
 =
 \frac{1}{\sum_{\boldsymbol{k}}\lvert \Gamma(\boldsymbol{q},\boldsymbol{k}) \rvert^2},
 \label{eq:mf-var}
 \end{equation}
-yielding an SSNR identical to OBF:
+to obtain an SSNR which is identical to that of OBF
 \begin{equation}
 \mathrm{SSNR}_{\text{MF}}(\boldsymbol{q})
 =
@@ -465,6 +475,8 @@ yielding an SSNR identical to OBF:
 \sqrt{\sum_{\boldsymbol{k}}\lvert \Gamma(\boldsymbol{q},\boldsymbol{k}) \rvert^2}.
 \label{eq:mf-ssnr}
 \end{equation}
+
+This highlights an important subtlety: the statistically-reliable information content is effectively the same for all three linear estimators we have explored so far, namely SSB, OBF, and MF/WDD.
 
 \begin{figure*}[t]
   \centering
