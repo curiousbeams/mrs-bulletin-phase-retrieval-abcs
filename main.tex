@@ -495,7 +495,7 @@ Specifically, a virtual bright-field image formed form a given nonzero detector 
 Computationally reversing this parallax effect, with subpixel accuracy using a detector-frequency-dependent phase ramp, restores all virtual BF images into a common focal plane, where they can be coherently summed~\cite{Yu_2025,Varnavides_2025}.
 
 Formally, this parallax correction is equivalent to applying a phase factor $\exp[i \nabla_{\boldsymbol{k}} \chi(\boldsymbol{k}) \cdot \boldsymbol{q}]$ to the virtual bright-field images, where $\nabla_{\boldsymbol{k}} \chi(\boldsymbol{k})$ is the gradient of the aberration surface at bright field frequency $\boldsymbol{k}$.
-To see the connection with SSB explicitly, we Taylor-expand $\Gamma(\boldsymbol{q},\boldsymbol{k})$ to first order in $\boldsymbol{q}$:
+To see the connection with SSB explicitly, we Taylor-expand $\Gamma(\boldsymbol{q},\boldsymbol{k})$ to first order in $\boldsymbol{q}$
 \begin{align}
 \Gamma(\boldsymbol{q},\boldsymbol{k})
 &\approx
@@ -516,7 +516,7 @@ A(\boldsymbol{q}+\boldsymbol{k})e^{i\chi(\boldsymbol{q})}
 where $B(\boldsymbol{q},\boldsymbol{k})$ contains the aperture-overlap terms, while the remaining factor produces the parallax shift.
 Thus, parallax imaging can be seen as a quadratic approximation to SSB, where only the first-order-aberrations-induced phase ramp is retained.
 
-Combined with a global phase-flipping operation, parallax imaging provides a remarkably robust and computationally efficient approximation to SSB~\cite{Varnavides_2025}:
+Combined with a global phase-flipping operation, parallax imaging provides a remarkably robust and computationally efficient approximation to SSB~\cite{Varnavides_2025}
 \begin{equation}
 \tilde{\phi}_{\text{prlx}}(\boldsymbol{q})
 =
@@ -527,7 +527,7 @@ e^{-i\nabla_{\boldsymbol{k}}\chi(\boldsymbol{k})\cdot\boldsymbol{q}} .
 \label{eq:par-recon}
 \end{equation}
 
-The corresponding CTF is obtained by summing the omitted kernel $B(\boldsymbol{q},\boldsymbol{k})$ over the bright-field disk:
+The corresponding CTF is obtained by summing the omitted kernel $B(\boldsymbol{q},\boldsymbol{k})$ over the bright-field disk
 \begin{align}
 \mathrm{CTF}_{\text{prlx}}(\boldsymbol{q})
 &=
@@ -551,8 +551,11 @@ Consequently, $\operatorname{Var}\!\left[\tilde{\phi}_{\text{prlx}}(\boldsymbol{
 \subsection{First-Moment Projection}
 \label{sec:icom}
 
-Integrated center-of-mass (iCOM) or iDPC imaging~\cite{Dekkers_1974,Lazic_2016} uses the first moment of the aperture overlap.
-With vector detector response $D(\boldsymbol{k})=\boldsymbol{k}$,
+An alternative and computationally efficient route to STEM phase retrieval is to take the first moment of the aperture–overlap function, known either as \emph{integrated center-of-mass (iCOM) imaging} or \emph{integrated differential phase contrast (iDPC or DPC)}~\cite{Dekkers_1974,Lazic_2016}.
+Compared to other direct approaches, these are the most computationally-efficient and straightforward, although they do not provide the same aberration deconvolution advantages discussed above for the other direct approaches.
+
+Starting from the WPOA CTF expression in~\cref{eq:ctf} and using a vectorial detector response $D(\boldsymbol{k}) = \boldsymbol{k}$, we obtain the vector COM transfer function as
+
 \begin{align}
 \mathrm{CTF}_{\text{COM}}(\boldsymbol{q})
 &=
@@ -562,24 +565,27 @@ With vector detector response $D(\boldsymbol{k})=\boldsymbol{k}$,
 \frac{i\boldsymbol{q}}{2}[\tilde{\psi}\star\tilde{\psi}](\boldsymbol{q}).
 \label{eq:com-ctf}
 \end{align}
+i.e. the first moment of $\Gamma(\boldsymbol{q},\boldsymbol{k})$ which is proportional to the probe autocorrelation weighted by $\boldsymbol{q}$.
 
-Fourier integration yields
+Fourier differentiation satisfies $\mathcal{F}_{\boldsymbol{r} \rightarrow \boldsymbol{q}}\{\nabla_{\boldsymbol{r}} \phi(\boldsymbol{r})\} = i \, \boldsymbol{q} \; \tilde{\phi}(\boldsymbol{q})$, and thus we recognize the measured COM signal as a filtered estimate of the phase gradient, with the filter given by the probe autocorrelation.
+To obtain the specimen phase, we Fourier-integrate the vector COM measurement to obtain:
 \begin{equation}
 \tilde{\phi}_{\text{iCOM}}(\boldsymbol{q})
 =
-\frac{\sum_{\boldsymbol{k}}\boldsymbol{q}\cdot[G(\boldsymbol{q},\boldsymbol{k})\,\boldsymbol{k}]}
+\sum_{\boldsymbol{k}} \frac{\boldsymbol{q}\cdot[G(\boldsymbol{q},\boldsymbol{k})\,\boldsymbol{k}]}
 {i\lvert \boldsymbol{q} \rvert^2},
 \label{eq:icom-recon}
 \end{equation}
-with scalar CTF
+Applying the same integration to the vectorial CTF yields the scalar iCOM transfer function
 \begin{equation}
 \mathrm{CTF}_{\text{iCOM}}(\boldsymbol{q})
 =
-i[\tilde{\psi}\star\tilde{\psi}](\boldsymbol{q}).
+i[\tilde{\psi}\star\tilde{\psi}](\boldsymbol{q}),
 \label{eq:icom-ctf}
 \end{equation}
+highlighting that iCOM reconstructs the specimen phase convolved with the probe autocorrelation~\cite{Bekkevold_2025}.
 
-The corresponding SSNR scales as~\cite{Varnavides_2025_ssnr}
+The COM signal division by the spatial frequency, suggests the noise in the reconstruction scales with $\lvert\boldsymbol{q}\rvert$, to give the iCOM SSNR as~\cite{Varnavides_2025_ssnr}
 \begin{equation}
 \mathrm{SSNR}_{\text{iCOM}}(\boldsymbol{q})
 =
@@ -587,6 +593,8 @@ The corresponding SSNR scales as~\cite{Varnavides_2025_ssnr}
 {\lvert \boldsymbol{q} \rvert}.
 \label{eq:icom-ssnr}
 \end{equation}
+
+\Cref{eq:icom-ssnr} highlights that while the iCOM CTF suggests low spatial frequencies transfer with unit contrast, the corresponding SSNR shows these components become increasingly noisy in practice~\cite{Varnavides_2023,Yu_2025,Varnavides_2025_ssnr}.
 
 \subsection{Comparison of Direct Techniques}
 
