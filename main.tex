@@ -32,7 +32,6 @@ Department of Imaging Physics, Delft University of Technology, Lorentzweg 1, 262
 Department of Imaging Physics, Delft University of Technology, Lorentzweg 1, 2628 CJ Delft, The Netherlands
 }
 \author{Stephanie M. Ribet}
-\email{sribet@lbl.gov}
 \affiliation{
 National Center for Electron Microscopy, Molecular Foundry, Lawrence Berkeley National Laboratory, Berkeley, CA 94720, USA
 }
@@ -598,7 +597,7 @@ The COM signal division by the spatial frequency, suggests the noise in the reco
 
 \subsection{Comparison of Direct Techniques}
 
-The phase estimators introduced above—SSB, OBF, MF/WDD, parallax, and iCOM—all originate from the same WPOA forward model in \cref{eq:wpoa-forward} and additive noise model in \cref{eq:noise-model}.
+The phase estimators introduced above -- SSB, OBF, MF/WDD, parallax, and iCOM -- all originate from the same WPOA forward model in \cref{eq:wpoa-forward} and additive noise model in \cref{eq:noise-model}.
 They primarily differ in (i) how they weight the bright-field intensities, (ii) how they normalize the coherent sum, and (iii) how much of the aperture-overlap kernel they retain.
 
 SSB performs an unnormalized coherent projection using the full aperture-overlap kernel.
@@ -633,6 +632,9 @@ Conversely, parallax reconstructions are often performed for defocused acquisiti
 The SSB, OBF, and MF/WDD techniques perform a full deconvolution of the aperture overlap and are also suited for acquisitions with residual higher-order aberration~\cite{Varnavides_2025,Susi_2025}.
 However, ptychographic acquisitions on aberration-corrected instruments are often dominated by first-order aberrations such as defocus and astigmatism, suggesting the quadratic approximation provided by parallax yields a nearly identical reconstruction as SSB, OBF, or MF/WDD~\cite{Varnavides_2025_ssnr}.
 
+For low-dose experiments, the direct phase-retrieval techniques perform remarkably well as compared to their more computationally expensive counterparts~\cite{Varnavides_2025_ssnr}, suggesting that more advanced reconstruction approaches may not be needed offline.
+However, for thick samples and experiments with higher electron fluence, iterative approaches outperform their direct phase retrieval counterparts as described in the Iterative Ptychography section.
+
 \begin{figure}
 \renewcommand{\figurename}{Algorithm}
 \hrule \vspace{5pt}
@@ -664,12 +666,13 @@ However, ptychographic acquisitions on aberration-corrected instruments are ofte
   \Statex $G(\boldsymbol{q}) \leftarrow \mathcal{F}_{\boldsymbol{r}\rightarrow\boldsymbol{q}}\!\left[I_{\mathrm{BF}}[i](\boldsymbol{r})\right]$
   \Statex $G(\boldsymbol{q}') \leftarrow \mathrm{tile}_f\!\left[G(\boldsymbol{q})\right]$
 
-  \Statex Compute estimator kernel $H(\boldsymbol{q}')$:
-  \Statex \quad SSB:\quad $H=-i\,\Gamma^*(\boldsymbol{q}',\boldsymbol{k}_{\mathrm{BF}})/|\Gamma|$
-  \Statex \quad OBF:\quad $H=-i\,\Gamma^*/\sqrt{\sum_{\boldsymbol{k}\in\boldsymbol{k}_{\mathrm{BF}}}|\Gamma|^2}$
-  \Statex \quad MF:\quad $H=-i\,\Gamma^*/\left(\sum_{\boldsymbol{k}\in\boldsymbol{k}_{\mathrm{BF}}}|\Gamma|^2+\epsilon(\boldsymbol{q}')\right)$
-  \Statex \quad prlx:\quad $H=\exp[-i\nabla_{\boldsymbol{k}}\chi(\boldsymbol{k}_{\mathrm{BF}})\!\cdot\!\boldsymbol{q}']\,\mathrm{sgn}[\sin\chi(\boldsymbol{q}')]$
-  \Statex \quad iCOM:\quad $H=-i\,\boldsymbol{k}_{\mathrm{BF}}\!\cdot\!\boldsymbol{q}'/|\boldsymbol{q}'|^2$
+  \Statex $H(\boldsymbol{q}')\leftarrow \begin{cases}
+    -i\,\Gamma^*(\boldsymbol{q}',\boldsymbol{k}_{\mathrm{BF}})/|\Gamma| & \text{if SSB} \\
+    -i\,\Gamma^*/\sqrt{\sum_{\boldsymbol{k}\in\boldsymbol{k}_{\mathrm{BF}}}|\Gamma|^2} & \text{if OBF} \\
+    i\,\Gamma^*/\left(\sum_{\boldsymbol{k}\in\boldsymbol{k}_{\mathrm{BF}}}|\Gamma|^2+\epsilon(\boldsymbol{q}')\right) & \text{if MF} \\
+    \exp[-i\nabla_{\boldsymbol{k}}\chi(\boldsymbol{k}_{\mathrm{BF}})\!\cdot\!\boldsymbol{q}']\,\mathrm{sgn}[\sin\chi(\boldsymbol{q}')] & \text{if prlx} \\
+    -i\,\boldsymbol{k}_{\mathrm{BF}}\!\cdot\!\boldsymbol{q}'/|\boldsymbol{q}'|^2 & \text{if iCOM} \\
+  \end{cases}$
 
   \Statex $I'(\boldsymbol{r}') \mathrel{+}= \Re\!\left\{\mathcal{F}^{-1}_{\boldsymbol{q}'\rightarrow\boldsymbol{r}'}[G(\boldsymbol{q}')H(\boldsymbol{q}')]\right\}/N_{\mathrm{BF}}$
 \EndFor
