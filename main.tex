@@ -1,42 +1,50 @@
-\documentclass[reprint, aps, prl, amsmath, amssymb, showkeys]{revtex4-2}
+\documentclass[pdflatex,sn-aps,iicol]{sn-jnl}% American Physical Society (APS) Reference Style
 
-\usepackage{xcolor}
-\usepackage{soul}
-\usepackage{newtxtext}
-\usepackage[cmintegrals]{newtxmath} 
 \usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage[title]{appendix}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{manyfoot}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{listings}
+
+\usepackage{soul}
 \usepackage{hyperref}
 \usepackage{cleveref}
+\usepackage{microtype}
 \hypersetup{colorlinks,
 	linkcolor={blue!75!black!80!yellow},
 	citecolor={blue!75!black!80!yellow},
 	urlcolor={blue!75!black!80!yellow}
 }
 
-\usepackage{algorithm} 
-\usepackage{algpseudocode}
+\usepackage{url}
+\usepackage[strings]{underscore}
+\usepackage{geometry}
+\geometry{columnsep=20pt, left=1.5cm, right=1.5cm, top=2cm, bottom=2cm}
+\sloppy
 
 \begin{document}
 
-\title{
-The ABCs of Phase Retrieval:\\
+\title[The ABCs of Phase Retrieval]{
+The ABCs of Phase Retrieval:
 Connecting the Acronyms of Scanning Transmission Electron Microscopy
 }
-\author{Georgios Varnavides}
-\email{g.varnavides@tudelft.nl}
-\affiliation{
-Department of Imaging Physics, Delft University of Technology, Lorentzweg 1, 2628 CJ Delft, The Netherlands
-}
-\author{Willem P.M. de Kleijne}
-\affiliation{
-Department of Imaging Physics, Delft University of Technology, Lorentzweg 1, 2628 CJ Delft, The Netherlands
-}
-\author{Stephanie M. Ribet}
-\affiliation{
-National Center for Electron Microscopy, Molecular Foundry, Lawrence Berkeley National Laboratory, Berkeley, CA 94720, USA
-}
+\author*[1]{\fnm{Georgios} \sur{Varnavides}} \email{g.varnavides@tudelft.nl}
+\author[1]{\fnm{Willem P.M.} \sur{de Kleijne}}
+\author[2]{\fnm{Stephanie M.} \sur{Ribet}}
 
-\begin{abstract}
+\affil[1]{\orgdiv{Department of Imaging Physics}, \orgname{Delft University of Technology}, \orgaddress{\street{Lorentzweg 1}, \city{Delft}, \postcode{2628 CJ}, \country{The Netherlands}}}
+\affil[2]{\orgdiv{National Center for Electron Microscopy, Molecular Foundry}, \orgname{Lawrence Berkeley National Laboratory}, \orgaddress{\street{67 Cyclotron Rd}, \city{Berkeley}, \postcode{CA 94720}, \country{USA}}}
+
+\abstract{
 High-resolution scanning transmission electron microscopy (STEM) is an indispensable tool for characterizing the structure and properties of materials down to the atomic scale.
 Conventional STEM imaging, however, is limited by the phase problem, whereby the phase of the electron exit wave is lost upon detection.
 Recent advances in diffractive imaging and 4D-STEM have enabled a range of phase retrieval techniques that computationally reconstruct the missing information.
@@ -45,7 +53,7 @@ In this work, we introduce the phase problem in electron microscopy and survey t
 Despite their many acronyms and algorithmic variations, these techniques share a common physical and mathematical foundation.
 We present a unified framework that connects these seemingly distinct methods, from parallax imaging and tilt-corrected bright field (tcBF-STEM), to aberration-corrected bright-field (acBF-STEM), optimum bright field (OBF-STEM) and single-sideband (SSB) ptychography, as well as iterative ptychographic algorithms.
 Based on these insights, we discuss the opportunities and practical limitations of applying these methods across different materials systems, detector designs, and microscope configurations.
-\end{abstract}
+}
 
 \keywords{transmission electron microscopy (TEM); scanning transmission electron microscopy (STEM); nanostructure; crystallographic structure; 2D materials}
 
@@ -105,6 +113,17 @@ Electrons are not absorbed by the specimen (ignoring weak inelastic losses), and
 Thus, the structural information of interest to materials scientists is encoded in the phase of the exit wave, not its magnitude.
 Recovering the exit-wave phase from intensity-only measurements is therefore the central challenge.
 
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{raster/phase_contrast_imaging_CNTs.png}
+  \caption{Simulated high-resolution TEM imaging
+  (a)~of single- and double-walled carbon nanotubes, acquired with an electron dose ofv$500~\mathrm{e}/\text{\AA}^2$ using:
+  (b)~in-focus optics,
+  (c)~$50$~nm of over-focus,
+  and (d)~an ideal Zernike phase plate.}
+  \label{fig:pci}
+\end{figure*}
+
 \subsection{Phase Contrast Imaging}
 
 A direct approach to the microscopy phase problem is to leverage the imaging optics to convert otherwise imperceptible phase variations in the exit wave into measurable intensity variations in the imaging plane.
@@ -133,17 +152,6 @@ Transforming this to real space and expanding to first order in $\sigma V_p(\bol
 \end{equation}
 where $h_{\Delta f}(\boldsymbol{r}) = \mathcal{F}^{-1}_{\boldsymbol{q}\rightarrow\boldsymbol{r}} \!\left\{ \sin\!\left[\pi \lambda \Delta f \lvert \boldsymbol{q} \rvert^2 \right] \right\}$ is the real-space convolution kernel corresponding to \cref{eq:defocus}, and $\circledast$ represents the convolution operation.
 Defocus thus converts sample-induced phase variations into intensity contrast through a sinusoidal convolution, leading to characteristic contrast reversals with increasing spatial frequency.
-
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=\textwidth]{raster/phase_contrast_imaging_CNTs.png}
-  \caption{Simulated high-resolution TEM imaging
-  (a)~of single- and double-walled carbon nanotubes, acquired with an electron dose ofv$500~\mathrm{e}/\text{\AA}^2$ using:
-  (b)~in-focus optics,
-  (c)~$50$~nm of over-focus,
-  and (d)~an ideal Zernike phase plate.}
-  \label{fig:pci}
-\end{figure*}
 
 \subsubsection{Phase Plate Contrast}
 
@@ -1081,7 +1089,6 @@ Work at the Molecular Foundry was supported by the Office of Science, Office of 
 The calibrated experimental datasets supporting the findings of this study are publicly available at~\url{https://doi.org/10.5281/zenodo.18449975}.
 All reconstruction and analysis notebooks used to generate the figures are available at~\url{https://github.com/curiousbeams/mrs-bulletin-phase-retrieval-abcs}.
 
-\bibliographystyle{apsrev4-2}
 \bibliography{references}
 
 \end{document}
