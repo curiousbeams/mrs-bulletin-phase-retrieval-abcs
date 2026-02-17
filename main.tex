@@ -306,6 +306,13 @@ Thus, the DQE provides a normalized measure of how efficiently a method transfer
 Equipped with the WPOA aperture-overlap and CTF/SSNR formalisms, we are now ready to investigate the zoo of non-iterative STEM phase-retrieval methods and their various acronyms.
 These differ primarily in how they combine the Fourier-transformed measured diffraction intensities $G(\boldsymbol{q},\boldsymbol{k})$ to produce an estimate for the specimen phase $\tilde{\phi}(\boldsymbol{q})$.
 
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{raster/direct-ctf-figure.png}
+  \caption{Contrast transfer functions (CTFs) and spectral signal-to-noise ratios (SSNRs) for all direct techniques investigated across different acquisition parameters, highlighting the SSNR equivalence for SSB, OBF, and MF/WDD.}
+  \label{fig:ctf}
+\end{figure*}
+
 \subsection{Phase-Compensated Coherent Sum}
 \label{sec:ssb}
 
@@ -400,9 +407,9 @@ The resulting OBF SSNR is thus given simply by the magnitude of its CTF
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\textwidth]{raster/direct-ctf-figure.png}
-  \caption{Contrast transfer functions (CTFs) and spectral signal-to-noise ratios (SSNRs) for all direct techniques investigated across different acquisition parameters, highlighting the SSNR equivalence for SSB, OBF, and MF/WDD.}
-  \label{fig:ctf}
+  \includegraphics[width=\textwidth]{vector/direct_gold_mos2.pdf}
+  \caption{Direct-method reconstructions for (a)~near-focus MoS$_2$ acquisition~\cite{zhang2025atom} and (b)~defocused gold nanoparticle datasets.}
+  \label{fig:exp-compare}
 \end{figure*}
 
 \subsection{Least-Squares Matched Filter}
@@ -477,13 +484,6 @@ to obtain an SSNR which is identical to that of OBF
 
 This highlights an important subtlety: the statistically-reliable information content is effectively the same for all three linear estimators we have explored so far, namely SSB, OBF, and MF/WDD.
 
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=\textwidth]{vector/direct_gold_mos2.pdf}
-  \caption{Direct-method reconstructions for (a)~near-focus MoS$_2$ acquisition~\cite{zhang2025atom} and (b)~defocused gold nanoparticle datasets.}
-  \label{fig:exp-compare}
-\end{figure*}
-
 \subsection{Quadratic Approximation} \label{sec:parallax}
 
 The methods we have introduced so far all relied on the full aperture-overlap kernel $\Gamma(\boldsymbol{q},\boldsymbol{k})$, which is expensive to compute numerically.
@@ -546,6 +546,14 @@ Consequently, $\operatorname{Var}\!\left[\tilde{\phi}_{\text{prlx}}(\boldsymbol{
 \lvert \sin[\chi(\boldsymbol{q})] \rvert\,[A\star A](\boldsymbol{q}).
 \label{eq:prlx-ssnr}
 \end{equation}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{vector/upsample.pdf}
+  \caption{Upsampled
+  \textit{(a)} gold nanoparticles and \textit{(b)} apoferritin~\cite{Berk_2024} parallax imaging reconstructions.}
+  \label{fig:uspsample}
+\end{figure}
 
 \subsection{First-Moment Projection}
 \label{sec:icom}
@@ -610,14 +618,6 @@ Parallax imaging uses a first-order approximation to the aperture-overlap kernel
 making it computationally cheap.
 Parallax subpixel shift estimation accuracy enables scan step-size upsampling (\cref{fig:uspsample}), although this can be extended to other direct methods as well~\cite{Varnavides_2025}.
 Finally, iCOM bypasses the overlap kernel entirely, and instead takes the first moment of the bright-field intensities and reconstructs the phase by Fourier integration of the resulting COM signal.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{vector/upsample.pdf}
-  \caption{Upsampled
-  \textit{(a)} gold nanoparticles and \textit{(b)} apoferritin~\cite{Berk_2024} parallax imaging reconstructions.}
-  \label{fig:uspsample}
-\end{figure}
 
 With the exception of iCOM, these techniques rely on an accurate estimation of the aberrations, which can be calculated through optimization routines based on self-consistency error~\cite{Varnavides_2025}, or by least-squares fitting of linear systems of equations~\cite{Varnavides_2023,Yu_2025}.
 
@@ -792,6 +792,17 @@ The goal of single-slice ptychography is to recover the complex-valued object $\
 Each scan position must satisfy the nonlinear Fourier-modulus constraint $\left\lvert \tilde{\psi}_{\text{exit}}^{(j)}(\boldsymbol{k}) \right\rvert = \sqrt{I_{\text{meas}}^{(j)}(\boldsymbol{k})}$, which requires iterative algorithms alternating between real-space and Fourier space constraints.
 These algorithms can be grouped in two broad families: proximal gradient / projection-set methods and gradient-based optimization methods~\cite{Varnavides_2023}.
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{vector/iterative.pdf}
+\caption{
+Iterative ptychography reconstructions of
+\textbf{a)} apoferritin~\cite{Berk_2024}, \textbf{b)} MoS$_2$~\cite{zhang2025atom}, and \textbf{c)} gold nanoparticles on amorphous carbon.
+Aberrations coefficients were initialized using direct ptychography reconstructions in \cref{fig:exp-compare,fig:uspsample}.
+}
+\label{fig:iterative}
+\end{figure*}
+
 \subsubsection{Proximal-Gradient / Projection-Set Methods}
 \label{sec:projection-methods}
 
@@ -868,17 +879,6 @@ ER $(a=0,b=1,c=1)$~\cite{Levi_1984}, DM $(a=-1,b=1,c=2)$~\cite{Elser_2003}, and 
 
 Projection-set algorithms are robust and computationally simple, relying only on pointwise operations.
 However, their relation to an explicit optimization problem is indirect, making them harder to generalize and sometimes slow to converge in low-redundancy or strong-scattering regimes~\cite{Varnavides_2023}.
-
-\begin{figure*}[t]
-\centering
-\includegraphics[width=\textwidth]{vector/iterative.pdf}
-\caption{
-Iterative ptychography reconstructions of
-\textbf{a)} apoferritin~\cite{Berk_2024}, \textbf{b)} MoS$_2$~\cite{zhang2025atom}, and \textbf{c)} gold nanoparticles on amorphous carbon.
-Aberrations coefficients were initialized using direct ptychography reconstructions in \cref{fig:exp-compare,fig:uspsample}.
-}
-\label{fig:iterative}
-\end{figure*}
 
 \subsubsection{Gradient-Based Methods}
 
@@ -1011,7 +1011,7 @@ Conventional approaches impose orthogonality, sparsity, or low-rank constraints 
 
 \subsubsection{Depth Information}
 
-A second often-necessary extension is the multislice approximation, which models strong multiple scattering in thicker specimens using \cref{eq:ms-both}.
+A second often-necessary extension is the multislice approximation, which models strong multiple scattering in thicker specimens using \cref{eq:ms}.
 Specifically, the modeled intensities for $N$ slices are given by:
 \begin{align}
 \psi_{\text{exit}}^{(j,n)}(\boldsymbol{r})
@@ -1049,6 +1049,37 @@ Combining ptychography with tomography can substantially improve multislice dept
 Approaches such as few-tilt acquisitions and joint ptychography-tomography optimization recover complementary angular information, reducing the ambiguities inherent to purely depth-slicing multislice reconstructions~\cite{Lee_2023,You_2024,Dong_2025}.
 These methods achieve accurate 3D reconstructions and mitigate slice-mixing artifacts, particularly in thick or compositionally heterogeneous specimens.
 
+\section{Outlook}
+
+The ability of phase-retrieval techniques to recover weak scattering signals makes the approaches described here broadly applicable across materials science and engineering.
+They are particularly well suited for beam-sensitive, low-atomic-number specimens such as polymers~\cite{bardot2025mechanically}, biological structures~\cite{Berk_2024,Yu_2025,Spoth_2017}, and hard–soft composites including metal–organic frameworks~\cite{Ma_2025,shen2020imaging} and DNA origami~\cite{ding2022three}.
+Phase retrieval methods are also increasingly applied to inorganic materials, where they enable sensitivity to subtle structural variations of light elements in functional systems relevant to energy and quantum science~\cite{lozano2018low,kp2025electron}.
+Common specimens include nanoparticles~\cite{shi2025electron,Ribet_2024,Varnavides_2023}, one-dimensional nanostructures such as nanotubes~\cite{yang2016simultaneous,pelz2023solving}, two-dimensional materials~\cite{jiang2018electron,o2022increasing,Susi_2025,byrne2025fabrication,zhang2025atom}, thin films~\cite{dong2025sub}, and cross-sectional views of thicker crystalline samples~\cite{scheid2025atomic,chen2024imaging}.
+
+Recent work has demonstrated that ptychographic phase retrieval can even be performed on uncorrected instruments~\cite{nguyen2024achieving}, including at low accelerating voltages and small convergence angles~\cite{blackburn2025sub}.
+Nevertheless, successful phase retrieval remains experimentally demanding, and in practice most samples benefit substantially from aberration correction.
+Adequate overlap in reciprocal space is essential to ensure a unique and accurate reconstruction, and phase retrieval workflows in materials science still largely rely on advanced hardware, including fast pixelated detectors and aberration-correction.
+
+As discussed for both direct and iterative approaches, defocused acquisitions can improve information transfer in phase retrieval experiments.
+However, selecting suitable experimental parameters remains challenging: reliable convergence depends sensitively on defocus, probe size, and scan step, while accurate estimation of the applied defocus can be nontrivial, especially for thick specimens.
+Estimating the defocus value applied during an experiment can be challenging, especially for thicker samples.
+These challenges are exacerbated in very low-dose experiments, where data may need to be acquired blindly and image quality assessed only through post-processing.
+
+Direct reconstruction techniques are computationally efficient and can often be performed live during data acquisition using modern hardware~\cite{Yu_2022,Ooe_2021,Pelz_2022,Strauch_2021}.
+Such on-the-fly reconstructions are valuable for optimizing experimental parameters, verifying sample thickness, and detecting beam damage in real time.
+In typical workflows, direct phase retrieval is used during acquisition, while more computationally intensive iterative reconstructions, especially those involving multislice propagation or mixed-state modeling, are carried out offline on GPU-equipped workstations and high-performance computer clusters.
+
+Looking forward, key challenges include extending phase retrieval to thicker specimens, larger fields of view, and higher-dimensional datasets that combine phase retrieval with tomography, spectroscopy, or time-resolved measurements, as well as adapting these methods to an increasingly diverse range of microscope configurations.
+Many groups are already pushing to extend these techniques through both hardware and software advances, which will allow for more advanced materials characterization in the near future.
+
+\section*{Acknowledgement}
+
+Work at the Molecular Foundry was supported by the Office of Science, Office of Basic Energy Sciences, of the U.S.\ Department of Energy under Contract No.\ DE-AC02-05CH11231.
+
+\section*{Data availability}
+
+The calibrated experimental datasets supporting the findings of this study are publicly available at~\url{https://doi.org/10.5281/zenodo.18449975}.
+All reconstruction and analysis notebooks used to generate the figures are available at~\url{https://github.com/curiousbeams/mrs-bulletin-phase-retrieval-abcs}.
 
 \bibliographystyle{apsrev4-2}
 \bibliography{references}
