@@ -426,14 +426,14 @@ $<eq-mf-recon>
 
 While @eq-mf-recon is simple, direct evaluation in detector-space is numerically unstable:
 the numerator contains highly oscillatory phases from $Gamma(bold(q),bold(k))$, and the denominator depends on the squared magnitude of a rapidly varying overlap kernel.
-Applying Parseval's theorem, $sum_k abs(tilde(f)(k))^2 = integral d r abs(f(r))^2$, and inverse Fourier transforming over $bold(k)$ gives the MF estimator in the mixed-domain representation:
+Applying Parseval's theorem, $sum_k abs(tilde(f)(k))^2 = integral d r abs(f(r))^2$, and inverse Fourier transforming over $bold(k)$ gives the MF estimator in the mixed-domain representation
 $
   tilde(phi)_text("MF-mix")(bold(q)) &= (integral W^*(bold(q),bold(rho)) H(bold(q),bold(rho)) d bold(rho))/(integral abs(W(bold(q),bold(rho)))^2 d bold(rho) + epsilon(bold(q))) #label("eq-mf-mixed-recon") \ 
   W(bold(q),bold(rho)) &= cal(F)^(-1){Gamma(bold(q),bold(k))} #label("eq-wigner-w") \
   H(bold(q),bold(rho)) &= cal(F)^(-1){G(bold(q),bold(k))} #label("eq-wigner-h")
 $
 where $bold(rho)$ is the detector separation.
-This utilizes the fact that the kernel $W(bold(q),bold(rho))$ is highly-localized in $rho$, suggesting that we can further improve numerical stability by switching to a pixelwise normalization:
+This utilizes the fact that the kernel $W(bold(q),bold(rho))$ is highly-localized in $rho$, suggesting that we can further improve numerical stability by switching to a pixelwise normalization
 $
   tilde(phi)_text("WDD")(bold(q)) = integral (W^*(bold(q),bold(rho)) H(bold(q),bold(rho)))/(abs(W(bold(q),bold(rho)))^2  + epsilon(bold(q),bold(rho))) d bold(rho),
 $<eq-wdd-recon>
@@ -479,7 +479,7 @@ Specifically, a virtual bright-field image formed form a given nonzero detector 
 Computationally reversing this parallax effect, with subpixel accuracy using a detector-frequency-dependent phase ramp, restores all virtual BF images into a common focal plane, where they can be coherently summed @Yu_2025 @Varnavides_2025.
 
 Formally, this parallax correction is equivalent to applying a phase factor $exp[upright(i) nabla_bold(k) chi(bold(k)) dot bold(q)]$ to the virtual bright-field images, where $nabla_bold(k) chi(bold(k))$ is the gradient of the aberration surface at bright field frequency $bold(k)$.
-To see connection with SSB explicitly, we Taylor-expand $Gamma(bold(q),bold(k))$ to first order in $bold(q)$:
+To see the connection with SSB explicitly, we Taylor-expand $Gamma(bold(q),bold(k))$ to first order in $bold(q)$
 #[
 #show math.equation.where(block: true): set align(left)
 $
@@ -491,7 +491,7 @@ $<eq-prlx-gamma-approx>
 where $Beta(bold(q),bold(k))$ contains the aperture-overlap terms, while the remaining factor produces the parallax shift.
 Thus, parallax imaging can be seen as a quadratic approximation to SSB, where only the first-order-aberrations-induced phase ramp is retained.
 
-Combined with a global phase-flipping operation, parallax imaging provides a remarkably robust and computationally efficient approximation to SSB @Varnavides_2025:
+Combined with a global phase-flipping operation, parallax imaging provides a remarkably robust and computationally efficient approximation to SSB @Varnavides_2025
 #[
 #show math.equation.where(block: true): set align(left)
 $
@@ -499,7 +499,7 @@ $
 $<eq-par-recon>
 ]
 
-The corresponding CTF is obtained by summing the omitted kernel $Beta(bold(q),bold(k))$ over the bright-field disk:
+The corresponding CTF is obtained by summing the omitted kernel $Beta(bold(q),bold(k))$ over the bright-field disk
 $
   text("CTF")_text("prlx")(bold(q)) &= upright(i)/2 sum_bold(k) Beta(bold(q),bold(k)) #label("equate:revoke") \
   &= -upright(i) sin[chi(bold(q))] [A star A](bold(q)),
@@ -507,7 +507,7 @@ $<eq-prlx-ctf>
 which reduces to the axial-illumination CTF, modulated by the aperture autocorrelation function @Yu_2022 @Varnavides_2024 @Varnavides_2025.
 
 Since the parallax estimator simply shifts each virtual bright-field image before coherently summing, the noise contributions retain unit variance.
-Consequently, $op("Var")[tilde(phi)_text("prlx")(bold(q))]=1$ and the parallax SSNR is:
+Consequently, $op("Var")[tilde(phi)_text("prlx")(bold(q))]=1$ and the parallax SSNR is
 $
   text("SSNR")_text("prlx")(bold(q)) = abs(sin[chi(bold(q))]) [A star A](bold(q)),
 $<eq-prlx-ssnr>
@@ -517,7 +517,7 @@ $<eq-prlx-ssnr>
 An alternative and computationally efficient route to STEM phase retrieval is to take the first moment of the aperture–overlap function, known either as _integrated center-of-mass (iCOM) imaging_ or _integrated differential phase contrast (iDPC or DPC)_ @Dekkers_1974 @Lazic_2016.
 Compared to other direct approaches, these are the most computationally-efficient and straightforward, although they do not provide the same aberration deconvolution advantages discussed above for the other direct approaches.
 
-Starting from the WPOA CTF expression in @eq-ctf and using a vectorial detector response $D(bold(k)) = bold(k)$, we obtain the vector COM transfer function as:
+Starting from the WPOA CTF expression in @eq-ctf and using a vectorial detector response $D(bold(k)) = bold(k)$, we obtain the vector COM transfer function as
 $
   text("CTF")_text("COM")(bold(q)) &= upright(i)/2 integral Gamma(bold(q),bold(k)) thin bold(k) thin d bold(k) #label("equate:revoke") \
   &= (upright(i) thin bold(q))/2 [tilde(psi) star tilde(psi)](bold(q)),
@@ -573,7 +573,7 @@ As highlighted in @fig-ctf and @fig-exp-compare, the ideal approach depends on t
 For in-focus experiments, iCOM is often the preferred approach with the low computational overhead of this technique making it most compatible with in-situ approaches @bekkevold2024ultra.
 Conversely, parallax reconstructions are often performed for defocused acquisitions using large step-sizes, e.g. for beam-sensitive biological samples @Berk_2024 @Yu_2025.
 
-The SSB, OBF, and MF/WDD techniques perform a full deconvolution of the aperture-overlap and are also suited for acquisitions with residual higher-order aberration @Varnavides_2025 @Susi_2025.
+The SSB, OBF, and MF/WDD techniques perform a full deconvolution of the aperture overlap and are also suited for acquisitions with residual higher-order aberration @Varnavides_2025 @Susi_2025.
 However, ptychographic acquisitions on aberration-corrected instruments are often dominated by first-order aberrations such as defocus and astigmatism, suggesting the quadratic approximation provided by parallax yields a nearly identical reconstruction as SSB, OBF, or MF/WDD @Varnavides_2025_ssnr.
 
 #figure(
@@ -636,7 +636,7 @@ However, applying STEM phase retrieval to realistic materials often requires goi
 Strong phase shifts, nonlinear intensity redistribution, and electron channeling through multiple atomic layers @Williams_2009 @Carter_2016 @Kirkland_2020
 violate the assumptions of the linear WPOA model, motivating _iterative methods_ based on the strong-phase object approximation (@eq-ms).
 
-Beyond introducing those, it's instructive to ask whether including the second Born term suffices:
+Before introducing those, it's instructive to ask whether including the second Born term suffices:
 $
   tilde(t)(bold(q)) = delta(bold(q)) + i tilde(phi)(bold(q)) - 1/2 [tilde(phi) star tilde(phi)](bold(q)) + cal(O)(tilde(phi)^3),
 $
@@ -660,7 +660,7 @@ $
 with $cal(A)^(-1)$ the linear inverse operator corresponding to a direct ptychography method, e.g., SSB:
 $
  cal(A)^(-1)[X](bold(q)) &= sum_bold(k) (Gamma^*(bold(q),bold(k)) X(bold(q),bold(k))) / (abs(Gamma(bold(q),bold(k)))).
-$
+$ <eq-inverse-operator>
 
 In practice, this quadratic correction has no effect on BF direct ptychography reconstructions.
 In the Born expansion, the linear term enters with an explicit factor of $i$, producing an odd-in-frequency, phase-like contribution, whereas the quadratic term is even in frequency and corresponds to absorptive-like contrast. 
