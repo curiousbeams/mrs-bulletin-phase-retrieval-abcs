@@ -41,12 +41,11 @@
       Based on these insights, we discuss the opportunities and practical limitations of applying these methods across different materials systems, detector designs, and microscope configurations.
     ],
     keywords: (
-      "electron microscopy",
-      "phase contrast",
-      "phase retrieval",
-      "parallax",
-      "center-of-mass",
-      "ptychography"
+      "transmission electron microscopy (TEM)",
+      "scanning transmission electron microscopy (STEM)",
+      "nanostructure",
+      "crystallographic structure",
+      "2D materials"
     )
   ),
 )
