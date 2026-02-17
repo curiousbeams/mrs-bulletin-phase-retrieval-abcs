@@ -858,9 +858,21 @@ In typical workflows, direct phase retrieval is used during acquisition, while m
 Looking forward, key challenges include extending phase retrieval to thicker specimens, larger fields of view, and higher-dimensional datasets that combine phase retrieval with tomography, spectroscopy, or time-resolved measurements, as well as adapting these methods to an increasingly diverse range of microscope configurations. 
 Many groups are already pushing to extend these techniques through both hardware and software advances, which will allow for more advanced materials characterization in the near future.
 
-= Acknowledgement 
+= Funding 
 Work at the Molecular Foundry was supported by the Office of Science, Office of Basic Energy Sciences, of the U.S. Department of Energy under Contract No. DE-AC02-05CH11231.
 
+= Conflict of Interest
+
+The authors declare there are no conflicts of interest.
+
+= Author Contributions
+
+Georgios Varnavides and Stephanie M. Ribet contributed to the article conception and design.
+Georgios Varnavides implemented the linear phase estimators, and produced all simulated results.
+Stephanie M. Ribet collected experimental defocused gold nanoparticle dataset and performed all experimental reconstructions.
+Willem P.M. de Kleijne performed the literature review and verified the math derivations.
+The first draft of the manuscript was written by Georgios Varnavides and all authors commented on previous versions of the manuscript.
+All authors read and approved the final manuscript.
 
 = Data availability
 The calibrated experimental datasets supporting the findings of this study are publicly available at #link("https://doi.org/10.5281/zenodo.18449975").
