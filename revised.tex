@@ -33,9 +33,9 @@
 
 \begin{document}
 
-\title[The ABCs of phase Retrieval]{
-The ABCs of Phase Retrieval:
-Connecting the Acronyms of Scanning Transmission Electron Microscopy
+\title[The ABCs of phase retrieval]{
+The ABCs of phase retrieval:
+Connecting the acronyms of scanning transmission electron microscopy
 }
 \author*[1]{\fnm{Georgios} \sur{Varnavides}} \email{g.varnavides@tudelft.nl}
 \author[1]{\fnm{Willem P.M.} \sur{de Kleijne}}
@@ -59,7 +59,7 @@ Based on these insights, we discuss the opportunities and practical limitations 
 
 \maketitle
 
-\section{Introduction}
+\section*{Introduction}
 
 Scanning transmission electron microscopy (S/TEM) enables the characterization of specimens from the micron scale down to the atomic scale, making it an indispensable characterization tool for any materials scientist~\cite{Williams_2009}.
 S/TEM instruments operate in two complimentary acquisition modalities: \emph{imaging mode}, which produces a magnified real-space image of the specimen, and \emph{diffraction mode}, which records the angular distribution of scattered electrons in reciprocal space~\cite{Carter_2016}.
@@ -84,7 +84,7 @@ We emphasize the implications of these methods for quantitative materials charac
   \label{fig:schematic}
 \end{figure*}
 
-\subsection{Microscopy Phase Problem}
+\subsection*{Microscopy phase problem}
 
 The phase problem arises in electron microscopy because the scattered electron wavefunction -- the ``exit wave'' -- is complex-valued, yet physical detectors only measure real-valued intensities~\cite{Fienup_1982}.
 In other words, although the specimen primarily imprints a \emph{phase shift} on the complex incident electron wavefunction $\psi$, the detector records $|\psi|^2$, seemingly discarding the information that carries most of the specimen's structure~\cite{born1954}.
@@ -124,7 +124,7 @@ Recovering the exit-wave phase from intensity-only measurements is therefore the
   \label{fig:pci}
 \end{figure*}
 
-\subsection{Phase Contrast Imaging}
+\subsection*{Phase contrast imaging}
 
 A direct approach to the microscopy phase problem is to leverage the imaging optics to convert otherwise imperceptible phase variations in the exit wave into measurable intensity variations in the imaging plane.
 This approach, known as \emph{phase contrast imaging} (PCI)~\cite{Carter_2016}, is most naturally implemented in plane-wave TEM, where the objective lens forms a magnified real-space image of the specimen.
@@ -137,7 +137,7 @@ To illustrate the basic principle, we restrict our attention to weakly-scatterin
 where $V_p(\boldsymbol{r}) = \int_{-\infty}^{\infty} V(\boldsymbol{r})\,\mathrm{d}z$ is the projected sample potential and terms quadratic in the interaction constant are neglected.
 In this regime the specimen modifies only the phase of the electron wavefunction, so optical manipulations are required to convert the phase into measurable amplitude contrast.
 
-\subsubsection{Defocus Phase Contrast}
+\subsubsection*{Defocus phase contrast}
 
 The simplest such manipulation is intentional over- or under-focus of the objective lens.
 Defocus by a value $\Delta f$ multiplies the exit wave in reciprocal space by a quadratic phase factor given by
@@ -153,7 +153,7 @@ Transforming this to real space and expanding to first order in $\sigma V_p(\bol
 where $h_{\Delta f}(\boldsymbol{r}) = \mathcal{F}^{-1}_{\boldsymbol{q}\rightarrow\boldsymbol{r}} \!\left\{ \sin\!\left[\pi \lambda \Delta f \lvert \boldsymbol{q} \rvert^2 \right] \right\}$ is the real-space convolution kernel corresponding to \cref{eq:defocus}, and $\circledast$ represents the convolution operation.
 Defocus thus converts sample-induced phase variations into intensity contrast through a sinusoidal convolution, leading to characteristic contrast reversals with increasing spatial frequency.
 
-\subsubsection{Phase Plate Contrast}
+\subsubsection*{Phase plate contrast}
 
 Another approach is to introduce a phase shift using a post-specimen phase plate (\cref{fig:schematic}a).
 Originating from optical phase-contrast microscopy, this technique was awarded the 1953 Nobel Prize in Physics for its transformative impact on biological imaging~\cite{Zernike_1942}.
@@ -174,7 +174,7 @@ The in-focus HRTEM image shows almost no contrast, especially for the top nanotu
 Defocus improves visibility but introduces frequency-dependent contrast reversals, causing different regions of the CNTs to appear in or out of focus.
 Zernike phase contrast recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the CNTs from vacuum.
 
-\subsection{Diffractive Imaging}
+\subsection*{Diffractive imaging}
 
 As discussed above, STEM is inherently a diffraction-based technique: at each probe position $\boldsymbol{R}$, we have access to the diffraction intensity $I(\boldsymbol{R},\boldsymbol{k}) = \lvert \tilde{\psi}_{\text{exit}}(\boldsymbol{R},\boldsymbol{k}) \rvert^2$, where $\boldsymbol{k}$ is the in-plane scattering vector.
 Historically, STEM has used monolithic annular detectors that integrate this intensity within annular collection limits to form a real-space image.
@@ -203,7 +203,7 @@ We refer to this class of approaches as diffractive imaging or STEM \emph{phase-
   \label{fig:gamma}
 \end{figure*}
 
-\subsubsection{Weak Phase Object Approximation}
+\subsubsection*{Weak phase object approximation}
 
 Under the WPOA in \cref{eq:wpoa}, the specimen transmission function is $t(\boldsymbol{r}) \approx 1 + i \sigma V_p(\boldsymbol{r})$, with the Fourier transform of the scattered component given by $\tilde{\phi}(\boldsymbol{k}) = \mathcal{F}_{\boldsymbol{r}\rightarrow\boldsymbol{k}}\{t(\boldsymbol{r})\}$.
 In this regime, the diffraction intensity can be written as the self-convolution of the converged probe $\tilde{\psi}(\boldsymbol{k})$ with the WPOA term~\cite{Rodenburg_1993}:
@@ -234,7 +234,7 @@ We take the probe to have the form $\tilde{\psi}(\boldsymbol{k}) = A(\boldsymbol
 \end{equation}
 with $k=\lvert\boldsymbol{k}\rvert$, $\theta=\arctan(\boldsymbol{k})$, and $n$ and $m$ the radial and azimuthal orders of the aberration coefficients $C_{n,m}$ with axes $\theta_{n,m}$.
 
-\subsubsection{Transfer of Information}
+\subsubsection*{Transfer of information}
 
 Under the WPOA, STEM image formation is linear in the specimen phase.
 This allows us to define a contrast transfer function, $\mathrm{CTF}(\boldsymbol{q})$, describing how well spatial frequencies of the specimen are transmitted or, in the context of STEM phase-retrieval techniques, how faithfully they can be reconstructed.
@@ -290,7 +290,7 @@ Similarly, evaluating \cref{eq:ctf} for the axial-illumination case, $\boldsymbo
 \end{equation}
 which is precisely the HRTEM CTF derived in the previous section, illustrating the \emph{principle of reciprocity} between TEM and STEM techniques~\cite{Williams_2009,Carter_2016,Kirkland_2020}.
 
-\subsubsection{Statistically Reliable Information}
+\subsubsection*{Statistically reliable information}
 
 The CTF describes only the maximum transferable signal, not the statistical reliability of that signal in the presence of noise.
 A complete description of information transfer must account for noise statistics, notably shot noise in electron detectors.
@@ -309,7 +309,7 @@ The SSNR is related to the detective quantum efficiency (DQE), recently introduc
 where $\mathrm{SSNR}_{\text{in}}(\boldsymbol{q})$ is the SSNR of an ``ideal'' reference system, typically taken as HRTEM with a Zernike phase plate~\cite{Zernike_1942,Vega_2025}.
 Thus, the DQE provides a normalized measure of how efficiently a method transfers information relative to a theoretical optimum.
 
-\section{Direct Phase Retrieval Techniques}
+\section*{Direct phase retrieval techniques}
 
 Equipped with the WPOA aperture-overlap and CTF/SSNR formalisms, we are now ready to investigate the zoo of non-iterative STEM phase-retrieval methods and their various acronyms.
 These differ primarily in how they combine the Fourier-transformed measured diffraction intensities $G(\boldsymbol{q},\boldsymbol{k})$ to produce an estimate for the specimen phase $\tilde{\phi}(\boldsymbol{q})$.
@@ -321,7 +321,7 @@ These differ primarily in how they combine the Fourier-transformed measured diff
   \label{fig:ctf}
 \end{figure*}
 
-\subsection{Phase-Compensated Coherent Sum}
+\subsection*{Phase-compensated coherent sum}
 \label{sec:ssb}
 
 The first technique we investigate goes by two seemingly unrelated names: \emph{aberration-corrected bright-field (acBF) STEM}~\cite{Ma_2025} and \emph{phase-compensated single-sideband (SSB) ptychography}~\cite{Yang_2016}.
@@ -371,7 +371,7 @@ The resulting SSNR is~\cite{Bennemann_2025,Varnavides_2025_ssnr}
   \label{eq:ssb-ssnr}
 \end{equation}
 
-\subsection{Noise-Flattening Normalization}
+\subsection*{Noise-flattening normalization}
 \label{sec:obf}
 
 Phase-compensated SSB improves robustness against residual aberrations by removing the geometric phase of the aperture-overlap function before summing detector-plane frequencies.
@@ -420,7 +420,7 @@ The resulting OBF SSNR is thus given simply by the magnitude of its CTF
   \label{fig:exp-compare}
 \end{figure*}
 
-\subsection{Least-Squares Matched Filter}
+\subsection*{Least-squares matched filter}
 \label{sec:wdd}
 
 The OBF estimator above improves SSB by normalizing the coherent sum, but it is not formally a least-squares estimator.
@@ -492,7 +492,7 @@ to obtain an SSNR which is identical to that of OBF
 
 This highlights an important subtlety: the statistically-reliable information content is effectively the same for all three linear estimators we have explored so far, namely SSB, OBF, and MF/WDD.
 
-\subsection{Quadratic Approximation} \label{sec:parallax}
+\subsection*{Quadratic approximation} \label{sec:parallax}
 
 The methods we have introduced so far all relied on the full aperture-overlap kernel $\Gamma(\boldsymbol{q},\boldsymbol{k})$, which is expensive to compute numerically.
 A natural question is whether a computationally efficient approximation exists that retains most of the information.
@@ -563,7 +563,7 @@ Consequently, $\operatorname{Var}\!\left[\tilde{\phi}_{\text{prlx}}(\boldsymbol{
   \label{fig:uspsample}
 \end{figure}
 
-\subsection{First-Moment Projection}
+\subsection*{First-moment projection}
 \label{sec:icom}
 
 An alternative and computationally efficient route to STEM phase retrieval is to take the first moment of the aperture–overlap function, known either as \emph{integrated center-of-mass (iCOM) imaging} or \emph{integrated differential phase contrast (iDPC or DPC)}~\cite{Dekkers_1974,Lazic_2016}.
@@ -611,7 +611,7 @@ The COM signal division by the spatial frequency, suggests the noise in the reco
 
 \Cref{eq:icom-ssnr} highlights that while the iCOM CTF suggests low spatial frequencies transfer with unit contrast, the corresponding SSNR shows these components become increasingly noisy in practice~\cite{Varnavides_2023,Yu_2025,Varnavides_2025_ssnr}.
 
-\subsection{Comparison of Direct Techniques}
+\subsection*{Comparison of direct techniques}
 
 The phase estimators introduced above -- SSB, OBF, MF/WDD, parallax, and iCOM -- all originate from the same WPOA forward model in \cref{eq:wpoa-forward} and additive noise model in \cref{eq:noise-model}.
 They primarily differ in (i) how they weight the bright-field intensities, (ii) how they normalize the coherent sum, and (iii) how much of the aperture-overlap kernel they retain.
@@ -689,7 +689,7 @@ However, for thick samples and experiments with higher electron fluence, iterati
 \vspace{5pt} \hrule
 \end{figure}
 
-\subsection{Beyond the Weak Phase Object}
+\subsection*{Beyond the weak phase object}
 
 The direct phase-retrieval methods presented above provide fast, interpretable, and often remarkably robust reconstructions when multiple scattering is negligible.
 However, applying STEM phase retrieval to realistic materials often requires going beyond the WPOA.
@@ -751,7 +751,7 @@ In the Born expansion, the linear term enters with an explicit factor of $i$, pr
 Phase-compensated direct ptychography operators such as SSB explicitly project onto the odd (phase) channel, so the quadratic contribution lies in the nullspace of the inverse operator and is identically zero.
 While third-order terms are again odd and therefore non-zero, they scale as $\tilde{\phi}^3$ and do not factorize into a simple object–probe product, making them both negligible and incompatible with direct inversion, and rendering BF direct ptychography effectively self-linearizing.
 
-\section{Iterative Ptychography}
+\section*{Iterative ptychography}
 \label{sec:iterative}
 
 The limitations of direct phase-retrieval methods motivate a more general formulation, which abandons the linear WPOA inversion in favor of an explicit forward model of wave propagation, enabling quantitative reconstruction in the presence of strong phase shifts and multiple scattering.
@@ -765,7 +765,7 @@ Finally, the optimization framework underlying iterative approaches naturally in
 In the following sections, we develop the two major families of iterative methods, namely classical projection-based algorithms, and gradient-based approaches.
 We show how the gradient-based approaches can be extended to multislice, mixed-state, and machine-learning–based formulations.
 
-\subsection{Single-Slice Iterative Methods}
+\subsection*{Single-slice iterative methods}
 \label{sec:single-slice}
 
 Iterative reconstruction methods begin from the strong-phase object approximation, in which the specimen is represented by a single transmission function related to the projected potential:
@@ -811,7 +811,7 @@ Aberrations coefficients were initialized using direct ptychography reconstructi
 \label{fig:iterative}
 \end{figure*}
 
-\subsubsection{Proximal-Gradient / Projection-Set Methods}
+\subsubsection*{Proximal-gradient / projection-set methods}
 \label{sec:projection-methods}
 
 The earliest iterative ptychographic algorithms derive from classical phase-retrieval methods in crystallography and coherent diffractive imaging~\cite{karle1985,Fienup_1982,Levi_1984,Miao_1999,Bauschke_2002,Elser_2003,Thibault_2008}.
@@ -888,7 +888,7 @@ ER $(a=0,b=1,c=1)$~\cite{Levi_1984}, DM $(a=-1,b=1,c=2)$~\cite{Elser_2003}, and 
 Projection-set algorithms are robust and computationally simple, relying only on pointwise operations.
 However, their relation to an explicit optimization problem is indirect, making them harder to generalize and sometimes slow to converge in low-redundancy or strong-scattering regimes~\cite{Varnavides_2023}.
 
-\subsubsection{Gradient-Based Methods}
+\subsubsection*{Gradient-based methods}
 
 A more modern view formulates ptychography as minimizing a data-fidelity loss.
 For the amplitude-based noise model, the loss for a given exit wave is:
@@ -963,7 +963,7 @@ Unlike projection-set methods, they make the optimization landscape explicit, en
 \cref{fig:iterative} illustrates the advantages of iterative phase retrieval over direct methods across several experimental datasets spanning different materials classes, using the aberration coefficients optimized in \cref{fig:exp-compare}.
 In each case, iterative ptychography yields improved contrast, reduced artifacts, and more faithful recovery of structural features.
 
-\subsubsection{Transfer of Information}
+\subsubsection*{Transfer of information}
 
 Although iterative ptychography does not admit simple closed-form CTF/SSNR like the direct methods, several useful observations can be made~\cite{Varnavides_2025_ssnr}:
 
@@ -976,7 +976,7 @@ At higher frequencies, the SSNR plateaus to $\sqrt{2}/2$, consistent with recent
 
 Together, these observations show that although iterative ptychography can achieve super-resolution, the statistical information content is similar to direct linear methods at low spatial frequencies, with predictable saturation at intermediate frequencies.
 
-\subsection{Beyond Single-slice Ptychography}
+\subsection*{Beyond single-slice ptychography}
 \label{sec:beyond-ss}
 
 The flexibility of iterative ptychography becomes especially powerful once we move beyond the single-slice, single-probe approximation used in the earlier sections.
@@ -990,7 +990,7 @@ Machine-learning approaches replace such hand-designed priors with learned gener
 In practice, high-resolution reconstructions of many materials systems almost always rely on some combination of multislice propagation, mixed-state probe modeling, and regularization.
 These ingredients are essential for moving beyond the WPOA and unlocking the full information content of modern 4D-STEM experiments.
 
-\subsubsection{Partial Coherence}
+\subsubsection*{partial coherence}
 
 The first major generalization is using a mixed-state illumination~\cite{Thibault_2013,Chen_2020}, which relaxes the assumption of a single, fully coherent probe.
 Instead, the illumination intensity is modeled as an incoherent mixture of mutually-orthogonal probes~\cite{Odstrcil_2016}:
@@ -1017,7 +1017,7 @@ In the reconstruction loop, mixed-state ptychography jointly updates the object 
 The expressiveness of \cref{eq:mixed-state} comes at the risk of overfitting unphysical probes, necessitating strong regularization.
 Conventional approaches impose orthogonality, sparsity, or low-rank constraints on the probe modes~\cite{Odstrcil_2016,Varnavides_2023}, whereas machine-learning-based reconstructions require fewer hard constraints due to their implicit regularization~\cite{McCray_2025}.
 
-\subsubsection{Depth Information}
+\subsubsection*{Depth information}
 
 A second often-necessary extension is the multislice approximation, which models strong multiple scattering in thicker specimens using \cref{eq:ms}.
 Specifically, the modeled intensities for $N$ slices are given by:
@@ -1057,7 +1057,7 @@ Combining ptychography with tomography can substantially improve multislice dept
 Approaches such as few-tilt acquisitions and joint ptychography-tomography optimization recover complementary angular information, reducing the ambiguities inherent to purely depth-slicing multislice reconstructions~\cite{Lee_2023,You_2024,Dong_2025}.
 These methods achieve accurate 3D reconstructions and mitigate slice-mixing artifacts, particularly in thick or compositionally heterogeneous specimens.
 
-\section{Outlook}
+\section*{Outlook}
 
 The ability of phase-retrieval techniques to recover weak scattering signals makes the approaches described here broadly applicable across materials science and engineering.
 They are particularly well suited for beam-sensitive, low-atomic-number specimens such as polymers~\cite{bardot2025mechanically}, biological structures~\cite{Berk_2024,Yu_2025,Spoth_2017}, and hard–soft composites including metal–organic frameworks~\cite{Ma_2025,shen2020imaging} and DNA origami~\cite{ding2022three}.
@@ -1084,11 +1084,11 @@ Many groups are already pushing to extend these techniques through both hardware
 
 Work at the Molecular Foundry was supported by the Office of Science, Office of Basic Energy Sciences, of the U.S.\ Department of Energy under Contract No.\ DE-AC02-05CH11231.
 
-\section*{Conflict of Interest}
+\section*{Conflict of interest}
 
 The authors declare there are no conflicts of interest.
 
-\section*{Author Contributions}
+\section*{Author contributions}
 
 Georgios Varnavides and Stephanie M. Ribet contributed to the article conception and design.
 Georgios Varnavides implemented the linear phase estimators, and produced all simulated results.
