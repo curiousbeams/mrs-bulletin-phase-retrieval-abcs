@@ -17,7 +17,7 @@
 
 \usepackage{soul}
 \usepackage{hyperref}
-\usepackage{cleveref}
+\usepackage[capitalise]{cleveref}
 \usepackage{microtype}
 \hypersetup{colorlinks,
 	linkcolor={blue!75!black!80!yellow},
@@ -25,11 +25,26 @@
 	urlcolor={blue!75!black!80!yellow}
 }
 
+\usepackage{caption}
+\captionsetup[figure]{name={Figure}, font=footnotesize, labelfont=bf}
+
 \usepackage{url}
 \usepackage[strings]{underscore}
 \usepackage{geometry}
 \geometry{columnsep=20pt, left=1.5cm, right=1.5cm, top=2cm, bottom=2cm}
 \sloppy
+
+\setcitestyle{super}
+\bibpunct{}{}{,}{s}{,}{,}
+
+\crefname{figure}{Figure}{Figures}
+\Crefname{figure}{Figure}{Figures}
+
+\crefname{equation}{Eq.}{Eqs.}
+\Crefname{equation}{Eq.}{Eqs.}
+
+\usepackage[utopia]{mathdesign}
+\usepackage[OMLmathrm,OMLmathbf]{isomath}
 
 \begin{document}
 
