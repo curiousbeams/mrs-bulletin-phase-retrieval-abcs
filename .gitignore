@@ -14,3 +14,14 @@ main*.gz
 main*.bib
 main.fdb_latexmk
 main*.pdf
+
+revised*.out
+revised*.aux
+revised*.bbl
+revised*.blg
+revised*.fls
+revised*.log
+revised*.gz
+revised*.bib
+revised.fdb_latexmk
+revised*.pdf
