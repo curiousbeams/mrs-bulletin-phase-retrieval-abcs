@@ -25,3 +25,6 @@ revised*.gz
 revised*.bib
 revised.fdb_latexmk
 revised*.pdf
+
+# response
+response-letter.typ
