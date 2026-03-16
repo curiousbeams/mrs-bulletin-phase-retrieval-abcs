@@ -60,9 +60,9 @@ Connecting the acronyms of scanning transmission electron microscopy
 \affil[2]{\orgdiv{National Center for Electron Microscopy, Molecular Foundry}, \orgname{Lawrence Berkeley National Laboratory}, \orgaddress{\street{67 Cyclotron Rd}, \city{Berkeley}, \postcode{CA 94720}, \country{USA}}}
 
 \abstract{
-High-resolution scanning transmission electron microscopy (STEM) is an indispensable tool for characterizing the structure and properties of materials down to the atomic scale.
-Conventional STEM imaging, however, is limited by the phase problem, whereby the phase of the electron exit wave is lost upon detection.
-Recent advances in diffractive imaging and 4D-STEM have enabled a range of phase retrieval techniques that computationally reconstruct the missing information.
+High-resolution scanning transmission electron microscopy (S/TEM) is an indispensable tool for characterizing the structure and properties of materials down to the atomic scale.
+Conventional S/TEM imaging, however, is limited by the phase problem, whereby the phase of the electron exit wave is lost upon detection.
+Recent advances in diffractive imaging and 4D-STEM have enabled a range of phase retrieval techniques that computationally reconstruct the missing information encoded in the phase of the transmission function.
 These approaches offer improved dose efficiency and enhanced  sensitivity to weakly scattering signals, extending quantitative imaging to beam-sensitive materials composed of light elements.
 In this work, we introduce the phase problem in electron microscopy and survey the diverse landscape of phase retrieval techniques used in the field.
 Despite their many acronyms and algorithmic variations, these techniques share a common physical and mathematical foundation.
@@ -132,7 +132,7 @@ Recovering the exit-wave phase from intensity-only measurements is therefore the
   \centering
   \includegraphics[width=\textwidth]{raster/phase_contrast_imaging_CNTs.png}
   \caption{Simulated high-resolution TEM imaging
-  (a)~of single- and double-walled carbon nanotubes, acquired with an electron dose ofv$500~\mathrm{e}/\text{\AA}^2$ using:
+  (a)~of single- and double-walled carbon nanotubes, acquired with an electron dose of $500~\mathrm{e}/\text{\AA}^2$ using:
   (b)~in-focus optics,
   (c)~$50$~nm of over-focus,
   and (d)~an ideal Zernike phase plate.}
@@ -220,20 +220,20 @@ We refer to this class of approaches as diffractive imaging or STEM \emph{phase-
 
 \subsubsection*{Weak phase object approximation}
 
-Under the WPOA in \cref{eq:wpoa}, the specimen transmission function is $t(\boldsymbol{r}) \approx 1 + i \sigma V_p(\boldsymbol{r})$, with the Fourier transform of the scattered component given by $\tilde{\phi}(\boldsymbol{k}) = \mathcal{F}_{\boldsymbol{r}\rightarrow\boldsymbol{k}}\{t(\boldsymbol{r})\}$.
-In this regime, the diffraction intensity can be written as the self-convolution of the converged probe $\tilde{\psi}(\boldsymbol{k})$ with the WPOA term~\cite{Rodenburg_1993}:
+Under the WPOA in \cref{eq:wpoa}, the specimen transmission function is $t(\boldsymbol{r}) \approx 1 + i \sigma V_p(\boldsymbol{r})$, with the Fourier transform of the scattered component given by $\tilde{\phi}(\boldsymbol{k}) = \mathcal{F}_{\boldsymbol{r}\rightarrow\boldsymbol{k}}\{\sigma V_p(\boldsymbol{r})\}$.
+In this regime, the diffraction intensity can be written as the self-convolution of the converged probe $\tilde{\psi}(\boldsymbol{k})$ with the Fourier transform of the transmission function $\tilde{t}(\boldsymbol{k}) = \delta(\boldsymbol{k}) + i \tilde{\phi}(\boldsymbol{k})$ term~\cite{Rodenburg_1993}:
 \begin{align}
   I(\boldsymbol{R},\boldsymbol{k}) = \iint\, &\tilde{\psi}(\boldsymbol{k}')
-  \tilde{\phi}(\boldsymbol{k}-\boldsymbol{k}')
+  \tilde{t}(\boldsymbol{k}-\boldsymbol{k}')
   \tilde{\psi}^{*}(\boldsymbol{k}'')
-  \tilde{\phi}^{*}(\boldsymbol{k}-\boldsymbol{k}'') \nonumber \\
+  \tilde{t}^{*}(\boldsymbol{k}-\boldsymbol{k}'') \nonumber \\
   &\times \exp\!\left[2\pi i\,\boldsymbol{R}\cdot(\boldsymbol{k}'-\boldsymbol{k}'')\right]
   \,\mathrm{d}\boldsymbol{k}'\,\mathrm{d}\boldsymbol{k}'' .
   \label{eq:wpoa-intensity}
 \end{align}
 
-Following Rodenburg et al.~\cite{Rodenburg_1993}, it is convenient to take the Fourier transform of the measured intensities with respect to the scan position, $G(\boldsymbol{q},\boldsymbol{k}) = \mathcal{F}_{\boldsymbol{R}\rightarrow\boldsymbol{q}}\{I(\boldsymbol{R},\boldsymbol{k})\}$, where $\boldsymbol{q}$ is the reciprocal variable corresponding to the real-space coordinate $\boldsymbol{r}$.
-Using the identity $\tilde{\phi}(\boldsymbol{k}) = -\tilde{\phi}^{*}(-\boldsymbol{k})$~\cite{Rodenburg_1993}, one obtains~\cite{Yang_2016}
+Following Rodenburg et al.~\cite{Rodenburg_1993}, it is convenient to take the Fourier transform of the measured intensities with respect to the scan position, $G(\boldsymbol{q},\boldsymbol{k}) = \mathcal{F}_{\boldsymbol{R}\rightarrow\boldsymbol{q}}\{I(\boldsymbol{R},\boldsymbol{k})\}$, where $\boldsymbol{q}$ is the reciprocal variable corresponding to the scan coordinate $\boldsymbol{R}$.
+Using the identity $\tilde{\phi}(\boldsymbol{k}) = \tilde{\phi}^{*}(-\boldsymbol{k})$~\cite{Rodenburg_1993}, one obtains~\cite{Yang_2016}
 \begin{align}
   G(\boldsymbol{q},\boldsymbol{k}) &= \lvert \tilde{\psi}(\boldsymbol{k}) \rvert^2 \delta(\boldsymbol{q}) + \Gamma(\boldsymbol{q},\boldsymbol{k})\,\tilde{\phi}(\boldsymbol{q}), \\
   \Gamma(\boldsymbol{q},\boldsymbol{k}) &\equiv \tilde{\psi}^{*}(\boldsymbol{k})\tilde{\psi}(\boldsymbol{k}-\boldsymbol{q}) - \tilde{\psi}(\boldsymbol{k})\tilde{\psi}^{*}(\boldsymbol{k}+\boldsymbol{q}),
@@ -270,27 +270,28 @@ For an arbitrary detector response function $D_j(\boldsymbol{k})$ (with $j$ inde
   \label{eq:ctf}
 \end{align}
 
-For a pixelated detector, $D_j(\boldsymbol{k})=\delta(\boldsymbol{k})$, the integrand reduces to the aperture-overlap function $\Gamma(\boldsymbol{q},\boldsymbol{k})$.
+For a pixelated detector, $D_j(\boldsymbol{k})=\delta(\boldsymbol{k}-\boldsymbol{k}_j)$\footnote{Note that, for notational convenience, in what follows we simply use $\boldsymbol{k}$ instead of $\boldsymbol{k}_j$ for the detector pixel coordinate.}, the integrand reduces to the aperture-overlap function $\Gamma(\boldsymbol{q},\boldsymbol{k})$.
 More compact expressions follow from an asymmetric decomposition of cross-correlations~\cite{Bekkevold_2025,Lazic_2017}:
 \begin{align}
   \Re\{\mathrm{CTF}_j(\boldsymbol{q})\} &= \frac{1}{2}
    \Big(
     [\psi \star (\psi D_j)](\boldsymbol{q})
-    +
+    -
     [(\psi D_j)\star \psi](\boldsymbol{q})
   \Big),
   \label{eq:ctf-corr-real} \\
   \Im\{\mathrm{CTF}_j(\boldsymbol{q})\} &= \frac{1}{2}
   \Big(
     [\psi \star (\psi D_j)](\boldsymbol{q})
-    - [(\psi D_j)\star \psi](\boldsymbol{q})
+    +
+    [(\psi D_j)\star \psi](\boldsymbol{q})
   \Big),
   \label{eq:ctf-corr-imag}
 \end{align}
 where $\star$ denotes cross-correlation and $\Re\{\cdot\}$ and $\Im\{\cdot\}$ represent real and imaginary components.
 
 Two limiting cases of \cref{eq:ctf} provide further physical insight.
-In the absence of aberrations, $\chi(\boldsymbol{k})=0$, the real part of \cref{eq:ctf-corr-real} vanishes and the imaginary part reduces to the aperture autocorrelation:
+In the absence of aberrations, $\chi(\boldsymbol{k})=0$, and summing over all detector pixels $D_j$ which corresponds to a detector with uniform weighting across the bright-field disk, the real part of \cref{eq:ctf-corr-real} vanishes and the imaginary part reduces to the aperture autocorrelation:
 \begin{align}
   \mathrm{CTF}_{\text{in-focus}}(\boldsymbol{q}) &= i\,[A\star A](\boldsymbol{q}) \nonumber \\
   &= i\,\Re\!\left\{ \mathcal{F}^{-1}_{\boldsymbol{r}\rightarrow\boldsymbol{q}} \left[ \left| \mathcal{F}_{\boldsymbol{q}\rightarrow\boldsymbol{r}}\{A(\boldsymbol{q})\} \right|^2 \right] \right\}.
@@ -311,10 +312,10 @@ The CTF describes only the maximum transferable signal, not the statistical reli
 A complete description of information transfer must account for noise statistics, notably shot noise in electron detectors.
 The natural figure of merit is the spectral signal-to-noise ratio (SSNR)~\cite{Unser_1987,Varnavides_2025_ssnr},
 \begin{equation}
-  \mathrm{SSNR}(\boldsymbol{q}) = \frac{\lvert \langle \tilde{\psi}(\boldsymbol{q}) \rangle \rvert} {\sqrt{\operatorname{Var}\!\left[\tilde{\psi}(\boldsymbol{q})\right]}},
+  \mathrm{SSNR}(\boldsymbol{q}) = \frac{\lvert \langle \tilde{\psi}_{\mathrm{rec}}(\boldsymbol{q}) \rangle \rvert} {\sqrt{\operatorname{Var}\!\left[\tilde{\psi}_{\mathrm{rec}}(\boldsymbol{q})\right]}},
   \label{eq:ssnr}
 \end{equation}
-which quantifies the statistically reliable recoverable information at each spatial frequency.
+which quantifies the statistically reliable recoverable information at each spatial frequency $\boldsymbol{q}$ of the recostructed object, $\tilde{\psi}_{\mathrm{rec}}(\boldsymbol{q})$.
 
 The SSNR is related to the detective quantum efficiency (DQE), recently introduced as a quantitative performance metric for STEM phase retrieval~\cite{Bennemann_2025}:
 \begin{equation}
@@ -343,9 +344,10 @@ The first technique we investigate goes by two seemingly unrelated names: \emph{
 The former highlights its close connection to \emph{tilt-corrected bright-field (tcBF) STEM}, which we investigate further in the Quadratic Approximation section.
 The latter name reflects the structure of the WPOA forward model in \cref{eq:wpoa-forward}, which contains two redundant contributions at $\boldsymbol{q}$ and $-\boldsymbol{q}$.
 
-In the absence of aberrations, these two ``sidebands'' are related by complex conjugation according to Friedel's law.\footnote{Friedel's law illustrates how a single mathematical principle -- the Hermitian conjugation symmetry of the Fourier transform of a real-valued function -- connects the physics of imaging with crystallographic structure determination~\cite{Friedel_1913,karle1985}.}
+In the absence of aberrations, these two ``sidebands" provide complex-conjugate estimates of the same object Fourier component, consistent with Friedel’s law.\footnote{Friedel's law illustrates how a single mathematical principle -- the Hermitian conjugation symmetry of the Fourier transform of a real-valued function -- connects the physics of imaging with crystallographic structure determination~\cite{Friedel_1913,karle1985}.}
 Accordingly, the specimen phase $\tilde{\phi}(\boldsymbol{q})$ can be reconstructed using only one of them.
-In practice, once aberrations are present, the two sidebands are no longer perfect conjugates: residual aberrations imprint an additional geometric phase on the aperture-overlap function $\Gamma(\boldsymbol{q},\boldsymbol{k})$.
+In practice, once aberrations are present, the two overlap regions acquire different geometric phase factors arising from the probe aberration function $\chi(\boldsymbol{k})$.
+As a result, they no longer correspond to simple complex-conjugate estimates of the same object Fourier component.
 
 The key insight behind SSB is that, under the WPOA, detector pixels sampling the same sideband carry the same specimen phase $\tilde{\phi}(\boldsymbol{q})$.
 Differences between pixels arise only from known, instrument-dependent phases, namely aberration-induced geometric phases and aperture-overlap geometry.
@@ -652,8 +654,10 @@ As highlighted in \cref{fig:ctf,fig:exp-compare}, the ideal approach depends on 
 For in-focus experiments, iCOM is often the preferred approach, with the low computational overhead of this technique making it most compatible with \textit{in situ} approaches~\cite{bekkevold2024ultra}.
 Conversely, parallax reconstructions are often performed for defocused acquisitions using large step sizes, e.g., for beam-sensitive biological samples~\cite{Berk_2024,Yu_2025}.
 
-The SSB, OBF, and MF/WDD techniques perform a full deconvolution of the aperture overlap and are also suited for acquisitions with residual higher-order aberration~\cite{Varnavides_2025,Susi_2025}.
-However, ptychographic acquisitions on aberration-corrected instruments are often dominated by first-order aberrations such as defocus and astigmatism, suggesting the quadratic approximation provided by parallax yields a nearly identical reconstruction as SSB, OBF, or MF/WDD~\cite{Varnavides_2025_ssnr}.
+The SSB, OBF, and MF/WDD techniques compensate for the aperture-overlap transfer function using knowledge of the probe wavefunction, allowing recovery of the object phase even in the presence of residual higher-order aberrations~\cite{Varnavides_2025,Susi_2025}.
+MF/WDD performs this compensation through an explicit Wiener deconvolution, while SSB and OBF incorporate the probe phase directly into their reconstruction kernels.
+However, ptychographic acquisitions on aberration-corrected instruments are often dominated by low-order aberrations such as defocus and astigmatism. 
+In this regime, the quadratic phase approximation underlying parallax provides an effective description of the probe phase, yielding reconstructions that are nearly identical to those obtained with SSB, OBF, or MF/WDD~\cite{Varnavides_2025_ssnr}.
 
 For low-dose experiments, the direct phase-retrieval techniques perform remarkably well as compared to their more computationally expensive counterparts~\cite{Varnavides_2025_ssnr}, suggesting that more advanced reconstruction approaches may not be needed offline.
 However, for thick samples and experiments with higher electron fluence, iterative approaches outperform their direct phase retrieval counterparts as described in the Iterative Ptychography section.
@@ -726,7 +730,7 @@ Substituting this into the BF intensity and keeping terms up to second order giv
 G(\boldsymbol{q},\boldsymbol{k})
 \approx\;&
 \lvert \tilde{\psi}(\boldsymbol{k}) \rvert^2 \delta(\boldsymbol{q}) +
-\operatorname{Im}\!\left[\tilde{\phi}(\boldsymbol{q}) \,\thinspace \Gamma(\boldsymbol{q},\boldsymbol{k})\right]
+i \operatorname{Im}\!\left[\tilde{\phi}(\boldsymbol{q}) \,\thinspace \Gamma(\boldsymbol{q},\boldsymbol{k})\right]
 \nonumber\\
 &+
 \frac{1}{2}
@@ -761,10 +765,13 @@ with $\mathcal{A}^{-1}$ the linear inverse operator corresponding to a direct pt
 }.
 \end{align}
 
-In practice, this quadratic correction has no effect on BF direct ptychography reconstructions.
+In practice, this quadratic correction has little effect on BF direct ptychography reconstructions.
 In the Born expansion, the linear term enters with an explicit factor of $i$, producing an odd-in-frequency, phase-like contribution, whereas the quadratic term is even in frequency and corresponds to absorptive-like contrast.
-Phase-compensated direct ptychography operators such as SSB explicitly project onto the odd (phase) channel, so the quadratic contribution lies in the nullspace of the inverse operator and is identically zero.
-While third-order terms are again odd and therefore non-zero, they scale as $\tilde{\phi}^3$ and do not factorize into a simple object–probe product, making them both negligible and incompatible with direct inversion, and rendering BF direct ptychography effectively self-linearizing.
+Phase-compensated direct ptychography operators such as SSB explicitly project onto the odd (phase) channel, so the quadratic contribution lies in the nullspace of the inverse operator.
+While third-order terms are again odd and therefore non-zero, they scale as $\tilde{\phi}^3$ and do not factorize into a simple object–probe product, making them both negligible and incompatible with direct inversion, rendering BF direct ptychography effectively self-linearizing for moderate phase shifts.
+
+While WDD and iCOM imaging are sometimes introduced in the literature using the strong phase object approximation, their closed-form inversion kernels rely on the same linearized signal model used here.
+The robustness of these approaches for moderately strong phase objects therefore arises from the same symmetry argument discussed above: even-order contributions predominantly populate an absorption-like channel that is largely suppressed by the phase-selective operators used in bright-field direct ptychography.
 
 \section*{Iterative ptychography}
 \label{sec:iterative}
@@ -925,7 +932,8 @@ One of the earliest gradient-based ptychographic algorithms is the \emph{extende
 Modern approaches generalize this to true mini-batch optimization methods such as SGD and Adam~\cite{Lee_2025,Gilgenbach_2025,McCray_2025}.
 
 The amplitude loss in \cref{eq:loss}, corresponds to the \emph{maximum a posteriori} estimator under Gaussian detector noise with unit variance~\cite{Gilgenbach_2025}.
-Although electron detection is fundamentally Poissonian, at moderate electron counts the Gaussian approximation becomes valid, matching the same assumption used in the WPOA noise model \cref{eq:noise-model}.
+Although electron detection is fundamentally Poissonian, at moderate electron counts the shot noise can be approximated as Gaussian with variance proportional to the mean intensity.
+After normalizing by this variance, the resulting noise becomes unit-variance and independent of probe position, yielding the same linear SNR scaling with electron dose derived for Poisson statistics in \cite{Seki_2018,Ooe_2021} and used in the WPOA noise model \cref{eq:noise-model}.
 
 Under this approximation, the exit-wave gradient has a closed-form expression, identical to the ER Fourier-magnitude projection:
 \begin{align}
