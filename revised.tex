@@ -191,10 +191,12 @@ Expanding again to first order in $\sigma V_p(\boldsymbol{r})$, the correspondin
 \end{equation}
 showing that a phase plate enables direct, linear transfer of the specimen phase into image intensity.
 
-\Cref{fig:pci} illustrates these effects for a simulated three-dimensional arrangement of single- and double-walled carbon nanotubes (CNTs) acquired at low dose.
-The in-focus HRTEM image shows almost no contrast, especially for the top nanotube, which is exactly at the focal plane of the microscope.
-Defocus improves visibility but introduces frequency-dependent contrast reversals, causing different regions of the CNTs to appear in or out of focus.
-Zernike phase contrast recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the CNTs from vacuum.
+\Cref{fig:pci} illustrates these effects for a simulated three-dimensional arrangement of single- and double-walled carbon nanotubes (CNTs) at low dose conditions.
+The simulated projected potential is shown in \cref{fig:pci}a.
+The in-focus HRTEM image (\cref{fig:pci}b) shows almost no contrast, especially for the top nanotube, which is exactly at the focal plane of the microscope.
+This is a manifestation of the phase problem.
+Defocus (\cref{fig:pci}c) improves visibility but introduces frequency-dependent contrast reversals, causing different regions of the CNTs to appear in or out of focus. 
+Zernike phase contrast (\cref{fig:pci}d) recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the CNTs from vacuum.
 
 \subsection*{Diffractive imaging}
 
@@ -206,7 +208,7 @@ A conventional annular signal is therefore given by
   \label{eq:annular-int}
 \end{equation}
 yielding familiar contrast modes such as bright-field (BF), annular bright-field (ABF), annular dark-field (ADF), and high-angle annular dark-field (HAADF) STEM~\cite{Crewe_1970,Pennycook_1991}.
-Dark-field images in particular are highly interpretable -- especially for crystalline specimens -- leading to their prevalence in materials science characterization~\cite{Ophus_2023}.
+Dark-field images in particular are highly interpretable leading to their prevalence in materials science characterization~\cite{Ophus_2023}.
 However, they discard sensitive information encoded in the exit-wave phase and are often not sufficiently electron-dose efficient for beam-sensitive samples.
 
 The development of fast, low-noise direct-electron detectors~\cite{Levin_2021} has enabled recording the full diffraction pattern $I(\boldsymbol{R},\boldsymbol{k})$ at every scan position, giving rise to a family of techniques collectively known as 4D-STEM~\cite{Ophus_2019}.
@@ -649,6 +651,7 @@ Parallax imaging uses a first-order approximation to the aperture-overlap kernel
 \)
 making it computationally cheap.
 Parallax subpixel shift estimation accuracy enables scan step-size upsampling (\cref{fig:uspsample}), although this can be extended to other direct methods as well~\cite{Varnavides_2025}.
+The value of upsampling is highlighted comparing the left and right columns of \cref{fig:uspsample} showing the improved resolution from computational processing. 
 Finally, iCOM bypasses the overlap kernel entirely, and instead takes the first moment of the bright-field intensities and reconstructs the phase by Fourier integration of the resulting COM signal.
 
 With the exception of iCOM, these techniques rely on an accurate estimation of the aberrations, which can be calculated through optimization routines based on self-consistency error~\cite{Varnavides_2025}, or by least-squares fitting of linear systems of equations~\cite{Varnavides_2023,Yu_2025}.
@@ -659,7 +662,10 @@ It should be noted that, due to the mixed-domain requirement, WDD cannot be comp
 
 As highlighted in \cref{fig:ctf,fig:exp-compare}, the ideal approach depends on the nature of the data and acquisition parameters.
 For in-focus experiments, iCOM is often the preferred approach, with the low computational overhead of this technique making it most compatible with \textit{in situ} approaches~\cite{bekkevold2024ultra}.
+This is clear for example in \cref{fig:ctf,fig:exp-compare}a, where all the phase imaging techniques perform similarly, due to the high sampling and in-focus nature fo the data. 
 Conversely, parallax reconstructions are often performed for defocused acquisitions using large step sizes, e.g., for beam-sensitive biological samples~\cite{Berk_2024,Yu_2025}.
+The value of parallax or direct ptychography approaches is exemplified by the defocused dataset in cref{fig:ctf,fig:exp-compare}b, where only in the last two columns it is possible to recover atomic information.
+Note the similarity in reconstruction quality for parallax imaging and single sideband. 
 
 The SSB, OBF, and MF/WDD techniques compensate for the aperture-overlap transfer function using knowledge of the probe wavefunction, allowing recovery of the object phase even in the presence of residual higher-order aberrations~\cite{Varnavides_2025,Susi_2025}.
 MF/WDD performs this compensation through an explicit Wiener deconvolution, while SSB and OBF incorporate the probe phase directly into their reconstruction kernels.
@@ -991,7 +997,8 @@ Gradient-based methods offer clear statistical interpretability, support batchin
 Unlike projection-set methods, they make the optimization landscape explicit, enabling principled regularization and convergence diagnostics.
 
 \cref{fig:iterative} illustrates the advantages of iterative phase retrieval over direct methods across several experimental datasets spanning different materials classes, using the aberration coefficients optimized in \cref{fig:exp-compare}.
-In each case, iterative ptychography yields improved contrast, reduced artifacts, and more faithful recovery of structural features.
+In each case, iterative ptychography yields improved contrast, reduced artifacts, and more faithful recovery of structural features as compared to the reconstructions of datasets in \cref{fig:exp-compare,fig:uspsample}.
+This is particular emphasized by the image Fourier transforms which show much higher spatial resolution of the reconstruction.
 
 \subsubsection*{Transfer of information}
 
