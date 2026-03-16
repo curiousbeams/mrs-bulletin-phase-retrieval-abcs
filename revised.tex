@@ -66,7 +66,7 @@ Recent advances in diffractive imaging and 4D-STEM have enabled a range of phase
 These approaches offer improved dose efficiency and enhanced  sensitivity to weakly scattering signals, extending quantitative imaging to beam-sensitive materials composed of light elements.
 In this work, we introduce the phase problem in electron microscopy and survey the diverse landscape of phase retrieval techniques used in the field.
 Despite their many acronyms and algorithmic variations, these techniques share a common physical and mathematical foundation.
-We present a unified framework that connects these seemingly distinct methods, from parallax imaging and tilt-corrected bright field (tcBF-STEM), to aberration-corrected bright-field (acBF-STEM), optimum bright field (OBF-STEM) and single-sideband (SSB) ptychography, as well as iterative ptychographic algorithms.
+We present a unified framework that connects these seemingly distinct methods, from parallax imaging and tilt-corrected bright field (tcBF-STEM), to aberration-corrected bright-field (acBF-STEM), optimum bright field (OBF-STEM) and single-sideband (SSB) ptychography, as well as first-moment integrated center of mass techniques (icom) and iterative ptychographic algorithms.
 Based on these insights, we discuss the opportunities and practical limitations of applying these methods across different materials systems, detector designs, and microscope configurations.
 }
 
@@ -83,9 +83,9 @@ Traditional parallel-illumination TEM imaging is widely used across disciplines,
 In contrast, STEM employs a highly converged electron probe containing a broad range of incident wavevectors. 
 When this probe interacts with the specimen, it produces a diffraction pattern that encodes the local scattering. 
 In this sense, STEM is inherently a diffraction-mode technique, although real-space images can be obtained by processing the resulting position-resolved diffraction patterns -- a process we will refer to as \emph{diffractive imaging}.
-This approach routinely provides interpretable, atomic-resolution imaging of crystalline materials and forms the basis of modern materials characterization~\cite{Ophus_2023}.
+This approach routinely provides interpretable images of materials down to atomic resolution and forms the basis of modern crystallographic characterization~\cite{Ophus_2023}.
 
-Both modalities are fundamentally limited by the microscopy ``phase problem,'' first recognized in quantum scattering by Max Born~\cite{born1926quantenmechanik} and discussed in his Nobel Lecture~\cite{born1954}.
+Both TEM and STEM modalities are fundamentally limited by the microscopy ``phase problem,'' first recognized in quantum scattering by Max Born~\cite{born1926quantenmechanik} and discussed in his Nobel Lecture~\cite{born1954}.
 Here, we focus on the mathematical foundations of STEM phase-retrieval techniques, which reconstruct the missing phase and thereby overcome these intrinsic contrast limitations.
 We emphasize the implications of these methods for quantitative materials characterization and set the stage for a unified treatment of the underlying physics.
 
