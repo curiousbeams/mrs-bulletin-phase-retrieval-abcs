@@ -945,8 +945,8 @@ One of the earliest gradient-based ptychographic algorithms is the \emph{extende
 Modern approaches generalize this to true mini-batch optimization methods such as SGD and Adam~\cite{Lee_2025,Gilgenbach_2025,McCray_2025}.
 
 The amplitude loss in \cref{eq:loss}, corresponds to the \emph{maximum a posteriori} estimator under Gaussian detector noise with unit variance~\cite{Gilgenbach_2025}.
-Although electron detection is fundamentally Poissonian, at moderate electron counts the shot noise can be approximated as Gaussian with variance proportional to the mean intensity.
-After normalizing by this variance, the resulting noise becomes unit-variance and independent of probe position, yielding the same linear SNR scaling with electron dose derived for Poisson statistics in \cite{Seki_2018,Ooe_2021} and used in the WPOA noise model \cref{eq:noise-model}.
+Although electron detection is fundamentally Poissonian, at moderate electron counts the shot noise can be approximated as Gaussian with variance proportional to the mean intensity. 
+After normalization by this variance, the noise becomes unit-variance and independent of probe position, yielding the same linear SNR scaling with electron dose derived for Poisson statistics in Refs. \citenum{Seki_2018,Ooe_2021} and used in the WPOA noise model \cref{eq:noise-model}.
 
 Under this approximation, the exit-wave gradient has a closed-form expression, identical to the ER Fourier-magnitude projection:
 \begin{align}
