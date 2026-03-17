@@ -74,6 +74,16 @@ Based on these insights, we discuss the opportunities and practical limitations 
 
 \maketitle
 
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{vector/schematic.pdf}
+  \caption{Microscope configurations.
+  (a)~TEM Zernike phase-contrast imaging,
+  (b)~small-convergence-angle 4D-STEM, used for ``nanobeam'' experiments,
+  and (c)~large-convergence-angle 4D-STEM, used for diffractive imaging experiments.}
+  \label{fig:schematic}
+\end{figure*}
+
 \section*{Introduction}
 
 Scanning transmission electron microscopy (S/TEM) enables the characterization of specimens from the micron scale down to the atomic scale, making it an indispensable characterization tool for any materials scientist~\cite{Williams_2009}.
@@ -94,17 +104,6 @@ In biological imaging, phase contrast is essential for visualizing proteins~\cit
 In materials science, it enables the detection of low atomic number species, such as lithium and oxygen in functional and quantum materials~\cite{lozano2018low,kp2025electron}, and the characterization of beam-sensitive systems, including metal–organic frameworks~\cite{shen2020imaging, Li_2025, Ma_2025}.
 Realizing these capabilities in practice requires both high-quality data acquisition and robust reconstruction strategies.
 Motivated by this, we present a unified, mathematically grounded overview of diffractive imaging methods, highlighting their respective strengths and limitations.
-
-
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=\textwidth]{vector/schematic.pdf}
-  \caption{Microscope configurations.
-  (a)~TEM Zernike phase-contrast imaging,
-  (b)~small-convergence-angle 4D-STEM, used for ``nanobeam'' experiments,
-  and (c)~large-convergence-angle 4D-STEM, used for diffractive imaging experiments.}
-  \label{fig:schematic}
-\end{figure*}
 
 \subsection*{Microscopy phase problem}
 
@@ -191,12 +190,11 @@ Expanding again to first order in $\sigma V_p(\boldsymbol{r})$, the correspondin
 \end{equation}
 showing that a phase plate enables direct, linear transfer of the specimen phase into image intensity.
 
-\Cref{fig:pci} illustrates these effects for a simulated three-dimensional arrangement of single- and double-walled carbon nanotubes (CNTs) at low dose conditions.
-The simulated projected potential is shown in \cref{fig:pci}a.
-The in-focus HRTEM image (\cref{fig:pci}b) shows almost no contrast, especially for the top nanotube, which is exactly at the focal plane of the microscope.
-This is a manifestation of the phase problem.
-Defocus (\cref{fig:pci}c) improves visibility but introduces frequency-dependent contrast reversals, causing different regions of the CNTs to appear in or out of focus. 
-Zernike phase contrast (\cref{fig:pci}d) recovers both the high-resolution lattice information and the low-frequency envelope distinguishing the CNTs from vacuum.
+\Cref{fig:pci} illustrates these effects for a simulated three-dimensional arrangement of single- and double-walled carbon nanotubes (CNTs) under low-dose conditions.
+The projected potential is shown in \cref{fig:pci}a.
+The in-focus HRTEM image (\cref{fig:pci}b) exhibits minimal contrast, particularly for the nanotube located at the focal plane, directly reflecting the phase problem.
+Introducing defocus (\cref{fig:pci}c) enhances visibility but induces frequency-dependent contrast reversals, causing different regions of the CNTs to appear alternately in and out of focus.
+In contrast, Zernike phase contrast (\cref{fig:pci}d) restores both high-resolution lattice detail and the low-frequency envelope, enabling clear discrimination of the CNTs from vacuum.
 
 \subsection*{Diffractive imaging}
 
@@ -651,7 +649,7 @@ Parallax imaging uses a first-order approximation to the aperture-overlap kernel
 \)
 making it computationally cheap.
 Parallax subpixel shift estimation accuracy enables scan step-size upsampling (\cref{fig:uspsample}), although this can be extended to other direct methods as well~\cite{Varnavides_2025}.
-The value of upsampling is highlighted comparing the left and right columns of \cref{fig:uspsample} showing the improved resolution from computational processing. 
+The impact of upsampling is demonstrated in~\cref{fig:uspsample} by comparing the left and right columns, where computational upsampling leads to a clear improvement in spatial resolution and feature definition. 
 Finally, iCOM bypasses the overlap kernel entirely, and instead takes the first moment of the bright-field intensities and reconstructs the phase by Fourier integration of the resulting COM signal.
 
 With the exception of iCOM, these techniques rely on an accurate estimation of the aberrations, which can be calculated through optimization routines based on self-consistency error~\cite{Varnavides_2025}, or by least-squares fitting of linear systems of equations~\cite{Varnavides_2023,Yu_2025}.
@@ -660,12 +658,11 @@ With the exception of iCOM, these techniques rely on an accurate estimation of t
 This leverages the fact that the aperture-overlap function is identically zero outside the probe aperture, making it computationally efficient, and enabling natural upsampling via Fourier tiling~\cite{Varnavides_2025}.
 It should be noted that, due to the mixed-domain requirement, WDD cannot be computed by solely looping over $\boldsymbol{k}_{\mathrm{BF}}$.
 
-As highlighted in \cref{fig:ctf,fig:exp-compare}, the ideal approach depends on the nature of the data and acquisition parameters.
+As highlighted in~\cref{fig:ctf,fig:exp-compare}, the ideal approach depends on the nature of the data and acquisition parameters.
 For in-focus experiments, iCOM is often the preferred approach, with the low computational overhead of this technique making it most compatible with \textit{in situ} approaches~\cite{bekkevold2024ultra}.
-This is clear for example in \cref{fig:ctf,fig:exp-compare}a, where all the phase imaging techniques perform similarly, due to the high sampling and in-focus nature fo the data. 
-Conversely, parallax reconstructions are often performed for defocused acquisitions using large step sizes, e.g., for beam-sensitive biological samples~\cite{Berk_2024,Yu_2025}.
-The value of parallax or direct ptychography approaches is exemplified by the defocused dataset in cref{fig:ctf,fig:exp-compare}b, where only in the last two columns it is possible to recover atomic information.
-Note the similarity in reconstruction quality for parallax imaging and single sideband. 
+This behavior is evident in~\cref{fig:ctf,fig:exp-compare}a, where all phase-retrieval methods yield comparable reconstructions due to the high sampling and near in-focus acquisition conditions.
+The advantage of parallax and direct ptychography becomes apparent in the defocused dataset (\cref{fig:ctf,fig:exp-compare}b), where only these approaches recover atomic-scale information.
+Notably, the reconstruction quality of parallax closely matches that of single-sideband (SSB), consistent with its interpretation as a quadratic approximation to the full phase-compensated inversion.
 
 The SSB, OBF, and MF/WDD techniques compensate for the aperture-overlap transfer function using knowledge of the probe wavefunction, allowing recovery of the object phase even in the presence of residual higher-order aberrations~\cite{Varnavides_2025,Susi_2025}.
 MF/WDD performs this compensation through an explicit Wiener deconvolution, while SSB and OBF incorporate the probe phase directly into their reconstruction kernels.
@@ -997,8 +994,8 @@ Gradient-based methods offer clear statistical interpretability, support batchin
 Unlike projection-set methods, they make the optimization landscape explicit, enabling principled regularization and convergence diagnostics.
 
 \cref{fig:iterative} illustrates the advantages of iterative phase retrieval over direct methods across several experimental datasets spanning different materials classes, using the aberration coefficients optimized in \cref{fig:exp-compare}.
-In each case, iterative ptychography yields improved contrast, reduced artifacts, and more faithful recovery of structural features as compared to the reconstructions of datasets in \cref{fig:exp-compare,fig:uspsample}.
-This is particular emphasized by the image Fourier transforms which show much higher spatial resolution of the reconstruction.
+In all cases, iterative ptychography yields improved contrast, reduced artifacts, and more faithful recovery of structural features compared to the direct reconstructions shown in~\cref{fig:exp-compare,fig:uspsample}.
+This improvement is particularly evident in the Fourier transforms, which exhibit an extended transfer of high spatial frequencies, indicating enhanced resolution.
 
 \subsubsection*{Transfer of information}
 
