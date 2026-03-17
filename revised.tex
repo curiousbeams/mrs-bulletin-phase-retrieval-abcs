@@ -102,6 +102,7 @@ We emphasize the implications of these methods for quantitative materials charac
 The phase problem also has direct practical consequences for real-world experiments.
 In biological imaging, phase contrast is essential for visualizing proteins~\cite{Berk_2024,Yu_2025,Spoth_2017}.
 In materials science, it enables the detection of low atomic number species, such as lithium and oxygen in functional and quantum materials~\cite{lozano2018low,kp2025electron}, and the characterization of beam-sensitive systems, including metal–organic frameworks~\cite{shen2020imaging, Li_2025, Ma_2025}.
+These challenges arise across a wide range of specimen classes, including nanoparticles~\cite{shi2025electron,Ribet_2024,Varnavides_2023}, one-dimensional nanostructures such as nanotubes~\cite{yang2016simultaneous,pelz2023solving}, two-dimensional materials~\cite{jiang2018electron,o2022increasing,Susi_2025,byrne2025fabrication,zhang2025atom}, thin films~\cite{dong2025sub}, and cross-sectional views of thicker crystalline samples~\cite{scheid2025atomic,chen2024imaging}.
 Realizing these capabilities in practice requires both high-quality data acquisition and robust reconstruction strategies.
 Motivated by this, we present a unified, mathematically grounded overview of diffractive imaging methods, highlighting their respective strengths and limitations.
 
@@ -395,6 +396,13 @@ The resulting SSNR is~\cite{Bennemann_2025,Varnavides_2025_ssnr}
   \label{eq:ssb-ssnr}
 \end{equation}
 
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{vector/direct_gold_mos2.pdf}
+  \caption{Direct-method reconstructions for (a)~near-focus MoS$_2$ acquisition~\cite{zhang2025atom} and (b)~defocused gold nanoparticle datasets.}
+  \label{fig:exp-compare}
+\end{figure*}
+
 \subsection*{Noise-flattening normalization}
 \label{sec:obf}
 
@@ -436,13 +444,6 @@ The resulting OBF SSNR is thus given simply by the magnitude of its CTF
   \mathrm{SSNR}_{\text{OBF}}(\boldsymbol{q}) = \frac{1}{2} \sqrt{\sum_{\boldsymbol{k}}\lvert \Gamma(\boldsymbol{q},\boldsymbol{k}) \rvert^2}.
   \label{eq:obf-ssnr}
 \end{equation}
-
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=\textwidth]{vector/direct_gold_mos2.pdf}
-  \caption{Direct-method reconstructions for (a)~near-focus MoS$_2$ acquisition~\cite{zhang2025atom} and (b)~defocused gold nanoparticle datasets.}
-  \label{fig:exp-compare}
-\end{figure*}
 
 \subsection*{Least-squares matched filter}
 \label{sec:wdd}
@@ -1091,28 +1092,30 @@ Combining ptychography with tomography can substantially improve multislice dept
 Approaches such as few-tilt acquisitions and joint ptychography-tomography optimization recover complementary angular information, reducing the ambiguities inherent to purely depth-slicing multislice reconstructions~\cite{Lee_2023,You_2024,Dong_2025}.
 These methods achieve accurate 3D reconstructions and mitigate slice-mixing artifacts, particularly in thick or compositionally heterogeneous specimens.
 
-\section*{Outlook}
+\section*{Outlook and conclusions}
 
-The ability of phase-retrieval techniques to recover weak scattering signals makes the approaches described here broadly applicable across materials science and engineering.
-They are particularly well suited for beam-sensitive, low-atomic-number specimens such as polymers~\cite{bardot2025mechanically}, biological structures~\cite{Berk_2024,Yu_2025,Spoth_2017}, and hard–soft composites including metal–organic frameworks~\cite{Ma_2025,shen2020imaging} and DNA origami~\cite{ding2022three}.
-Phase retrieval methods are also increasingly applied to inorganic materials, where they enable sensitivity to subtle structural variations of light elements in functional systems relevant to energy and quantum science~\cite{lozano2018low,kp2025electron}.
-Common specimens include nanoparticles~\cite{shi2025electron,Ribet_2024,Varnavides_2023}, one-dimensional nanostructures such as nanotubes~\cite{yang2016simultaneous,pelz2023solving}, two-dimensional materials~\cite{jiang2018electron,o2022increasing,Susi_2025,byrne2025fabrication,zhang2025atom}, thin films~\cite{dong2025sub}, and cross-sectional views of thicker crystalline samples~\cite{scheid2025atomic,chen2024imaging}.
+Phase-retrieval techniques in STEM provide a unified framework for recovering specimen phase and overcoming the intrinsic contrast limitations imposed by the phase problem.
+Within this framework, reconstruction fidelity is governed by the interplay between illumination diversity, sampling, and experimental geometry, which together determine the transfer of phase information.
+These methods are broadly applicable to beam-sensitive and low-atomic-number materials, including biological systems~\cite{Berk_2024,Yu_2025,Spoth_2017}, polymers~\cite{bardot2025mechanically}, and hybrid structures~\cite{Li_2025,Ma_2025,shen2020imaging,ding2022three}, as well as to inorganic materials where sensitivity to light elements is critical~\cite{lozano2018low,kp2025electron}.
 
-Recent work has demonstrated that ptychographic phase retrieval can even be performed on uncorrected instruments~\cite{nguyen2024achieving}, including at low accelerating voltages and small convergence angles~\cite{blackburn2025sub}.
-Nevertheless, successful phase retrieval remains experimentally demanding, and in practice most samples benefit substantially from aberration correction.
-Adequate overlap in reciprocal space is essential to ensure a unique and accurate reconstruction, and phase retrieval workflows in materials science still largely rely on advanced hardware, including fast pixelated detectors and aberration-correction.
+In practice, achieving reliable phase retrieval depends sensitively on experimental conditions.
+Adequate reciprocal-space overlap, accurate knowledge of aberrations (particularly defocus), and sufficient electron dose are all essential for stable inversion.
+Recent work has demonstrated that ptychographic phase retrieval can be performed even on uncorrected instruments~\cite{nguyen2024achieving}, including at low accelerating voltages and small convergence angles~\cite{blackburn2025sub}.
+Nevertheless, most applications continue to benefit from aberration correction and advanced instrumentation, and practical workflows still rely heavily on fast pixelated detectors and carefully optimized acquisition parameters.
 
-As discussed for both direct and iterative approaches, defocused acquisitions can improve information transfer in phase retrieval experiments.
-However, selecting suitable experimental parameters remains challenging: reliable convergence depends sensitively on defocus, probe size, and scan step, while accurate estimation of the applied defocus can be nontrivial, especially for thick specimens.
-Estimating the defocus value applied during an experiment can be challenging, especially for thicker samples.
-These challenges are exacerbated in very low-dose experiments, where data may need to be acquired blindly and image quality assessed only through post-processing.
+These considerations highlight several important limitations and open challenges.
+Most direct phase-retrieval methods rely on linear imaging models and are therefore fundamentally limited for thick or strongly scattering specimens.
+While iterative and multislice approaches can partially overcome these limitations, they introduce substantial computational cost and are not yet uniformly robust across all sample classes.
+At the same time, experimental parameter selection, including defocus, probe size, and scan sampling, remains a critical and nontrivial aspect of successful reconstruction, particularly under low-dose conditions where noise and incomplete sampling can lead to instability or non-uniqueness.
 
-Direct reconstruction techniques are computationally efficient and can often be performed live during data acquisition using modern hardware~\cite{Yu_2022,Ooe_2021,Pelz_2022,Strauch_2021}.
-Such on-the-fly reconstructions are valuable for optimizing experimental parameters, verifying sample thickness, and detecting beam damage in real time.
-In typical workflows, direct phase retrieval is used during acquisition, while more computationally intensive iterative reconstructions, especially those involving multislice propagation or mixed-state modeling, are carried out offline on GPU-equipped workstations and high-performance computer clusters.
+From a practical perspective, direct reconstruction techniques offer a complementary advantage in computational efficiency, enabling live reconstruction during data acquisition using modern hardware~\cite{Yu_2022,Ooe_2021,Pelz_2022,Strauch_2021}.
+Such real-time feedback is valuable for optimizing imaging conditions, assessing sample thickness, and monitoring beam damage.
+In typical workflows, these fast direct methods are used during acquisition, while more complete iterative reconstructions—especially those incorporating multislice or mixed-state models—are performed offline on GPU-equipped systems.
 
-Looking forward, key challenges include extending phase retrieval to thicker specimens, larger fields of view, and higher-dimensional datasets that combine phase retrieval with tomography, spectroscopy, or time-resolved measurements, as well as adapting these methods to an increasingly diverse range of microscope configurations.
-Many groups are already pushing to extend these techniques through both hardware and software advances, which will allow for more advanced materials characterization in the near future.
+Looking forward, further progress will depend on addressing these limitations in a systematic way.
+Improved strategies for parameter estimation and experimental design, potentially incorporating real-time feedback or adaptive acquisition, could significantly enhance robustness.
+Extending phase retrieval to thicker and more strongly scattering specimens will require tighter integration of multislice forward models with efficient inversion schemes.
+Finally, scaling these approaches to larger fields of view and higher-dimensional modalities—including tomography and time-resolved measurements—remains a key challenge for both algorithm development and instrumentation.
 
 \section*{Funding}
 
