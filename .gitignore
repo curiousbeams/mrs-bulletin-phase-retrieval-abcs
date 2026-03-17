@@ -26,5 +26,16 @@ revised*.bib
 revised.fdb_latexmk
 revised*.pdf
 
+diff*.out
+diff*.aux
+diff*.bbl
+diff*.blg
+diff*.fls
+diff*.log
+diff*.gz
+diff*.bib
+diff.fdb_latexmk
+diff*.pdf
+
 # response
 response-letter.typ
